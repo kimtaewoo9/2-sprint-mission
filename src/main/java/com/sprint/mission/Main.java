@@ -55,9 +55,9 @@ public class Main {
 
         while (run) {
             System.out.println("1: 채널 생성");
-            System.out.println("2: 모든 채널 조회");
-            System.out.println("3: 채널 이름 수정");
-            System.out.println("4: 채널 정보 삭제");
+            System.out.println("3: 모든 채널 조회");
+            System.out.println("4: 채널 이름 수정");
+            System.out.println("5: 채널 정보 삭제");
             System.out.println("9: 유저 관리 종료");
             System.out.println("선택: ");
             int choice = sc.nextInt();
@@ -71,6 +71,12 @@ public class Main {
                 channelService.create(channel);
                 System.out.println("새로운 채널이 생성 되었습니다.");
             }else if(choice == 2){
+                System.out.println("조회하실 채널의 ID를 입력하세요.");
+                UUID channelId = UUID.fromString(sc.nextLine());
+
+                Channel channel = channelService.findByChannelId(channelId);
+                System.out.println(channel);
+            } else if(choice == 3){
                 List<Channel> channels = channelService.findAll();
                 if(channels.isEmpty()){
                     System.out.println("채널이 없습니다.");
@@ -82,7 +88,7 @@ public class Main {
                     System.out.printf("채널 ID : %s", channel.getId().toString());
                     System.out.println();
                 }
-            }else if(choice == 3){
+            }else if(choice == 4){
                 System.out.println("채널 이름을 수정 합니다.");
                 System.out.println("수정할 채널의 ID를 입력하세요 : ");
                 String uuidString = sc.nextLine();
@@ -93,7 +99,7 @@ public class Main {
 
                 channelService.modify(uuid, newName);
                 System.out.println("채널 이름이 수정되었습니다.");
-            } else if(choice == 4){
+            } else if(choice == 5){
                 System.out.println("삭제할 채널 ID를 입력하세요 : ");
                 String uuidString = sc.nextLine();
                 UUID uuid = UUID.fromString(uuidString);
@@ -119,9 +125,10 @@ public class Main {
 
         while (run) {
             System.out.println("1: 메시지 등록");
-            System.out.println("2: 모든 메시지 조회");
-            System.out.println("3: 메시지 삭제");
-            System.out.println("4: 종료");
+            System.out.println("2: 메시지 정보 조회");
+            System.out.println("3: 모든 메시지 조회");
+            System.out.println("4: 메시지 삭제");
+            System.out.println("9: 종료");
             System.out.println("선택: ");
             int choice = sc.nextInt();
             sc.nextLine();
@@ -142,6 +149,12 @@ public class Main {
                 Message message = new Message(content, senderId, channelId);
                 messageService.save(message);
             }else if(choice == 2){
+                System.out.println("조회하실 메시지의 ID를 입력하세요.");
+                UUID messageId =UUID.fromString(sc.nextLine());
+
+                Message message = messageService.readById(messageId);
+                System.out.println(message);
+            } else if(choice == 3){
                 System.out.println("모든 메시지를 출력합니다.");
                 List<Message> messages = messageService.readAll();
 
@@ -150,11 +163,11 @@ public class Main {
                     System.out.printf("보낸 사용자 ID : %s%n", message.getChannelId().toString());
                     System.out.printf("채널 ID : %s%n", message.getChannelId().toString());
                 }
-            } else if(choice == 3){
+            } else if(choice == 4){
                 System.out.println("삭제할 메시지의 ID 입력:");
                 UUID messageId = UUID.fromString(sc.nextLine());
                 messageService.remove(messageId);
-            } else if(choice == 4){
+            } else if(choice == 9){
                 System.out.println("프로그램을 종료합니다.");
                 run = false;
             }
@@ -172,9 +185,10 @@ public class Main {
 
         while (run) {
             System.out.println("1: 사용자 등록");
-            System.out.println("2: 모든 사용자 정보 조회");
-            System.out.println("3: 사용자 이름 수정");
-            System.out.println("4: 사용자 정보 삭제");
+            System.out.println("2: 사용자 정보 조회");
+            System.out.println("3: 모든 사용자 정보 조회");
+            System.out.println("4: 사용자 이름 수정");
+            System.out.println("5: 사용자 정보 삭제");
             System.out.println("9: 사용자 관리 종료");
             System.out.println("선택: ");
             int choice = sc.nextInt();
@@ -188,6 +202,12 @@ public class Main {
                 userService.register(newUser);
                 System.out.println("새로운 유저가 등록 되었습니다.");
             }else if(choice == 2){
+                System.out.println("조회하실 사용자의 ID를 입력하세요.");
+                UUID userId = UUID.fromString(sc.nextLine());
+
+                User user = userService.getUserById(userId);
+                System.out.println(user);
+            } else if(choice == 3){
                 List<User> users = userService.findAll();
                 if(users.isEmpty()) {
                     System.out.println("유저가 없습니다.");
@@ -199,7 +219,7 @@ public class Main {
                     System.out.printf("user name : %s, ", user.getName());
                     System.out.printf("user ID : %s%n", user.getId().toString());
                 }
-            }else if(choice == 3){
+            }else if(choice == 4){
                 System.out.println("유저 이름을 수정합니다.");
 
                 System.out.println("사용자 ID: ");
@@ -211,7 +231,7 @@ public class Main {
 
                 userService.update(uuid, newName);
                 System.out.println("유저 이름이 수정되었습니다.");
-            }else if(choice == 4){
+            }else if(choice == 5){
                 System.out.println("삭제할 사용자의 ID를 입력해주세요: ");
                 String uuidString = sc.nextLine();
                 UUID uuid = UUID.fromString(uuidString);

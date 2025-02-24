@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class MapChannelRepository implements ChannelRepository {
 
-    private final Map<UUID, Channel> channelDb = new HashMap<>();
+    private static final Map<UUID, Channel> channelDb = new HashMap<>();
     private static final MapChannelRepository instance = new MapChannelRepository();
 
     private MapChannelRepository(){};

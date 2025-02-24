@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class MapMessageRepository implements MessageRepository {
 
-    private final Map<UUID, Message> messageDb = new HashMap<>();
+    private static final Map<UUID, Message> messageDb = new HashMap<>();
     private static final MapMessageRepository instance = new MapMessageRepository();
 
     private MapMessageRepository(){}

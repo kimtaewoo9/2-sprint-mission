@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class MapUserRepository implements UserRepository {
 
-    private final Map<UUID, User> userDb = new HashMap<>();
+    private static final Map<UUID, User> userDb = new HashMap<>();
     private static final MapUserRepository instance = new MapUserRepository();
 
     private MapUserRepository(){}
