@@ -2,6 +2,7 @@ package com.sprint.mission.discodeit.service.repository.channel;
 
 import com.sprint.mission.discodeit.entity.Channel;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +39,7 @@ public class MapChannelRepository implements ChannelRepository {
     @Override
     public List<Channel> findAll() {
         // 목록이 없으면 빈 콜렉션 반환
-        return new ArrayList<>(channelDb.values());
+        return Collections.unmodifiableList(new ArrayList<>(channelDb.values()));
     }
 
     @Override

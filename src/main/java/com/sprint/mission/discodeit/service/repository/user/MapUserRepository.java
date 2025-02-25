@@ -2,6 +2,7 @@ package com.sprint.mission.discodeit.service.repository.user;
 
 import com.sprint.mission.discodeit.entity.User;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +36,7 @@ public class MapUserRepository implements UserRepository {
     @Override
     public List<User> findAll() {
         // 목록이 없으면 빈 콜렉션 반환
-        return new ArrayList<>(userDb.values());
+        return Collections.unmodifiableList(new ArrayList<>(userDb.values()));
     }
 
     @Override

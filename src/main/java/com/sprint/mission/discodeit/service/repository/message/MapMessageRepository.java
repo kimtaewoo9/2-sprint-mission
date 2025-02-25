@@ -2,6 +2,7 @@ package com.sprint.mission.discodeit.service.repository.message;
 
 import com.sprint.mission.discodeit.entity.Message;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,7 @@ public class MapMessageRepository implements MessageRepository {
     @Override
     public List<Message> findAll() {
         // 목록이 없으면 빈 콜렉션 반환.
-        return new ArrayList<>(messageDb.values());
+        return Collections.unmodifiableList(new ArrayList<>(messageDb.values()));
     }
 
     @Override

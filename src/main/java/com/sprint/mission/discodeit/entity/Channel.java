@@ -12,6 +12,7 @@ public class Channel {
     private String name;
 
     private final Map<UUID, User> users; // 채널에 속한 유저 .
+    private final Map<UUID, Message> messages;
 
     public Channel(String name) {
         this.id = UUID.randomUUID();
@@ -19,6 +20,7 @@ public class Channel {
         this.name = name;
 
         this.users = new HashMap<>();
+        this.messages = new HashMap<>();
     }
 
     public UUID getId() {
