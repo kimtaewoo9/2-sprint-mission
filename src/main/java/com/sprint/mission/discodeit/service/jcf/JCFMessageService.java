@@ -4,7 +4,6 @@ import com.sprint.mission.discodeit.entity.Message;
 import com.sprint.mission.discodeit.service.MessageService;
 import com.sprint.mission.discodeit.service.repository.message.MessageRepository;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public class JCFMessageService implements MessageService {

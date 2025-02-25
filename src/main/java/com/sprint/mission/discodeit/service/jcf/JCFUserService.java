@@ -1,10 +1,9 @@
 package com.sprint.mission.discodeit.service.jcf;
 
 import com.sprint.mission.discodeit.entity.User;
-import com.sprint.mission.discodeit.service.repository.user.UserRepository;
 import com.sprint.mission.discodeit.service.UserService;
+import com.sprint.mission.discodeit.service.repository.user.UserRepository;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public class JCFUserService implements UserService {
@@ -39,6 +38,4 @@ public class JCFUserService implements UserService {
     public User remove(UUID userId) {
         return userRepository.delete(userId);
     }
-
-
 }
