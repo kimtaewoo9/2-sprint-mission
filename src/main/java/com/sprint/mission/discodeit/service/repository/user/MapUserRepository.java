@@ -1,6 +1,7 @@
 package com.sprint.mission.discodeit.service.repository.user;
 
 import com.sprint.mission.discodeit.entity.User;
+import com.sprint.mission.discodeit.service.repository.message.MapMessageRepository;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -12,11 +13,19 @@ import java.util.UUID;
 public class MapUserRepository implements UserRepository {
 
     private static final Map<UUID, User> userDb = new HashMap<>();
-    private static final MapUserRepository instance = new MapUserRepository();
+    private volatile static MapUserRepository instance; // Lazy initialize
 
     private MapUserRepository(){}
 
     public static UserRepository getInstance(){
+        if(instance == null){
+            // 락걸고 두번째 체크
+            synchronized (MapMessageRepository.class){
+                if(instance == null){
+                    instance = new MapUserRepository();
+                }
+            }
+        }
         return instance;
     }
 
