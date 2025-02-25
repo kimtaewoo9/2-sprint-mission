@@ -11,8 +11,6 @@ public class Message {
 
     private final UUID senderId;
     private final UUID channelId;
-    // 채널 아이디 정보
-    // 메시지 생성한 사람의 유저 id ..
 
     public Message(String content, UUID senderId, UUID channelId) {
         this.id = UUID.randomUUID();

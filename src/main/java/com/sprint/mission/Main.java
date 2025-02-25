@@ -33,11 +33,11 @@ public class Main {
 
             int inputNum = scanner.nextInt();
             if(inputNum == 1){
-                userController();
+                userView();
             }else if(inputNum == 2){
-                channelController();
+                channelView();
             }else if (inputNum == 3){
-                messageController();
+                messageView();
             }else if(inputNum == 9){
                 System.out.println("프로그램을 종료합니다.");
                 break;
@@ -47,7 +47,7 @@ public class Main {
         }
     }
 
-    private static void channelController() {
+    private static void channelView() {
         ChannelService channelService = new JCFChannelService(MapChannelRepository.getInstance());
 
         Scanner sc = new Scanner(System.in);
@@ -116,7 +116,7 @@ public class Main {
         }
     }
 
-    private static void messageController() {
+    private static void messageView() {
 
         MessageService messageService = new JCFMessageService(MapMessageRepository.getInstance());
 
@@ -177,7 +177,7 @@ public class Main {
         }
     }
 
-    private static void userController() {
+    private static void userView() {
         UserService userService = new JCFUserService(MapUserRepository.getInstance());
 
         Scanner sc = new Scanner(System.in);
