@@ -36,7 +36,7 @@ public class User {
 
     public void update(String name){
         this.name = name;
-        this.updatedAt = System.currentTimeMillis(); // update하면 현재 시간 업데이트
+        this.updatedAt = System.currentTimeMillis();
     }
 
     public String getName() {

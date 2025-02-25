@@ -4,6 +4,7 @@ import com.sprint.mission.discodeit.entity.Message;
 import com.sprint.mission.discodeit.service.MessageService;
 import com.sprint.mission.discodeit.service.repository.message.MessageRepository;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class JCFMessageService implements MessageService {
@@ -18,7 +19,7 @@ public class JCFMessageService implements MessageService {
         messageRepository.save(message);
     }
 
-    public Message read(UUID messageId){
+    public Message readById(UUID messageId){
         return messageRepository.findByMessageId(messageId);
     }
 

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 public class MapUserRepository implements UserRepository {
@@ -25,11 +26,15 @@ public class MapUserRepository implements UserRepository {
 
     @Override
     public User findByUserId(UUID userId) {
-        return userDb.get(userId);
+
+        // 유효 하지 않은 id를 입력 했을때 오류를 출력하고 다시 입력 받기
+        return Optional.ofNullable(userDb.get(userId))
+                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 아이디 입니다. id : " + userId));
     }
 
     @Override
     public List<User> findAll() {
+        // 목록이 없으면 빈 콜렉션 반환
         return new ArrayList<>(userDb.values());
     }
 

@@ -4,6 +4,7 @@ import com.sprint.mission.discodeit.entity.User;
 import com.sprint.mission.discodeit.service.repository.user.UserRepository;
 import com.sprint.mission.discodeit.service.UserService;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class JCFUserService implements UserService {
@@ -28,8 +29,6 @@ public class JCFUserService implements UserService {
     public List<User> findAll() {
         return userRepository.findAll();
     }
-
-
 
     @Override
     public void update(UUID userId, String userName) {
