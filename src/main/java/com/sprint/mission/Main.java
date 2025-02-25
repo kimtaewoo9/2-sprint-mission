@@ -55,6 +55,7 @@ public class Main {
 
         while (run) {
             System.out.println("1: 채널 생성");
+            System.out.println("2: 채널 정보 조회");
             System.out.println("3: 모든 채널 조회");
             System.out.println("4: 채널 이름 수정");
             System.out.println("5: 채널 정보 삭제");
