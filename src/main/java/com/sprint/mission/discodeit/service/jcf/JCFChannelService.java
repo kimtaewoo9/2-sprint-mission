@@ -1,6 +1,7 @@
 package com.sprint.mission.discodeit.service.jcf;
 
 import com.sprint.mission.discodeit.entity.Channel;
+import com.sprint.mission.discodeit.entity.Message;
 import com.sprint.mission.discodeit.entity.User;
 import com.sprint.mission.discodeit.service.ChannelService;
 import com.sprint.mission.discodeit.service.repository.channel.ChannelRepository;
@@ -50,5 +51,10 @@ public class JCFChannelService implements ChannelService {
     @Override
     public void removeUser(Channel channel, User user) {
         channel.leave(user);
+    }
+
+    @Override
+    public void addMessage(Channel channel, Message message) {
+        channel.addMessage(message);
     }
 }
