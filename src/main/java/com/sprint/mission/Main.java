@@ -59,7 +59,7 @@ public class Main {
             System.out.println("3: 모든 채널 조회");
             System.out.println("4: 채널 이름 수정");
             System.out.println("5: 채널 정보 삭제");
-            System.out.println("9: 유저 관리 종료");
+            System.out.println("9: 채널 관리 종료");
             System.out.println("선택: ");
             int choice = sc.nextInt();
             sc.nextLine();
@@ -130,7 +130,7 @@ public class Main {
             System.out.println("2: 메시지 정보 조회");
             System.out.println("3: 모든 메시지 조회");
             System.out.println("4: 메시지 삭제");
-            System.out.println("9: 종료");
+            System.out.println("9: 메시지 관리 종료");
             System.out.println("선택: ");
             int choice = sc.nextInt();
             sc.nextLine();
@@ -169,7 +169,7 @@ public class Main {
                 UUID messageId = UUID.fromString(sc.nextLine());
                 messageService.remove(messageId);
             } else if(choice == 9){
-                System.out.println("프로그램을 종료합니다.");
+                System.out.println("메시지 관리 프로그램을 종료합니다.");
                 run = false;
             }
             else{
@@ -239,7 +239,7 @@ public class Main {
 
                 System.out.println("삭제 되었습니다.");
             } else if(choice == 9){
-                System.out.println("프로그램을 종료합니다.");
+                System.out.println("사용자 관리 프로그램을 종료합니다.");
                 run = false;
             }
             else{
