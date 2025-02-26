@@ -12,22 +12,31 @@ import java.util.UUID;
 public class MapMessageRepository implements MessageRepository {
 
     private static final Map<UUID, Message> messageDb = new HashMap<>();
-    private volatile static MapMessageRepository instance;
+
+//    private volatile static MapMessageRepository instance;
+
+//    public static MapMessageRepository getInstance(){
+//        // 인스턴스 존재 여부 확인.
+//        if(instance == null){
+//            // null이면 락걸고 다시 확인
+//            synchronized (MapMessageRepository.class){
+//                if(instance == null){
+//                    instance = new MapMessageRepository();
+//                }
+//            }
+//
+//        }
+//        return instance; // 인스턴스 존재하면 반환함
+//    }
+
+    private static class SingletonHolder{
+        private static final MapMessageRepository INSTANCE = new MapMessageRepository();
+    }
 
     private MapMessageRepository(){}
 
     public static MapMessageRepository getInstance(){
-        // 인스턴스 존재 여부 확인.
-        if(instance == null){
-            // null이면 락걸고 다시 확인
-            synchronized (MapMessageRepository.class){
-                if(instance == null){
-                    instance = new MapMessageRepository();
-                }
-            }
-
-        }
-        return instance; // 인스턴스 존재하면 반환함
+        return SingletonHolder.INSTANCE;
     }
 
     @Override

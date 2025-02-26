@@ -12,19 +12,27 @@ import java.util.UUID;
 public class MapChannelRepository implements ChannelRepository {
 
     private static final Map<UUID, Channel> channelDb = new HashMap<>();
-    private volatile static MapChannelRepository instance;
+//    private volatile static MapChannelRepository instance;
+
+//    public static MapChannelRepository getInstance(){
+//        if(instance == null){ // 불필요한 락 획득 방지 .
+//            synchronized (MapChannelRepository.class){
+//                if(instance == null){
+//                    instance = new MapChannelRepository();
+//                }
+//            }
+//        }
+//        return instance;
+//    }
+
+    private static class SingletonHolder{
+        private static final MapChannelRepository INSTANCE = new MapChannelRepository();
+    }
 
     private MapChannelRepository(){};
 
     public static MapChannelRepository getInstance(){
-        if(instance == null){ // 불필요한 락 획득 방지 .
-            synchronized (MapChannelRepository.class){
-                if(instance == null){
-                    instance = new MapChannelRepository();
-                }
-            }
-        }
-        return instance;
+        return SingletonHolder.INSTANCE;
     }
 
     @Override

@@ -13,20 +13,29 @@ import java.util.UUID;
 public class MapUserRepository implements UserRepository {
 
     private static final Map<UUID, User> userDb = new HashMap<>();
-    private volatile static MapUserRepository instance; // Lazy initialize
+
+//    private volatile static MapUserRepository instance; // Lazy initialize
+//
+//    public static UserRepository getInstance(){
+//        if(instance == null){
+//            // 락걸고 두번째 체크
+//            synchronized (MapMessageRepository.class){
+//                if(instance == null){
+//                    instance = new MapUserRepository();
+//                }
+//            }
+//        }
+//        return instance;
+//    }
 
     private MapUserRepository(){}
 
-    public static UserRepository getInstance(){
-        if(instance == null){
-            // 락걸고 두번째 체크
-            synchronized (MapMessageRepository.class){
-                if(instance == null){
-                    instance = new MapUserRepository();
-                }
-            }
-        }
-        return instance;
+    private static class SingletonHolder{
+        private static final MapUserRepository INSTANCE = new MapUserRepository();
+    }
+
+    public static MapUserRepository getInstance(){
+        return SingletonHolder.INSTANCE;
     }
 
     @Override
