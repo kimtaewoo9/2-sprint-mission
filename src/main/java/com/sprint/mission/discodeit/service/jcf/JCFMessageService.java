@@ -14,14 +14,17 @@ public class JCFMessageService implements MessageService {
         this.messageRepository = messageRepository;
     }
 
-    public void create(Message message){
-        messageRepository.save(message);
+    @Override
+    public void create(Message message, UUID userId, UUID channelId) {
+
     }
 
+    @Override
     public Message readById(UUID messageId){
         return messageRepository.findByMessageId(messageId);
     }
 
+    @Override
     public List<Message> readAll(){
         return messageRepository.findAll();
     }

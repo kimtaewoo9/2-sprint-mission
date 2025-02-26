@@ -148,7 +148,7 @@ public class Main {
                 sc.nextLine();
 
                 Message message = new Message(content, senderId, channelId);
-                messageService.save(message);
+                messageService.create(message);
             }else if(choice == 2){
                 System.out.println("조회하실 메시지의 ID를 입력하세요.");
                 UUID messageId =UUID.fromString(sc.nextLine());
