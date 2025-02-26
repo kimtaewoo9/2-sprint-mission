@@ -15,12 +15,13 @@ public class JCFUserService implements UserService {
     }
 
     @Override
-    public void register(User user) {
+    public void create(String name) {
+        User user = new User(name);
         userRepository.save(user);
     }
 
     @Override
-    public User getUserById(UUID userId) {
+    public User findByUserId(UUID userId) {
         return userRepository.findByUserId(userId);
     }
 

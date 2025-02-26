@@ -68,8 +68,7 @@ public class Main {
                 System.out.println("채널 이름: ");
                 String channelName = sc.nextLine();
 
-                Channel channel = new Channel(channelName);
-                channelService.create(channel);
+                channelService.create(channelName);
                 System.out.println("새로운 채널이 생성 되었습니다.");
             }else if(choice == 2){
                 System.out.println("조회하실 채널의 ID를 입력하세요.");
@@ -119,7 +118,9 @@ public class Main {
 
     private static void messageView() {
 
-        MessageService messageService = new JCFMessageService(MapMessageRepository.getInstance());
+        UserService userService = new JCFUserService(MapUserRepository.getInstance());
+        ChannelService channelService = new JCFChannelService(MapChannelRepository.getInstance());
+        MessageService messageService = new JCFMessageService(MapMessageRepository.getInstance(), userService, channelService);
 
         Scanner sc = new Scanner(System.in);
         boolean run = true;
@@ -147,8 +148,7 @@ public class Main {
                 String content = sc.nextLine();
                 sc.nextLine();
 
-                Message message = new Message(content, senderId, channelId);
-                messageService.create(message);
+                messageService.create(content, senderId, channelId);
             }else if(choice == 2){
                 System.out.println("조회하실 메시지의 ID를 입력하세요.");
                 UUID messageId =UUID.fromString(sc.nextLine());
@@ -199,14 +199,13 @@ public class Main {
                 System.out.println("사용자 이름: ");
                 String name = sc.nextLine();
 
-                User newUser = new User(name);
-                userService.register(newUser);
+                userService.create(name);
                 System.out.println("새로운 유저가 등록 되었습니다.");
             }else if(choice == 2){
                 System.out.println("조회하실 사용자의 ID를 입력하세요.");
                 UUID userId = UUID.fromString(sc.nextLine());
 
-                User user = userService.getUserById(userId);
+                User user = userService.findByUserId(userId);
                 System.out.println(user);
             } else if(choice == 3){
                 List<User> users = userService.findAll();

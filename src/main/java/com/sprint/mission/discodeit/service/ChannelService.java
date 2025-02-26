@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public interface ChannelService {
 
-    void create(Channel message);
+    void create(String name);
     Channel findByChannelId(UUID channelId);
     List<Channel> findAll();
     void modify(UUID channelId, String name); // 채널의 이름 변경

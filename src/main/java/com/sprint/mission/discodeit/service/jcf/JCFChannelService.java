@@ -17,7 +17,8 @@ public class JCFChannelService implements ChannelService {
 
 
     @Override
-    public void create(Channel channel) {
+    public void create(String name) {
+        Channel channel = new Channel(name);
         channelRepository.save(channel);
     }
 
