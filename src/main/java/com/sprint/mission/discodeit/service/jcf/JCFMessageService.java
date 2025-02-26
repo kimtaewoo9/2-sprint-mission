@@ -32,6 +32,7 @@ public class JCFMessageService implements MessageService {
             throw e;
         }
 
+        Message message = new Message(content, userId, channelId);
         messageRepository.save(message);
     }
 
