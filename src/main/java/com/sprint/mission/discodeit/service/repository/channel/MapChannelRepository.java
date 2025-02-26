@@ -17,10 +17,9 @@ public class MapChannelRepository implements ChannelRepository {
     private MapChannelRepository(){};
 
     public static MapChannelRepository getInstance(){
-        if(instance == null){
+        if(instance == null){ // 불필요한 락 획득 방지 .
             synchronized (MapChannelRepository.class){
                 if(instance == null){
-                    // 락걸고 진짜 null인지 확인, null이면 instance 생성.
                     instance = new MapChannelRepository();
                 }
             }

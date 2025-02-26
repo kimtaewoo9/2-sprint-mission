@@ -14,7 +14,7 @@ public class JCFMessageService implements MessageService {
         this.messageRepository = messageRepository;
     }
 
-    public void save(Message message){
+    public void create(Message message){
         messageRepository.save(message);
     }
 
