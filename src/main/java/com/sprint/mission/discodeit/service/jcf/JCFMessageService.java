@@ -6,7 +6,6 @@ import com.sprint.mission.discodeit.service.MessageService;
 import com.sprint.mission.discodeit.service.UserService;
 import com.sprint.mission.discodeit.service.repository.message.MessageRepository;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 
 public class JCFMessageService implements MessageService {
