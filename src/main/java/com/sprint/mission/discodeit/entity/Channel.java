@@ -52,6 +52,10 @@ public class Channel {
         users.remove(user.getId());
     }
 
+    public void addMessage(Message message){
+        messages.put(message.getId(), message);
+    }
+
     @Override
     public String toString() {
         return "Channel{" +
