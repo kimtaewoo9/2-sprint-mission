@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -40,8 +41,10 @@ public class JCFChannelRepository implements ChannelRepository {
     }
 
     @Override
-    public void modify(UUID channelId, String channelName) {
-        Channel channel = findByChannelId(channelId);
+    public Channel modify(UUID channelId, String channelName) {
+        Channel channelNullable = findByChannelId(channelId);
+        Channel channel = Optional.ofNullable(channelNullable)
+                        .orElseThrow(() -> new NoSuchElementException("Channel ID Error"));
         channel.update(channelName);
     }
 
