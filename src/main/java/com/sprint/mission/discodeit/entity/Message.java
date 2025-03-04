@@ -6,7 +6,6 @@ import lombok.Setter;
 
 @Getter @Setter
 public class Message {
-
     private final UUID id;
     private final Long createdAt;
     private final Long updatedAt;

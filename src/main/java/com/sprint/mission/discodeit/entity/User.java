@@ -8,14 +8,9 @@ import lombok.Setter;
 
 @Getter @Setter
 public class User {
-
-    // 각 필드를 반환하는 Getter 함수를 정의하세요.
-    @Getter
     private final UUID id;
-    @Getter
     private final Long createdAt;
     private Long updatedAt;
-    @Getter
     private String name;
     private List<Message> messageList = new ArrayList<>();
 
@@ -29,10 +24,6 @@ public class User {
     public void update(String name){
         this.name = name;
         this.updatedAt = System.currentTimeMillis();
-    }
-
-    public List<Message> getMessageList(){
-        return new ArrayList<>(messageList);
     }
 
     @Override

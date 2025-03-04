@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class JCFMessageService implements MessageService {
-
     private final MessageRepository messageRepository;
     private final UserService userService;
     private final ChannelService channelService;

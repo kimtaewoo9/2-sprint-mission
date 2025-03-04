@@ -8,7 +8,6 @@ import lombok.Setter;
 
 @Getter @Setter
 public class Channel {
-
     private final UUID id;
     private final Long createdAt;
     private Long updatedAt;

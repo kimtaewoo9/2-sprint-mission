@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class FileUserService implements UserService {
-
     @Override
     public void create(String name) {
 

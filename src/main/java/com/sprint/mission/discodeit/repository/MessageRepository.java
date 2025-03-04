@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface MessageRepository {
-
     void save(Message user);
     Message findByMessageId(UUID messageId);
     List<Message> findAll();

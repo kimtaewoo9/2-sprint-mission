@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class FileMessageService implements ChannelService {
-
     @Override
     public void create(String name) {
 

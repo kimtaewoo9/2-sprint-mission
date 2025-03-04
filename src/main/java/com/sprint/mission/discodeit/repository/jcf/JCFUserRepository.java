@@ -11,22 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class JCFUserRepository implements UserRepository {
-
     private static final Map<UUID, User> userDb = new HashMap<>();
-
-//    private volatile static MapUserRepository instance; // Lazy initialize
-//
-//    public static UserRepository getInstance(){
-//        if(instance == null){
-//            // 락걸고 두번째 체크
-//            synchronized (MapMessageRepository.class){
-//                if(instance == null){
-//                    instance = new MapUserRepository();
-//                }
-//            }
-//        }
-//        return instance;
-//    }
 
     private JCFUserRepository(){}
 

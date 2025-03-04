@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class JCFUserService implements UserService {
-
     private final UserRepository userRepository;
 
     public JCFUserService(UserRepository userRepository) {
