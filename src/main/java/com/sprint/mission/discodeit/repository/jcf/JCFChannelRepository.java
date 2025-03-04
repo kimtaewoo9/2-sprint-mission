@@ -1,6 +1,7 @@
-package com.sprint.mission.discodeit.service.repository.channel;
+package com.sprint.mission.discodeit.repository.jcf;
 
 import com.sprint.mission.discodeit.entity.Channel;
+import com.sprint.mission.discodeit.repository.ChannelRepository;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -9,7 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-public class MapChannelRepository implements ChannelRepository {
+public class JCFChannelRepository implements ChannelRepository {
 
     private static final Map<UUID, Channel> channelDb = new HashMap<>();
 //    private volatile static MapChannelRepository instance;
@@ -26,12 +27,12 @@ public class MapChannelRepository implements ChannelRepository {
 //    }
 
     private static class SingletonHolder{
-        private static final MapChannelRepository INSTANCE = new MapChannelRepository();
+        private static final JCFChannelRepository INSTANCE = new JCFChannelRepository();
     }
 
-    private MapChannelRepository(){};
+    private JCFChannelRepository(){};
 
-    public static MapChannelRepository getInstance(){
+    public static JCFChannelRepository getInstance(){
         return SingletonHolder.INSTANCE;
     }
 

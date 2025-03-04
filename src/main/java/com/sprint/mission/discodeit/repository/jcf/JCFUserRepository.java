@@ -1,7 +1,7 @@
-package com.sprint.mission.discodeit.service.repository.user;
+package com.sprint.mission.discodeit.repository.jcf;
 
 import com.sprint.mission.discodeit.entity.User;
-import com.sprint.mission.discodeit.service.repository.message.MapMessageRepository;
+import com.sprint.mission.discodeit.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-public class MapUserRepository implements UserRepository {
+public class JCFUserRepository implements UserRepository {
 
     private static final Map<UUID, User> userDb = new HashMap<>();
 
@@ -28,13 +28,13 @@ public class MapUserRepository implements UserRepository {
 //        return instance;
 //    }
 
-    private MapUserRepository(){}
+    private JCFUserRepository(){}
 
     private static class SingletonHolder{
-        private static final MapUserRepository INSTANCE = new MapUserRepository();
+        private static final JCFUserRepository INSTANCE = new JCFUserRepository();
     }
 
-    public static MapUserRepository getInstance(){
+    public static JCFUserRepository getInstance(){
         return SingletonHolder.INSTANCE;
     }
 

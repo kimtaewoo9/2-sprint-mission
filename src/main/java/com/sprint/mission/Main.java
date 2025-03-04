@@ -10,9 +10,9 @@ import com.sprint.mission.discodeit.service.jcf.JCFMessageService;
 import com.sprint.mission.discodeit.service.jcf.JCFUserService;
 import com.sprint.mission.discodeit.service.UserService;
 
-import com.sprint.mission.discodeit.service.repository.channel.MapChannelRepository;
-import com.sprint.mission.discodeit.service.repository.message.MapMessageRepository;
-import com.sprint.mission.discodeit.service.repository.user.MapUserRepository;
+import com.sprint.mission.discodeit.repository.jcf.JCFChannelRepository;
+import com.sprint.mission.discodeit.repository.jcf.JCFMessageRepository;
+import com.sprint.mission.discodeit.repository.jcf.JCFUserRepository;
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
@@ -48,7 +48,7 @@ public class Main {
     }
 
     private static void channelView() {
-        ChannelService channelService = new JCFChannelService(MapChannelRepository.getInstance());
+        ChannelService channelService = new JCFChannelService(JCFChannelRepository.getInstance());
 
         Scanner sc = new Scanner(System.in);
         boolean run = true;
@@ -118,9 +118,9 @@ public class Main {
 
     private static void messageView() {
 
-        UserService userService = new JCFUserService(MapUserRepository.getInstance());
-        ChannelService channelService = new JCFChannelService(MapChannelRepository.getInstance());
-        MessageService messageService = new JCFMessageService(MapMessageRepository.getInstance(), userService, channelService);
+        UserService userService = new JCFUserService(JCFUserRepository.getInstance());
+        ChannelService channelService = new JCFChannelService(JCFChannelRepository.getInstance());
+        MessageService messageService = new JCFMessageService(JCFMessageRepository.getInstance(), userService, channelService);
 
         Scanner sc = new Scanner(System.in);
         boolean run = true;
@@ -179,7 +179,7 @@ public class Main {
     }
 
     private static void userView() {
-        UserService userService = new JCFUserService(MapUserRepository.getInstance());
+        UserService userService = new JCFUserService(JCFUserRepository.getInstance());
 
         Scanner sc = new Scanner(System.in);
         boolean run = true;

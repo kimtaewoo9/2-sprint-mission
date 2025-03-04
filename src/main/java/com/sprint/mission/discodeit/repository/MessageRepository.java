@@ -1,4 +1,4 @@
-package com.sprint.mission.discodeit.service.repository.message;
+package com.sprint.mission.discodeit.repository;
 
 import com.sprint.mission.discodeit.entity.Message;
 import java.util.List;

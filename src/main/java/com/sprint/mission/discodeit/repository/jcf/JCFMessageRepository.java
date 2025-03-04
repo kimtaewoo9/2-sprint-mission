@@ -1,6 +1,7 @@
-package com.sprint.mission.discodeit.service.repository.message;
+package com.sprint.mission.discodeit.repository.jcf;
 
 import com.sprint.mission.discodeit.entity.Message;
+import com.sprint.mission.discodeit.repository.MessageRepository;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -9,7 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-public class MapMessageRepository implements MessageRepository {
+public class JCFMessageRepository implements MessageRepository {
 
     private static final Map<UUID, Message> messageDb = new HashMap<>();
 
@@ -30,12 +31,12 @@ public class MapMessageRepository implements MessageRepository {
 //    }
 
     private static class SingletonHolder{
-        private static final MapMessageRepository INSTANCE = new MapMessageRepository();
+        private static final JCFMessageRepository INSTANCE = new JCFMessageRepository();
     }
 
-    private MapMessageRepository(){}
+    private JCFMessageRepository(){}
 
-    public static MapMessageRepository getInstance(){
+    public static JCFMessageRepository getInstance(){
         return SingletonHolder.INSTANCE;
     }
 
