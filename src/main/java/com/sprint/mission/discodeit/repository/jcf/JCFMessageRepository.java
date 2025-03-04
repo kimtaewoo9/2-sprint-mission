@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -33,6 +34,16 @@ public class JCFMessageRepository implements MessageRepository {
         // 유효 하지 않은 id를 입력 했을때 오류를 출력하고 다시 입력 받기
         return Optional.ofNullable(messageDb.get(messageId))
                 .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 아이디 입니다. id : " + messageId));
+    }
+
+    @Override
+    public Message update(UUID messageId, String newContent) {
+        Message messageNullable = messageDb.get(messageId);
+        Message message = Optional.ofNullable(messageNullable).
+                orElseThrow(() -> new NoSuchElementException("Message with id "));
+        message.update(newContent);
+
+        return message;
     }
 
     @Override
