@@ -46,11 +46,16 @@ public class JCFChannelRepository implements ChannelRepository {
         Channel channel = Optional.ofNullable(channelNullable)
                         .orElseThrow(() -> new NoSuchElementException("Channel ID Error"));
         channel.update(channelName);
+
+        return channel;
     }
 
     @Override
-    public Channel delete(UUID channelId) {
-        return channelDb.remove(channelId);
+    public void delete(UUID channelId) {
+        if(!channelDb.containsKey(channelId)){
+            throw new NoSuchElementException("Channel ID Error");
+        }
+        channelDb.remove(channelId);
     }
 
     @Override

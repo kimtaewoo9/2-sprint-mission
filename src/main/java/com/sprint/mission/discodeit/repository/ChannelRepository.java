@@ -9,6 +9,6 @@ public interface ChannelRepository {
     Channel findByChannelId(UUID channelId);
     List<Channel> findAll();
     Channel modify(UUID channel, String channelName);
-    Channel delete(UUID channel);
+    void delete(UUID channel);
     void clearDb();
 }
