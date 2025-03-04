@@ -8,8 +8,8 @@ import lombok.Setter;
 public class Message {
     private final UUID id;
     private final Long createdAt;
-    private final Long updatedAt;
-    private final String content;
+    private Long updatedAt;
+    private String content;
 
     private final UUID senderId;
     private final UUID channelId;
@@ -22,6 +22,18 @@ public class Message {
         this.content = content;
         this.senderId = senderId;
         this.channelId = channelId;
+    }
+
+    public void update(String newContent){
+        boolean anyValueUpdated = false;
+        if(newContent != null && !newContent.equals(this.content)){
+            this.content = newContent;
+            anyValueUpdated = true;
+        }
+
+        if(anyValueUpdated){
+            this.updatedAt = System.currentTimeMillis();
+        }
     }
 
     @Override
