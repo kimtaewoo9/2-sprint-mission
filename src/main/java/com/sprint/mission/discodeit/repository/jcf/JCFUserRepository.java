@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -43,9 +44,13 @@ public class JCFUserRepository implements UserRepository {
     }
 
     @Override
-    public void modify(UUID userId, String name) {
-        User user = userDb.get(userId);
-        user.update(name);
+    public User modify(UUID userId, String newName) {
+        User userNullable = userDb.get(userId);
+        User user = Optional.ofNullable(userNullable).
+                orElseThrow(() -> new NoSuchElementException("User ID Error"));
+        user.update(newName);
+
+        return user;
     }
 
     @Override
