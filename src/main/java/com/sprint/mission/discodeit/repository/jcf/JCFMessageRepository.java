@@ -54,6 +54,10 @@ public class JCFMessageRepository implements MessageRepository {
 
     @Override
     public Message delete(UUID messageId) {
+        if(!messageDb.containsKey(messageId)){
+            throw new NoSuchElementException("Message ID Error");
+        }
+
         return messageDb.remove(messageId);
     }
 
