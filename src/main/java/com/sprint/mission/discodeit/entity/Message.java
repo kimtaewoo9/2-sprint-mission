@@ -1,7 +1,10 @@
 package com.sprint.mission.discodeit.entity;
 
 import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter @Setter
 public class Message {
 
     private final UUID id;
@@ -15,9 +18,9 @@ public class Message {
     public Message(String content, UUID senderId, UUID channelId) {
         this.id = UUID.randomUUID();
         this.createdAt = System.currentTimeMillis();
-        this.updatedAt = System.currentTimeMillis();
-        this.content = content;
+        this.updatedAt = this.createdAt;
 
+        this.content = content;
         this.senderId = senderId;
         this.channelId = channelId;
     }
@@ -31,29 +34,5 @@ public class Message {
                 ", content='" + content + '\'' +
                 ", sender='" + senderId + '\'' +
                 '}';
-    }
-
-    public String getContent(){
-        return content;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public Long getCreatedAt() {
-        return createdAt;
-    }
-
-    public Long getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public UUID getSenderId(){
-        return senderId;
-    }
-
-    public UUID getChannelId() {
-        return channelId;
     }
 }

@@ -3,7 +3,10 @@ package com.sprint.mission.discodeit.entity;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter @Setter
 public class Channel {
 
     private final UUID id;
@@ -17,26 +20,11 @@ public class Channel {
     public Channel(String name) {
         this.id = UUID.randomUUID();
         this.createdAt = System.currentTimeMillis();
+        this.updatedAt = this.createdAt;
         this.name = name;
 
         this.users = new HashMap<>();
         this.messages = new HashMap<>();
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public Long getCreatedAt() {
-        return createdAt;
-    }
-
-    public Long getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public String getChannelName() {
-        return name;
     }
 
     public void update(String name){

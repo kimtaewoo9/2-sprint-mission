@@ -84,7 +84,7 @@ public class Main {
                 }
                 System.out.println("[채널 리스트]");
                 for (Channel channel : channels) {
-                    System.out.printf("채널 이름 : %s, ", channel.getChannelName());
+                    System.out.printf("채널 이름 : %s, ", channel.getName());
                     System.out.printf("채널 ID : %s", channel.getId().toString());
                     System.out.println();
                 }
