@@ -9,6 +9,6 @@ public interface UserRepository {
     User findByUserId(UUID userID);
     List<User> findAll();
     User modify(UUID userId, String newName);
-    User delete(UUID userId);
+    void delete(UUID userId);
     void cleatDb();
 }

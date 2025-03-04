@@ -54,8 +54,11 @@ public class JCFUserRepository implements UserRepository {
     }
 
     @Override
-    public User delete(UUID userId) {
-        return userDb.remove(userId);
+    public void delete(UUID userId) {
+        if(!userDb.containsKey(userId)){
+            throw new NoSuchElementException("User ID Error");
+        }
+        userDb.remove(userId);
     }
 
     @Override
