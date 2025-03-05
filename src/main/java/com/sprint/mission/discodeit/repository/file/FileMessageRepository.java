@@ -2,36 +2,61 @@ package com.sprint.mission.discodeit.repository.file;
 
 import com.sprint.mission.discodeit.entity.Message;
 import com.sprint.mission.discodeit.repository.MessageRepository;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class FileMessageRepository implements MessageRepository {
-    @Override
-    public void save(Message user) {
+    private final Path messageDirectory;
 
+    public FileMessageRepository() {
+        this.messageDirectory = FileUtils.getBaseDirectory().resolve("messages");
+        FileUtils.init(messageDirectory);
+    }
+
+
+    @Override
+    public void save(Message message) {
+        Path messageFile = messageDirectory.resolve(message.getId().toString() + ".message");
+        FileUtils.save(messageFile, message);
     }
 
     @Override
     public Message findByMessageId(UUID messageId) {
-        return null;
+        Path messageFile = messageDirectory.resolve(messageId.toString() +".message");
+        return Optional.ofNullable((Message)FileUtils.loadById(messageFile))
+                .orElseThrow(() -> new IllegalArgumentException("유효 하지 않은 아이디 입니다. id :" + messageId));
+
     }
 
     @Override
     public Message update(UUID messageId, String newContent) {
-        return null;
+        Message message = findByMessageId(messageId);
+        message.update(newContent);
+        return message;
     }
 
     @Override
     public List<Message> findAll() {
-        return List.of();
+        return FileUtils.load(messageDirectory);
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(UUID messageId) {
+        Path messageFile = messageDirectory.resolve(messageId.toString()+".message");
+        FileUtils.delete(messageFile);
     }
 
     @Override
     public void clearDb() {
-
+        try{
+            Files.list(messageDirectory)
+                    .forEach(FileUtils::delete);
+        }catch (IOException e){
+            throw new RuntimeException("전체 삭제 중 오류가 발생했습니다.");
+        }
     }
 }

@@ -8,7 +8,7 @@ public interface ChannelRepository {
     void save(Channel channel);
     Channel findByChannelId(UUID channelId);
     List<Channel> findAll();
-    Channel modify(UUID channel, String channelName);
-    void delete(UUID channel);
+    Channel modify(UUID channelId, String channelName);
+    void delete(UUID channelId);
     void clearDb();
 }
