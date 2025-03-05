@@ -17,12 +17,17 @@ public class FileMessageRepository implements MessageRepository {
     }
 
     @Override
+    public Message update(UUID messageId, String newContent) {
+        return null;
+    }
+
+    @Override
     public List<Message> findAll() {
         return List.of();
     }
 
     @Override
-    public Message delete(UUID id) {
+    public void delete(UUID id) {
         return null;
     }
 

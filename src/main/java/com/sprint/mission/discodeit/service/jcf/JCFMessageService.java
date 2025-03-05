@@ -22,7 +22,6 @@ public class JCFMessageService implements MessageService {
 
     @Override
     public void create(String content, UUID userId, UUID channelId) {
-        // Message 검증 로직
         try{
             userService.findByUserId(userId);
             channelService.findByChannelId(channelId);
@@ -45,7 +44,7 @@ public class JCFMessageService implements MessageService {
     }
 
     @Override
-    public Message remove(UUID messageId) {
-        return messageRepository.delete(messageId);
+    public void remove(UUID messageId) {
+        messageRepository.delete(messageId);
     }
 }

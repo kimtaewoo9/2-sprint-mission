@@ -22,13 +22,13 @@ public class FileUserRepository implements UserRepository {
     }
 
     @Override
-    public void modify(UUID userId, String name) {
+    public User modify(UUID userId, String name) {
 
+        return null;
     }
 
     @Override
-    public User delete(UUID userId) {
-        return null;
+    public void delete(UUID userId) {
     }
 
     @Override

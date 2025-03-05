@@ -1,5 +1,6 @@
 package com.sprint.mission.discodeit.entity;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -7,13 +8,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class Channel {
+public class Channel implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private final UUID id;
     private final Long createdAt;
     private Long updatedAt;
     private String name;
 
-    private final Map<UUID, User> users; // 채널에 속한 유저 .
+    private final Map<UUID, User> users;
     private final Map<UUID, Message> messages;
 
     public Channel(String name) {

@@ -119,7 +119,8 @@ public class Main {
 
         UserService userService = new JCFUserService(JCFUserRepository.getInstance());
         ChannelService channelService = new JCFChannelService(JCFChannelRepository.getInstance());
-        MessageService messageService = new JCFMessageService(JCFMessageRepository.getInstance(), userService, channelService);
+        MessageService messageService =
+                new JCFMessageService(JCFMessageRepository.getInstance(), userService, channelService);
 
         Scanner sc = new Scanner(System.in);
         boolean run = true;

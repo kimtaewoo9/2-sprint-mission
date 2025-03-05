@@ -22,13 +22,14 @@ public class FileChannelRepository implements ChannelRepository {
     }
 
     @Override
-    public void modify(UUID channel, String channelName) {
+    public Channel modify(UUID channel, String channelName) {
 
+        return null;
     }
 
     @Override
-    public Channel delete(UUID channel) {
-        return null;
+    public void delete(UUID channel) {
+
     }
 
     @Override

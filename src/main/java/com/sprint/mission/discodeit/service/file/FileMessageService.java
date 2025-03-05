@@ -29,8 +29,7 @@ public class FileMessageService implements ChannelService {
     }
 
     @Override
-    public Channel remove(UUID channelId) {
-        return null;
+    public void remove(UUID channelId) {
     }
 
     @Override

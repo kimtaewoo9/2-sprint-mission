@@ -35,7 +35,7 @@ public class JCFUserService implements UserService {
     }
 
     @Override
-    public User remove(UUID userId) {
-        return userRepository.delete(userId);
+    public void remove(UUID userId) {
+        userRepository.delete(userId);
     }
 }

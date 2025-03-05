@@ -9,6 +9,6 @@ public interface MessageRepository {
     Message findByMessageId(UUID messageId);
     Message update(UUID messageId, String newContent);
     List<Message> findAll();
-    Message delete(UUID id);
+    void delete(UUID id);
     void clearDb();
 }
