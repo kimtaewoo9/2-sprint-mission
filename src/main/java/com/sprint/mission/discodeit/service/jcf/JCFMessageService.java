@@ -44,6 +44,13 @@ public class JCFMessageService implements MessageService {
     }
 
     @Override
+    public Message modify(UUID messageId,String content) {
+        Message message = readById(messageId);
+        message.update(content);
+        return message;
+    }
+
+    @Override
     public void remove(UUID messageId) {
         messageRepository.delete(messageId);
     }
