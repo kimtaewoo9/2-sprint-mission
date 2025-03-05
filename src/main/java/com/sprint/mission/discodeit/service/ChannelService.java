@@ -10,7 +10,7 @@ public interface ChannelService {
     void create(String name);
     Channel findByChannelId(UUID channelId);
     List<Channel> findAll();
-    void modify(UUID channelId, String name); // 채널의 이름 변경
+    void modify(UUID channelId, String name);
     void remove(UUID channelId);
 
     void addUser(Channel channel, User user);

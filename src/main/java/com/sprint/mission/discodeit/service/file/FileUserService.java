@@ -28,6 +28,5 @@ public class FileUserService implements UserService {
 
     @Override
     public void remove(UUID userId) {
-        return null;
     }
 }

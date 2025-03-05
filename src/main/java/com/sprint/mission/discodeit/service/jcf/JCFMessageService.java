@@ -26,7 +26,7 @@ public class JCFMessageService implements MessageService {
             userService.findByUserId(userId);
             channelService.findByChannelId(channelId);
         }catch (IllegalArgumentException e){
-            throw e;
+            throw new IllegalArgumentException("사용자 정보 또는 채널 정보를 확인할 수 없습니다.");
         }
 
         Message message = new Message(content, userId, channelId);
