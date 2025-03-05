@@ -12,9 +12,17 @@ import java.util.UUID;
 public class FileUserRepository implements UserRepository {
     private final Path userDirectory;
 
-    public FileUserRepository(Path userDirectory) {
+    private FileUserRepository() {
         this.userDirectory = FileUtils.baseDirectory.resolve("users");
         FileUtils.init(userDirectory);
+    }
+
+    private static class SingletonHolder{
+        private static final FileUserRepository INSTANCE = new FileUserRepository();
+    }
+
+    public static FileUserRepository getInstance(){
+        return SingletonHolder.INSTANCE;
     }
 
     @Override

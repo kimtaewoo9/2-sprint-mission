@@ -12,11 +12,18 @@ import java.util.UUID;
 public class FileMessageRepository implements MessageRepository {
     private final Path messageDirectory;
 
-    public FileMessageRepository() {
+    private FileMessageRepository() {
         this.messageDirectory = FileUtils.getBaseDirectory().resolve("messages");
         FileUtils.init(messageDirectory);
     }
 
+    private static class SingletonHolder{
+        private static final FileMessageRepository INSTANCE = new FileMessageRepository();
+    }
+
+    public static FileMessageRepository getInstance(){
+        return SingletonHolder.INSTANCE;
+    }
 
     @Override
     public void save(Message message) {

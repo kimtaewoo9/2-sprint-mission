@@ -12,9 +12,17 @@ import java.util.UUID;
 public class FileChannelRepository implements ChannelRepository {
     private final Path channelDirectory;
 
-    public FileChannelRepository() {
+    private FileChannelRepository() {
         this.channelDirectory = FileUtils.getBaseDirectory().resolve("channels");
         FileUtils.init(channelDirectory);
+    }
+
+    private static class SingletonHolder{
+        private static final FileChannelRepository INSTANCE = new FileChannelRepository();
+    }
+
+    public static FileChannelRepository getInstance(){
+        return SingletonHolder.INSTANCE;
     }
 
     @Override

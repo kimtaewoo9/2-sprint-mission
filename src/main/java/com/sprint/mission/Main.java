@@ -7,8 +7,10 @@ import com.sprint.mission.discodeit.enums.MANAGE_CHANNEL;
 import com.sprint.mission.discodeit.enums.MANAGE_MESSAGE;
 import com.sprint.mission.discodeit.enums.MANAGE_OPTIONS;
 import com.sprint.mission.discodeit.enums.MANAGE_USER;
+import com.sprint.mission.discodeit.repository.file.FileChannelRepository;
 import com.sprint.mission.discodeit.service.ChannelService;
 import com.sprint.mission.discodeit.service.MessageService;
+import com.sprint.mission.discodeit.service.file.FileChannelService;
 import com.sprint.mission.discodeit.service.jcf.JCFChannelService;
 import com.sprint.mission.discodeit.service.jcf.JCFMessageService;
 import com.sprint.mission.discodeit.service.jcf.JCFUserService;
@@ -52,7 +54,8 @@ public class Main {
     }
 
     private static void channelView() {
-        ChannelService channelService = new JCFChannelService(JCFChannelRepository.getInstance());
+//        ChannelService channelService = new JCFChannelService(JCFChannelRepository.getInstance());
+        ChannelService channelService = new FileChannelService(FileChannelRepository.getInstance());
 
         Scanner sc = new Scanner(System.in);
         boolean run = true;
