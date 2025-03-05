@@ -17,7 +17,6 @@ public class FileMessageService implements MessageService {
                               UserService userService,
                               ChannelService channelService) {
         this.messageRepository = messageRepository;
-
         this.userService = userService;
         this.channelService = channelService;
     }

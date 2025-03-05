@@ -12,8 +12,4 @@ public interface ChannelService {
     List<Channel> findAll();
     void modify(UUID channelId, String name);
     void remove(UUID channelId);
-
-    void addUser(Channel channel, User user);
-    void removeUser(Channel channel, User user);
-    void addMessage(Channel channel, Message message);
 }

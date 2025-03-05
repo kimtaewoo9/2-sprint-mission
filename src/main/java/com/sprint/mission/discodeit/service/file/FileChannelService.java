@@ -40,19 +40,4 @@ public class FileChannelService implements ChannelService {
     public void remove(UUID channelId) {
         channelRepository.delete(channelId);
     }
-
-    @Override
-    public void addUser(Channel channel, User user) {
-
-    }
-
-    @Override
-    public void removeUser(Channel channel, User user) {
-
-    }
-
-    @Override
-    public void addMessage(Channel channel, Message message) {
-
-    }
 }

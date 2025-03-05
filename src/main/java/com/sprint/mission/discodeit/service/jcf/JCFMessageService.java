@@ -15,7 +15,6 @@ public class JCFMessageService implements MessageService {
 
     public JCFMessageService(MessageRepository messageRepository, UserService userService, ChannelService channelService) {
         this.messageRepository = messageRepository;
-
         this.userService = userService;
         this.channelService = channelService;
     }
