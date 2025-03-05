@@ -50,14 +50,18 @@ public class JCFChannelRepository implements ChannelRepository {
 
     @Override
     public void delete(UUID channelId) {
-        if(!channelDb.containsKey(channelId)){
-            throw new NoSuchElementException("Channel ID Error");
-        }
+        validChannelId(channelId);
         channelDb.remove(channelId);
     }
 
     @Override
     public void clearDb() {
         channelDb.clear();
+    }
+
+    private static void validChannelId(UUID channelId) {
+        if(!channelDb.containsKey(channelId)){
+            throw new NoSuchElementException("Channel ID Error");
+        }
     }
 }

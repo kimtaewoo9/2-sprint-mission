@@ -37,9 +37,10 @@ public class JCFMessageRepository implements MessageRepository {
 
     @Override
     public Message update(UUID messageId, String newContent) {
+        validMessageId(messageId);
+
         Message message = findByMessageId(messageId);
         message.update(newContent);
-
         return message;
     }
 
@@ -50,15 +51,18 @@ public class JCFMessageRepository implements MessageRepository {
 
     @Override
     public void delete(UUID messageId) {
-        if(!messageDb.containsKey(messageId)){
-            throw new NoSuchElementException("Message ID Error");
-        }
-
+        validMessageId(messageId);
         messageDb.remove(messageId);
     }
 
     @Override
     public void clearDb() {
         messageDb.clear();
+    }
+
+    private void validMessageId(UUID messageId) {
+        if(!messageDb.containsKey(messageId)){
+            throw new NoSuchElementException("Message ID Error");
+        }
     }
 }
