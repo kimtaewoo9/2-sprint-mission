@@ -37,9 +37,7 @@ public class JCFMessageRepository implements MessageRepository {
 
     @Override
     public Message update(UUID messageId, String newContent) {
-        Message messageNullable = messageDb.get(messageId);
-        Message message = Optional.ofNullable(messageNullable).
-                orElseThrow(() -> new NoSuchElementException("Message ID Error"));
+        Message message = findByMessageId(messageId);
         message.update(newContent);
 
         return message;

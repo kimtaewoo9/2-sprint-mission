@@ -42,9 +42,7 @@ public class JCFChannelRepository implements ChannelRepository {
 
     @Override
     public Channel modify(UUID channelId, String channelName) {
-        Channel channelNullable = findByChannelId(channelId);
-        Channel channel = Optional.ofNullable(channelNullable)
-                        .orElseThrow(() -> new NoSuchElementException("Channel ID Error"));
+        Channel channel = findByChannelId(channelId);
         channel.update(channelName);
 
         return channel;

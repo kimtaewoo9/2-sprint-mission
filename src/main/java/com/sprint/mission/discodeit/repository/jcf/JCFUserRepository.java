@@ -42,11 +42,8 @@ public class JCFUserRepository implements UserRepository {
 
     @Override
     public User modify(UUID userId, String newName) {
-        User userNullable = userDb.get(userId);
-        User user = Optional.ofNullable(userNullable).
-                orElseThrow(() -> new NoSuchElementException("User ID Error"));
+        User user = findByUserId(userId);
         user.update(newName);
-
         return user;
     }
 
