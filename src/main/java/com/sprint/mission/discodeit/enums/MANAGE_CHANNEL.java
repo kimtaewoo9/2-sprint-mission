@@ -10,7 +10,7 @@ public enum MANAGE_CHANNEL {
     FIND_ALL_CHANNEL(3,"모든 채널 조회"),
     UPDATE_CHANNEL(4,"채널 수정"),
     DELETE_CHANNEL(5, "채널 삭제"),
-    END(9,"메시지 관리 종료");
+    END(9,"채널 관리 종료");
 
     private final int number;
     private final String text;

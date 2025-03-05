@@ -28,7 +28,6 @@ public class FileMessageRepository implements MessageRepository {
 
     @Override
     public void delete(UUID id) {
-        return null;
     }
 
     @Override
