@@ -111,7 +111,7 @@ public class Main {
                     System.out.println();
                 }
             }else if(selected == MANAGE_CHANNEL.UPDATE_CHANNEL){
-                System.out.println("채널 이름을 수정 합니다.");
+                System.out.println("채널 정보를 수정 합니다.");
                 System.out.println("수정할 채널의 ID를 입력하세요 : ");
                 String uuidString = sc.nextLine();
                 UUID uuid = UUID.fromString(uuidString);
@@ -186,8 +186,17 @@ public class Main {
                     System.out.printf("채널 ID : %s%n", message.getChannelId().toString());
                 }
             }else if(selected == MANAGE_MESSAGE.UPDATE_MESSAGE){
+                System.out.println("메시지 정보를 수정합니다.");
 
+                System.out.println("메시지 ID : ");
+                String uuidString = sc.nextLine();
+                UUID messageId = UUID.fromString(uuidString);
 
+                System.out.println("새로운 내용 : ");
+                String newContent = sc.nextLine();
+
+                messageService.modify(messageId, newContent);
+                System.out.println("메시지 정보가 수정되었습니다.");
             } else if(selected == MANAGE_MESSAGE.DELETE_MESSAGE){
                 System.out.println("삭제할 메시지의 ID 입력:");
                 UUID messageId = UUID.fromString(sc.nextLine());
@@ -195,9 +204,6 @@ public class Main {
             } else if(selected == MANAGE_MESSAGE.END){
                 System.out.println("메시지 관리 프로그램을 종료합니다.");
                 run = false;
-            }
-            else{
-                System.out.println("유효하지 않은 번호입니다. 다시 선택해주세요.");
             }
         }
     }
@@ -247,7 +253,7 @@ public class Main {
                     System.out.printf("user ID : %s%n", user.getId().toString());
                 }
             }else if(selected == MANAGE_USER.UPDATE_USER){
-                System.out.println("유저 이름을 수정합니다.");
+                System.out.println("유저 정보를 수정합니다.");
 
                 System.out.println("사용자 ID: ");
                 String uuidString = sc.nextLine();
@@ -257,7 +263,7 @@ public class Main {
                 String newName = sc.nextLine();
 
                 userService.update(uuid, newName);
-                System.out.println("유저 이름이 수정되었습니다.");
+                System.out.println("유저 정보가 수정되었습니다.");
             }else if(selected == MANAGE_USER.DELETE_USER){
                 System.out.println("삭제할 사용자의 ID를 입력해주세요: ");
                 String uuidString = sc.nextLine();
