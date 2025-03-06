@@ -58,11 +58,6 @@ public class FileUserRepository implements UserRepository {
 
     @Override
     public void clearDb() {
-        try{
-            Files.list(userDirectory)
-                    .forEach(FileUtils::delete);
-        }catch (IOException e){
-            throw new RuntimeException("[ERROR]전체 사용자 삭제 중 오류가 발생했습니다.");
-        }
+        FileUtils.clearDirectory(userDirectory);
     }
 }

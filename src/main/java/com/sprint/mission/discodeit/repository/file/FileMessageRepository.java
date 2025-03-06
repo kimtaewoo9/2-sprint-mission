@@ -59,11 +59,6 @@ public class FileMessageRepository implements MessageRepository {
 
     @Override
     public void clearDb() {
-        try{
-            Files.list(messageDirectory)
-                    .forEach(FileUtils::delete);
-        }catch (IOException e){
-            throw new RuntimeException("[ERROR]전체 삭제 중 오류가 발생했습니다.");
-        }
+        FileUtils.clearDirectory(messageDirectory);
     }
 }
