@@ -35,7 +35,7 @@ public class FileUserRepository implements UserRepository {
     public User findByUserId(UUID userId) {
         Path userFile = userDirectory.resolve(userId.toString()+".user");
         return Optional.ofNullable((User)FileUtils.loadById(userFile))
-                .orElseThrow(() -> new IllegalArgumentException("유효 하지 않은 아이디 입니다. id : " + userId));
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR]유효 하지 않은 아이디 입니다. id : " + userId));
     }
 
     @Override
@@ -57,12 +57,12 @@ public class FileUserRepository implements UserRepository {
     }
 
     @Override
-    public void cleatDb() {
+    public void clearDb() {
         try{
             Files.list(userDirectory)
                     .forEach(FileUtils::delete);
         }catch (IOException e){
-            throw new RuntimeException("전체 사용자 삭제 중 오류가 발생했습니다.");
+            throw new RuntimeException("[ERROR]전체 사용자 삭제 중 오류가 발생했습니다.");
         }
     }
 }

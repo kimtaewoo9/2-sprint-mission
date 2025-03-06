@@ -32,7 +32,7 @@ public class JCFUserRepository implements UserRepository {
     @Override
     public User findByUserId(UUID userId) {
         return Optional.ofNullable(userDb.get(userId))
-                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 아이디 입니다. id : " + userId));
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR]유효하지 않은 아이디 입니다. id : " + userId));
     }
 
     @Override
@@ -54,13 +54,13 @@ public class JCFUserRepository implements UserRepository {
     }
 
     @Override
-    public void cleatDb() {
+    public void clearDb() {
         userDb.clear();
     }
 
     private static void validUserId(UUID userId) {
         if(!userDb.containsKey(userId)){
-            throw new NoSuchElementException("User ID Error");
+            throw new NoSuchElementException("[ERROR]User ID Error");
         }
     }
 }

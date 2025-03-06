@@ -7,7 +7,7 @@ import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -15,7 +15,9 @@ public class User implements Serializable {
     private final Long createdAt;
     private Long updatedAt;
     private String name;
-    private List<Message> messageList = new ArrayList<>();
+    @Setter
+    private UserStatus status;
+    private final List<Message> messageList = new ArrayList<>();
 
     public User(String name) {
         this.id = UUID.randomUUID();

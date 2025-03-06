@@ -35,7 +35,7 @@ public class FileChannelRepository implements ChannelRepository {
     public Channel findByChannelId(UUID channelId) {
         Path channelFile = channelDirectory.resolve(channelId.toString() + ".channel");
         return Optional.ofNullable((Channel)FileUtils.loadById(channelFile))
-                .orElseThrow(() -> new IllegalArgumentException("유효 하지 않은 아이디 입니다. id : " + channelId));
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR]유효 하지 않은 아이디 입니다. id : " + channelId));
     }
 
     @Override
@@ -63,7 +63,7 @@ public class FileChannelRepository implements ChannelRepository {
                     .forEach(FileUtils::delete);
 
         }catch (IOException e){
-            throw new RuntimeException("전체 삭제 중 오류가 발생했습니다.");
+            throw new RuntimeException("[ERROR]전체 삭제 중 오류가 발생했습니다.");
         }
     }
 }

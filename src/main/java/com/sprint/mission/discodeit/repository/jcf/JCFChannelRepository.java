@@ -32,7 +32,7 @@ public class JCFChannelRepository implements ChannelRepository {
     @Override
     public Channel findByChannelId(UUID channelId) {
         return Optional.ofNullable(channelDb.get(channelId))
-                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 아이디 입니다. id : " + channelId));
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR]유효하지 않은 아이디 입니다. id : " + channelId));
     }
 
     @Override
@@ -61,7 +61,7 @@ public class JCFChannelRepository implements ChannelRepository {
 
     private static void validChannelId(UUID channelId) {
         if(!channelDb.containsKey(channelId)){
-            throw new NoSuchElementException("Channel ID Error");
+            throw new NoSuchElementException("[ERROR]Channel ID Error");
         }
     }
 }

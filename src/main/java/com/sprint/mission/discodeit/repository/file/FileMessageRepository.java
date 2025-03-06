@@ -35,7 +35,7 @@ public class FileMessageRepository implements MessageRepository {
     public Message findByMessageId(UUID messageId) {
         Path messageFile = messageDirectory.resolve(messageId.toString() +".message");
         return Optional.ofNullable((Message)FileUtils.loadById(messageFile))
-                .orElseThrow(() -> new IllegalArgumentException("유효 하지 않은 아이디 입니다. id :" + messageId));
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR]유효 하지 않은 아이디 입니다. id :" + messageId));
 
     }
 
@@ -63,7 +63,7 @@ public class FileMessageRepository implements MessageRepository {
             Files.list(messageDirectory)
                     .forEach(FileUtils::delete);
         }catch (IOException e){
-            throw new RuntimeException("전체 삭제 중 오류가 발생했습니다.");
+            throw new RuntimeException("[ERROR]전체 삭제 중 오류가 발생했습니다.");
         }
     }
 }

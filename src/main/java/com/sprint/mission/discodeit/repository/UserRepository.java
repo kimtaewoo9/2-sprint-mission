@@ -10,5 +10,5 @@ public interface UserRepository {
     List<User> findAll();
     User modify(UUID userId, String newName);
     void delete(UUID userId);
-    void cleatDb();
+    void clearDb();
 }

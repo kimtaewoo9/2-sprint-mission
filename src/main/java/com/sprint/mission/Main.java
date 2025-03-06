@@ -38,7 +38,7 @@ public class Main {
             try {
                 int inputNum = scanner.nextInt();
                 MANAGE_OPTIONS selected = Optional.ofNullable(MANAGE_OPTIONS.findByNumber(inputNum))
-                        .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 번호입니다. 다시 입력해주세요."));
+                        .orElseThrow(() -> new IllegalArgumentException("[ERROR]유효하지 않은 번호입니다. 다시 입력해주세요."));
 
                 switch (selected) {
                     case USER -> userView();
@@ -50,7 +50,7 @@ public class Main {
                     }
                 }
             } catch (InputMismatchException e) {
-                System.out.println("숫자를 입력해주세요.");
+                System.out.println("[ERROR]숫자를 입력해주세요.");
                 scanner.nextLine();
             }
         }
@@ -71,7 +71,7 @@ public class Main {
             sc.nextLine();
             MANAGE_CHANNEL selected = MANAGE_CHANNEL.findByNumber(choice);
             if(selected == null){
-                System.out.println("유효하지 않은 번호입니다. 다시 입력 해주세요.");
+                System.out.println("[ERROR]유효하지 않은 번호입니다. 다시 입력 해주세요.");
                 continue;
             }
 
@@ -86,7 +86,7 @@ public class Main {
                 ChannelType channelType = switch(channelTypeCode){
                     case 1 -> ChannelType.PUBLIC;
                     case 2 -> ChannelType.PRIVATE;
-                    default -> throw new IllegalArgumentException("유효하지 않은 숫자 입니다.");
+                    default -> throw new IllegalArgumentException("[ERROR]유효하지 않은 숫자 입니다.");
                 };
 
                 channelService.create(channelName, channelType);
@@ -152,7 +152,7 @@ public class Main {
             sc.nextLine();
             MANAGE_MESSAGE selected = MANAGE_MESSAGE.findByNumber(choice);
             if(selected == null){
-                System.out.println("유효하지 않은 번호입니다. 다시 입력 해주세요.");
+                System.out.println("[ERROR]유효하지 않은 번호입니다. 다시 입력 해주세요.");
                 continue;
             }
 
@@ -202,7 +202,7 @@ public class Main {
                 UUID messageId = UUID.fromString(sc.nextLine());
                 messageService.remove(messageId);
             } else if(selected == MANAGE_MESSAGE.END){
-                System.out.println("메시지 관리 프로그램을 종료합니다.");
+                System.out.println("[ERROR]메시지 관리 프로그램을 종료합니다.");
                 run = false;
             }
         }
@@ -224,7 +224,7 @@ public class Main {
 
             MANAGE_USER selected = MANAGE_USER.findByNumber(choice);
             if(selected == null){
-                System.out.println("유효하지 않은 번호입니다. 다시 입력 해주세요.");
+                System.out.println("[ERROR]유효하지 않은 번호입니다. 다시 입력 해주세요.");
                 continue;
             }
 

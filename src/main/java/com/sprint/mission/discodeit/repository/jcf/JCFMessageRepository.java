@@ -32,7 +32,7 @@ public class JCFMessageRepository implements MessageRepository {
     @Override
     public Message findByMessageId(UUID messageId) {
         return Optional.ofNullable(messageDb.get(messageId))
-                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 아이디 입니다. id : " + messageId));
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR]유효하지 않은 아이디 입니다. id : " + messageId));
     }
 
     @Override
@@ -62,7 +62,7 @@ public class JCFMessageRepository implements MessageRepository {
 
     private void validMessageId(UUID messageId) {
         if(!messageDb.containsKey(messageId)){
-            throw new NoSuchElementException("Message ID Error");
+            throw new NoSuchElementException("[ERROR]Message ID Error");
         }
     }
 }

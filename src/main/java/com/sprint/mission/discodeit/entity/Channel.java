@@ -7,7 +7,7 @@ import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
 public class Channel implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -15,7 +15,8 @@ public class Channel implements Serializable {
     private final Long createdAt;
     private Long updatedAt;
     private String name;
-    private ChannelType channelType;
+    @Setter
+    private ChannelType type;
 
     private final Map<UUID, User> users;
     private final Map<UUID, Message> messages;
@@ -25,7 +26,7 @@ public class Channel implements Serializable {
         this.createdAt = System.currentTimeMillis();
         this.updatedAt = this.createdAt;
         this.name = name;
-        this.channelType = type;
+        this.type = type;
 
         this.users = new HashMap<>();
         this.messages = new HashMap<>();
