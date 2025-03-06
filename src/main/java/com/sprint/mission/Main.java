@@ -20,12 +20,12 @@ import com.sprint.mission.discodeit.service.UserService;
 import com.sprint.mission.discodeit.repository.jcf.JCFChannelRepository;
 import com.sprint.mission.discodeit.repository.jcf.JCFMessageRepository;
 import com.sprint.mission.discodeit.repository.jcf.JCFUserRepository;
+import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.UUID;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -35,21 +35,23 @@ public class Main {
                 System.out.println(menu.getNumber() + ". " + menu.getText());
             }
 
-            int inputNum = scanner.nextInt();
-            MANAGE_OPTIONS selected = MANAGE_OPTIONS.findByNumber(inputNum);
-            if(selected == null){
-                System.out.println("유효하지 않은 번호입니다. 다시 입력해주세요.");
-            }
+            try {
+                int inputNum = scanner.nextInt();
+                MANAGE_OPTIONS selected = Optional.ofNullable(MANAGE_OPTIONS.findByNumber(inputNum))
+                        .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 번호입니다. 다시 입력해주세요."));
 
-            if(selected == MANAGE_OPTIONS.USER){
-                userView();
-            }else if(selected == MANAGE_OPTIONS.CHANNEL){
-                channelView();
-            }else if (selected == MANAGE_OPTIONS.MESSAGE){
-                messageView();
-            }else if(selected == MANAGE_OPTIONS.END) {
-                System.out.println("프로그램을 종료합니다.");
-                break;
+                switch (selected) {
+                    case USER -> userView();
+                    case CHANNEL -> channelView();
+                    case MESSAGE -> messageView();
+                    case END -> {
+                        System.out.println("프로그램을 종료합니다.");
+                        return;
+                    }
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("숫자를 입력해주세요.");
+                scanner.nextLine();
             }
         }
     }
