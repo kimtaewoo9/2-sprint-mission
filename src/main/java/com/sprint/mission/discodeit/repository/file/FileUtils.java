@@ -89,7 +89,7 @@ public class FileUtils {
         }
     }
 
-    public static boolean clearDirectory(Path directoryPath){
+    public static void clearDirectory(Path directoryPath){
         try{
             Files.list(directoryPath)
                     .forEach(FileUtils::delete);
