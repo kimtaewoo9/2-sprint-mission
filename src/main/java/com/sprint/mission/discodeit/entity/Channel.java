@@ -15,15 +15,17 @@ public class Channel implements Serializable {
     private final Long createdAt;
     private Long updatedAt;
     private String name;
+    private ChannelType channelType;
 
     private final Map<UUID, User> users;
     private final Map<UUID, Message> messages;
 
-    public Channel(String name) {
+    public Channel(String name, ChannelType type) {
         this.id = UUID.randomUUID();
         this.createdAt = System.currentTimeMillis();
         this.updatedAt = this.createdAt;
         this.name = name;
+        this.channelType = type;
 
         this.users = new HashMap<>();
         this.messages = new HashMap<>();
@@ -32,18 +34,6 @@ public class Channel implements Serializable {
     public void update(String name){
         this.name = name;
         this.updatedAt = System.currentTimeMillis();
-    }
-
-    public void join(User user){
-        users.put(user.getId(), user);
-    }
-
-    public void leave(User user){
-        users.remove(user.getId());
-    }
-
-    public void addMessage(Message message){
-        messages.put(message.getId(), message);
     }
 
     @Override

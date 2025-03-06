@@ -1,6 +1,7 @@
 package com.sprint.mission;
 
 import com.sprint.mission.discodeit.entity.Channel;
+import com.sprint.mission.discodeit.entity.ChannelType;
 import com.sprint.mission.discodeit.entity.Message;
 import com.sprint.mission.discodeit.entity.User;
 import com.sprint.mission.discodeit.enums.MANAGE_CHANNEL;
@@ -54,7 +55,6 @@ public class Main {
     }
 
     private static void channelView() {
-//        ChannelService channelService = new JCFChannelService(JCFChannelRepository.getInstance());
         ChannelService channelService = new FileChannelService(FileChannelRepository.getInstance());
 
         Scanner sc = new Scanner(System.in);
@@ -76,8 +76,19 @@ public class Main {
             if(selected == MANAGE_CHANNEL.CREATE_CHANNEL){
                 System.out.println("채널 이름: ");
                 String channelName = sc.nextLine();
+                System.out.println("공개 범위 설정");
+                System.out.println("1. PUBLIC");
+                System.out.println("2. PRIVATE");
+                int channelTypeCode = sc.nextInt();
 
-                channelService.create(channelName);
+                ChannelType channelType = switch(channelTypeCode){
+                    case 1 -> ChannelType.PUBLIC;
+                    case 2 -> ChannelType.PRIVATE;
+                    default -> throw new IllegalArgumentException("유효하지 않은 숫자 입니다.");
+                };
+
+                channelService.create(channelName, channelType);
+
                 System.out.println("새로운 채널이 생성 되었습니다.");
             }else if(selected == MANAGE_CHANNEL.FIND_CHANNEL){
                 System.out.println("조회하실 채널의 ID를 입력하세요.");
@@ -123,11 +134,9 @@ public class Main {
     }
 
     private static void messageView() {
-
         UserService userService = new JCFUserService(JCFUserRepository.getInstance());
         ChannelService channelService = new JCFChannelService(JCFChannelRepository.getInstance());
-        MessageService messageService =
-                new JCFMessageService(JCFMessageRepository.getInstance(), userService, channelService);
+        MessageService messageService = new JCFMessageService(JCFMessageRepository.getInstance(), userService, channelService);
 
         Scanner sc = new Scanner(System.in);
         boolean run = true;
