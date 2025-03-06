@@ -9,9 +9,13 @@ import com.sprint.mission.discodeit.enums.MANAGE_MESSAGE;
 import com.sprint.mission.discodeit.enums.MANAGE_OPTIONS;
 import com.sprint.mission.discodeit.enums.MANAGE_USER;
 import com.sprint.mission.discodeit.repository.file.FileChannelRepository;
+import com.sprint.mission.discodeit.repository.file.FileMessageRepository;
+import com.sprint.mission.discodeit.repository.file.FileUserRepository;
 import com.sprint.mission.discodeit.service.ChannelService;
 import com.sprint.mission.discodeit.service.MessageService;
 import com.sprint.mission.discodeit.service.file.FileChannelService;
+import com.sprint.mission.discodeit.service.file.FileMessageService;
+import com.sprint.mission.discodeit.service.file.FileUserService;
 import com.sprint.mission.discodeit.service.jcf.JCFChannelService;
 import com.sprint.mission.discodeit.service.jcf.JCFMessageService;
 import com.sprint.mission.discodeit.service.jcf.JCFUserService;
@@ -136,9 +140,15 @@ public class Main {
     }
 
     private static void messageView() {
+        // JCF*Service + JCF*Repository
         UserService userService = new JCFUserService(JCFUserRepository.getInstance());
         ChannelService channelService = new JCFChannelService(JCFChannelRepository.getInstance());
         MessageService messageService = new JCFMessageService(JCFMessageRepository.getInstance(), userService, channelService);
+
+        // File*Service + File*Repository
+        UserService userService2 = new FileUserService(FileUserRepository.getInstance());
+        ChannelService channelService2 = new FileChannelService(FileChannelRepository.getInstance());
+        MessageService messageService2 = new FileMessageService(FileMessageRepository.getInstance(), userService2, channelService2);
 
         Scanner sc = new Scanner(System.in);
         boolean run = true;
@@ -172,7 +182,7 @@ public class Main {
                 messageService.create(content, senderId, channelId);
             }else if(selected == MANAGE_MESSAGE.FIND_MESSAGE){
                 System.out.println("조회하실 메시지의 ID를 입력하세요.");
-                UUID messageId =UUID.fromString(sc.nextLine());
+                UUID messageId = UUID.fromString(sc.nextLine());
 
                 Message message = messageService.readById(messageId);
                 System.out.println(message);
