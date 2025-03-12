@@ -1,22 +1,22 @@
-package com.sprint.mission.discodeit.service.jcf;
+package com.sprint.mission.discodeit.service.basic;
 
 import com.sprint.mission.discodeit.entity.Channel;
 import com.sprint.mission.discodeit.entity.ChannelType;
-import com.sprint.mission.discodeit.service.ChannelService;
 import com.sprint.mission.discodeit.repository.ChannelRepository;
+import com.sprint.mission.discodeit.service.ChannelService;
 import java.util.List;
 import java.util.UUID;
 
-public class JCFChannelService implements ChannelService {
+public class BasicChannelService implements ChannelService {
     private final ChannelRepository channelRepository;
 
-    public JCFChannelService(ChannelRepository channelRepository) {
+    public BasicChannelService(ChannelRepository channelRepository) {
         this.channelRepository = channelRepository;
     }
 
     @Override
-    public void create(String name, ChannelType channelType) {
-        Channel channel = new Channel(name, channelType);
+    public void create(String name, ChannelType type) {
+        Channel channel = new Channel(name,type);
         channelRepository.save(channel);
     }
 
@@ -31,8 +31,8 @@ public class JCFChannelService implements ChannelService {
     }
 
     @Override
-    public void modify(UUID channelId, String newName) {
-        channelRepository.modify(channelId, newName);
+    public void modify(UUID channelId, String name) {
+        channelRepository.modify(channelId, name);
     }
 
     @Override
