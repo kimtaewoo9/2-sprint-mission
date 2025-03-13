@@ -31,8 +31,8 @@ public class JCFChannelService implements ChannelService {
     }
 
     @Override
-    public void modify(UUID channelId, String newName) {
-        channelRepository.update(channelId, newName);
+    public void update(UUID channelId, String newName, ChannelType channelType) {
+        channelRepository.update(channelId, newName, channelType);
     }
 
     @Override

@@ -41,9 +41,9 @@ public class FileMessageService implements MessageService {
     }
 
     @Override
-    public Message modify(UUID messageId, String content) {
+    public Message update(UUID messageId, String content) {
         Message message = readById(messageId);
-        message.update(content);
+        message.updateContent(content);
         return message;
     }
 

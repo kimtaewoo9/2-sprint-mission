@@ -8,6 +8,6 @@ public interface MessageService {
     void create(String content, UUID userId, UUID channelId);
     Message readById(UUID messageId);
     List<Message> readAll();
-    Message modify(UUID messageId,String content);
+    Message update(UUID messageId, String content);
     void remove(UUID messageId);
 }

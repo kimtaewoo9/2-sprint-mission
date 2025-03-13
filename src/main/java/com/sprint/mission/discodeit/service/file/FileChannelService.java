@@ -31,8 +31,8 @@ public class FileChannelService implements ChannelService {
     }
 
     @Override
-    public void modify(UUID channelId, String name) {
-        channelRepository.update(channelId, name);
+    public void update(UUID channelId, String name, ChannelType channelType) {
+        channelRepository.update(channelId, name, channelType);
     }
 
     @Override

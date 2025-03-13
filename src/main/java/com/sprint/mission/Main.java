@@ -9,13 +9,9 @@ import com.sprint.mission.discodeit.enums.MANAGE_MESSAGE;
 import com.sprint.mission.discodeit.enums.MANAGE_OPTIONS;
 import com.sprint.mission.discodeit.enums.MANAGE_USER;
 import com.sprint.mission.discodeit.repository.file.FileChannelRepository;
-import com.sprint.mission.discodeit.repository.file.FileMessageRepository;
-import com.sprint.mission.discodeit.repository.file.FileUserRepository;
 import com.sprint.mission.discodeit.service.ChannelService;
 import com.sprint.mission.discodeit.service.MessageService;
 import com.sprint.mission.discodeit.service.file.FileChannelService;
-import com.sprint.mission.discodeit.service.file.FileMessageService;
-import com.sprint.mission.discodeit.service.file.FileUserService;
 import com.sprint.mission.discodeit.service.jcf.JCFChannelService;
 import com.sprint.mission.discodeit.service.jcf.JCFMessageService;
 import com.sprint.mission.discodeit.service.jcf.JCFUserService;
@@ -123,8 +119,19 @@ public class Main {
                 System.out.println("새로운 채널 이름을 입력하세요 : ");
                 String newName = sc.nextLine();
 
-                channelService.modify(uuid, newName);
-                System.out.println("채널 이름이 수정되었습니다.");
+                System.out.println("채널 타입을 고르세요.");
+                System.out.println("1. PUBLIC");
+                System.out.println("2. PRIVATE");
+                int typeChoice = sc.nextInt();
+
+                ChannelType channelType = null;
+                if(typeChoice == 1){
+                    channelType = ChannelType.PUBLIC;
+                }else{
+                    channelType = ChannelType.PRIVATE;
+                }
+                channelService.update(uuid, newName, channelType);
+                System.out.println("채널 정보가 수정되었습니다.");
             } else if(selected == MANAGE_CHANNEL.DELETE_CHANNEL){
                 System.out.println("삭제할 채널 ID를 입력하세요 : ");
                 String uuidString = sc.nextLine();
@@ -200,7 +207,7 @@ public class Main {
                 System.out.println("새로운 내용 : ");
                 String newContent = sc.nextLine();
 
-                messageService.modify(messageId, newContent);
+                messageService.update(messageId, newContent);
                 System.out.println("메시지 정보가 수정되었습니다.");
             } else if(selected == MANAGE_MESSAGE.DELETE_MESSAGE){
                 System.out.println("삭제할 메시지의 ID 입력:");
