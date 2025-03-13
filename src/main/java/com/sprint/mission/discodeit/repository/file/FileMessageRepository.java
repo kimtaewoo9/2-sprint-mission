@@ -8,7 +8,9 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class FileMessageRepository implements MessageRepository {
     private final Path messageDirectory;
 

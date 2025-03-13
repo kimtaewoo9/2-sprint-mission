@@ -6,6 +6,7 @@ import com.sprint.mission.discodeit.repository.ChannelRepository;
 import com.sprint.mission.discodeit.service.ChannelService;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.stereotype.Service;
 
 public class FileChannelService implements ChannelService {
     private final ChannelRepository channelRepository;

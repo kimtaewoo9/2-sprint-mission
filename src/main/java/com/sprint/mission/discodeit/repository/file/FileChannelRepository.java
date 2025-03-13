@@ -7,21 +7,16 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class FileChannelRepository implements ChannelRepository {
     private final Path channelDirectory;
 
-    private FileChannelRepository() {
+    public FileChannelRepository() {
         this.channelDirectory = FileUtils.getBaseDirectory().resolve("channels");
         FileUtils.init(channelDirectory);
-    }
-
-    private static class SingletonHolder{
-        private static final FileChannelRepository INSTANCE = new FileChannelRepository();
-    }
-
-    public static FileChannelRepository getInstance(){
-        return SingletonHolder.INSTANCE;
     }
 
     @Override

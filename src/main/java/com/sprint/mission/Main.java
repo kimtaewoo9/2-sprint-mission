@@ -57,7 +57,7 @@ public class Main {
     }
 
     private static void channelView() {
-        ChannelService channelService = new FileChannelService(FileChannelRepository.getInstance());
+        ChannelService channelService = new FileChannelService(new FileChannelRepository());
 
         Scanner sc = new Scanner(System.in);
         boolean run = true;
