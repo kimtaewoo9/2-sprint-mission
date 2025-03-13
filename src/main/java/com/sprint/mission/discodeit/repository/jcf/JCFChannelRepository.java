@@ -43,7 +43,7 @@ public class JCFChannelRepository implements ChannelRepository {
     @Override
     public Channel modify(UUID channelId, String channelName) {
         Channel channel = findByChannelId(channelId);
-        channel.update(channelName);
+        channel.updateName(channelName);
 
         return channel;
     }

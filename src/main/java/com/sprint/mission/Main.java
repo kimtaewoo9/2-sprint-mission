@@ -145,11 +145,6 @@ public class Main {
         ChannelService channelService = new JCFChannelService(JCFChannelRepository.getInstance());
         MessageService messageService = new JCFMessageService(JCFMessageRepository.getInstance(), userService, channelService);
 
-        // File*Service + File*Repository
-        UserService userService2 = new FileUserService(FileUserRepository.getInstance());
-        ChannelService channelService2 = new FileChannelService(FileChannelRepository.getInstance());
-        MessageService messageService2 = new FileMessageService(FileMessageRepository.getInstance(), userService2, channelService2);
-
         Scanner sc = new Scanner(System.in);
         boolean run = true;
 

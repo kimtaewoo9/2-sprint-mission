@@ -2,8 +2,6 @@ package com.sprint.mission.discodeit.repository.file;
 
 import com.sprint.mission.discodeit.entity.Channel;
 import com.sprint.mission.discodeit.repository.ChannelRepository;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
@@ -46,7 +44,7 @@ public class FileChannelRepository implements ChannelRepository {
     @Override
     public Channel modify(UUID channelId, String channelName) {
         Channel channel = findByChannelId(channelId);
-        channel.update(channelName);
+        channel.updateName(channelName);
         return channel;
     }
 

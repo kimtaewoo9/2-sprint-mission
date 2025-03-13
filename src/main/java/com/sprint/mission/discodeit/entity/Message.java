@@ -3,9 +3,9 @@ package com.sprint.mission.discodeit.entity;
 import java.io.Serializable;
 import java.util.UUID;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.ToString;
 
-@Getter
+@Getter @ToString
 public class Message implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -37,16 +37,5 @@ public class Message implements Serializable {
         if(anyValueUpdated){
             this.updatedAt = System.currentTimeMillis();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "Message{" +
-                "id=" + id +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                ", content='" + content + '\'' +
-                ", sender='" + senderId + '\'' +
-                '}';
     }
 }

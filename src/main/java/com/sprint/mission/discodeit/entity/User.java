@@ -6,8 +6,9 @@ import java.util.List;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-@Getter
+@Getter @ToString
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -29,14 +30,5 @@ public class User implements Serializable {
     public void update(String name){
         this.name = name;
         this.updatedAt = System.currentTimeMillis();
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                ", userName='" + name + '\'' +
-                '}';
     }
 }
