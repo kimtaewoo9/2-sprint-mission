@@ -28,7 +28,6 @@ public class DiscodeitApplication {
 	public static void main(String[] args) {
 
 		ConfigurableApplicationContext context = SpringApplication.run(DiscodeitApplication.class, args);
-		// AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
 
 		Scanner scanner = new Scanner(System.in);
 
@@ -151,7 +150,7 @@ public class DiscodeitApplication {
 
 	private static void messageView(ConfigurableApplicationContext context) {
 
-		MessageService messageService = context.getBean("jCFMessageService", JCFMessageService.class);
+		MessageService messageService = context.getBean("JCFMessageService", JCFMessageService.class);
 
 		Scanner sc = new Scanner(System.in);
 		boolean run = true;

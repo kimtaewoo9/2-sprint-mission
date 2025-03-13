@@ -147,7 +147,6 @@ public class Main {
     }
 
     private static void messageView() {
-        // JCF*Service + JCF*Repository
         UserService userService = new JCFUserService(new JCFUserRepository());
         ChannelService channelService = new JCFChannelService(new JCFChannelRepository());
         MessageService messageService = new JCFMessageService(new JCFMessageRepository(), userService, channelService);

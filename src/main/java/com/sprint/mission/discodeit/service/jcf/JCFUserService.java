@@ -5,15 +5,13 @@ import com.sprint.mission.discodeit.service.UserService;
 import com.sprint.mission.discodeit.repository.UserRepository;
 import java.util.List;
 import java.util.UUID;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class JCFUserService implements UserService {
     private final UserRepository userRepository;
-
-    public JCFUserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     public void create(String name) {
