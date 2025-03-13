@@ -10,19 +10,11 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class JCFUserRepository implements UserRepository {
     private static final Map<UUID, User> userDb = new HashMap<>();
-
-    private JCFUserRepository(){}
-
-    private static class SingletonHolder{
-        private static final JCFUserRepository INSTANCE = new JCFUserRepository();
-    }
-
-    public static JCFUserRepository getInstance(){
-        return SingletonHolder.INSTANCE;
-    }
 
     @Override
     public void save(User user) {

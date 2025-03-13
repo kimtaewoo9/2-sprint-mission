@@ -8,13 +8,9 @@ import com.sprint.mission.discodeit.enums.MANAGE_CHANNEL;
 import com.sprint.mission.discodeit.enums.MANAGE_MESSAGE;
 import com.sprint.mission.discodeit.enums.MANAGE_OPTIONS;
 import com.sprint.mission.discodeit.enums.MANAGE_USER;
-import com.sprint.mission.discodeit.repository.jcf.JCFChannelRepository;
-import com.sprint.mission.discodeit.repository.jcf.JCFMessageRepository;
-import com.sprint.mission.discodeit.repository.jcf.JCFUserRepository;
 import com.sprint.mission.discodeit.service.ChannelService;
 import com.sprint.mission.discodeit.service.MessageService;
 import com.sprint.mission.discodeit.service.UserService;
-import com.sprint.mission.discodeit.service.jcf.JCFChannelService;
 import com.sprint.mission.discodeit.service.jcf.JCFMessageService;
 import com.sprint.mission.discodeit.service.jcf.JCFUserService;
 import java.util.InputMismatchException;
@@ -47,9 +43,9 @@ public class DiscodeitApplication {
 						.orElseThrow(() -> new IllegalArgumentException("[ERROR]유효하지 않은 번호입니다. 다시 입력해주세요."));
 
 				switch (selected) {
-					case USER -> userView();
+					case USER -> userView(context);
 					case CHANNEL -> channelView(context);
-					case MESSAGE -> messageView();
+					case MESSAGE -> messageView(context);
 					case END -> {
 						System.out.println("프로그램을 종료합니다.");
 						return;
@@ -65,8 +61,6 @@ public class DiscodeitApplication {
 	private static void channelView(ConfigurableApplicationContext context) {
 
 		ChannelService channelService = context.getBean("basicChannelService", ChannelService.class);
-		// ChannelService channelService = context.getBean("jcfChannelService", ChannelService.class);
-		// ChannelService channelService = context.getBean("fileChannelService", ChannelService.class);
 
 		Scanner sc = new Scanner(System.in);
 		boolean run = true;
@@ -155,11 +149,9 @@ public class DiscodeitApplication {
 		}
 	}
 
-	private static void messageView() {
-		// JCF*Service + JCF*Repository
-		UserService userService = new JCFUserService(JCFUserRepository.getInstance());
-		ChannelService channelService = new JCFChannelService(JCFChannelRepository.getInstance());
-		MessageService messageService = new JCFMessageService(JCFMessageRepository.getInstance(), userService, channelService);
+	private static void messageView(ConfigurableApplicationContext context) {
+
+		MessageService messageService = context.getBean("jCFMessageService", JCFMessageService.class);
 
 		Scanner sc = new Scanner(System.in);
 		boolean run = true;
@@ -229,8 +221,9 @@ public class DiscodeitApplication {
 		}
 	}
 
-	private static void userView() {
-		UserService userService = new JCFUserService(JCFUserRepository.getInstance());
+	private static void userView(ConfigurableApplicationContext context) {
+
+		UserService userService = context.getBean("jCFUserService", JCFUserService.class);
 
 		Scanner sc = new Scanner(System.in);
 		boolean run = true;

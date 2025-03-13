@@ -7,7 +7,9 @@ import com.sprint.mission.discodeit.service.UserService;
 import com.sprint.mission.discodeit.repository.MessageRepository;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.stereotype.Service;
 
+@Service
 public class JCFMessageService implements MessageService {
     private final MessageRepository messageRepository;
     private final UserService userService;

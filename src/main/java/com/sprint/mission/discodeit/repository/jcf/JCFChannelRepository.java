@@ -11,19 +11,11 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class JCFChannelRepository implements ChannelRepository {
     private static final Map<UUID, Channel> channelDb = new HashMap<>();
-
-    private static class SingletonHolder{
-        private static final JCFChannelRepository INSTANCE = new JCFChannelRepository();
-    }
-
-    private JCFChannelRepository(){};
-
-    public static JCFChannelRepository getInstance(){
-        return SingletonHolder.INSTANCE;
-    }
 
     @Override
     public void save(Channel channel) {

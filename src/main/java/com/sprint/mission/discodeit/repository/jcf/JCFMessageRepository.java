@@ -10,19 +10,11 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class JCFMessageRepository implements MessageRepository {
     private static final Map<UUID, Message> messageDb = new HashMap<>();
-
-    private static class SingletonHolder{
-        private static final JCFMessageRepository INSTANCE = new JCFMessageRepository();
-    }
-
-    private JCFMessageRepository(){}
-
-    public static JCFMessageRepository getInstance(){
-        return SingletonHolder.INSTANCE;
-    }
 
     @Override
     public void save(Message message) {

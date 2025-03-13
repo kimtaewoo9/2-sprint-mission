@@ -148,9 +148,9 @@ public class Main {
 
     private static void messageView() {
         // JCF*Service + JCF*Repository
-        UserService userService = new JCFUserService(JCFUserRepository.getInstance());
-        ChannelService channelService = new JCFChannelService(JCFChannelRepository.getInstance());
-        MessageService messageService = new JCFMessageService(JCFMessageRepository.getInstance(), userService, channelService);
+        UserService userService = new JCFUserService(new JCFUserRepository());
+        ChannelService channelService = new JCFChannelService(new JCFChannelRepository());
+        MessageService messageService = new JCFMessageService(new JCFMessageRepository(), userService, channelService);
 
         Scanner sc = new Scanner(System.in);
         boolean run = true;
@@ -221,7 +221,7 @@ public class Main {
     }
 
     private static void userView() {
-        UserService userService = new JCFUserService(JCFUserRepository.getInstance());
+        UserService userService = new JCFUserService(new JCFUserRepository());
 
         Scanner sc = new Scanner(System.in);
         boolean run = true;
