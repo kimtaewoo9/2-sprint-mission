@@ -27,7 +27,7 @@ public class Message implements Serializable {
         this.channelId = channelId;
     }
 
-    public void update(String newContent){
+    public void updateContent(String newContent){
         boolean anyValueUpdated = false;
         if(newContent != null && !newContent.equals(this.content)){
             this.content = newContent;

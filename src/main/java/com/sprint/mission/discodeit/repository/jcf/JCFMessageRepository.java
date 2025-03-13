@@ -40,7 +40,7 @@ public class JCFMessageRepository implements MessageRepository {
         validMessageId(messageId);
 
         Message message = findByMessageId(messageId);
-        message.update(newContent);
+        message.updateContent(newContent);
         return message;
     }
 

@@ -42,7 +42,7 @@ public class FileMessageRepository implements MessageRepository {
     @Override
     public Message update(UUID messageId, String newContent) {
         Message message = findByMessageId(messageId);
-        message.update(newContent);
+        message.updateContent(newContent);
         return message;
     }
 
