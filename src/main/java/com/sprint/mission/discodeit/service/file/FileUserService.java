@@ -31,7 +31,7 @@ public class FileUserService implements UserService {
 
     @Override
     public void update(UUID userId, String userName) {
-        userRepository.modify(userId, userName);
+        userRepository.update(userId, userName);
     }
 
     @Override

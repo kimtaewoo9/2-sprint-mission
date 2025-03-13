@@ -43,7 +43,7 @@ public class FileChannelRepository implements ChannelRepository {
     }
 
     @Override
-    public Channel modify(UUID channelId, String channelName, ChannelType channelType) {
+    public Channel update(UUID channelId, String channelName, ChannelType channelType) {
         Channel channel = findByChannelId(channelId);
         channel.updateName(channelName);
         channel.updateChannelType(channelType);

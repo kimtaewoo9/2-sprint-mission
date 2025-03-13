@@ -32,7 +32,7 @@ public class BasicChannelService implements ChannelService {
 
     @Override
     public void modify(UUID channelId, String name) {
-        channelRepository.modify(channelId, name);
+        channelRepository.update(channelId, name);
     }
 
     @Override

@@ -41,7 +41,7 @@ public class JCFUserRepository implements UserRepository {
     }
 
     @Override
-    public User modify(UUID userId, String newName) {
+    public User update(UUID userId, String newName) {
         User user = findByUserId(userId);
         user.update(newName);
         return user;

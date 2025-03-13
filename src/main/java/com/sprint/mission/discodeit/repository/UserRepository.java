@@ -8,7 +8,7 @@ public interface UserRepository {
     void save(User user);
     User findByUserId(UUID userID);
     List<User> findAll();
-    User modify(UUID userId, String newName);
+    User update(UUID userId, String newName);
     void delete(UUID userId);
     void clearDb();
 }

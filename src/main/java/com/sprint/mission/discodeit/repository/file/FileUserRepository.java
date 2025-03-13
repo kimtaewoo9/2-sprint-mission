@@ -44,7 +44,7 @@ public class FileUserRepository implements UserRepository {
     }
 
     @Override
-    public User modify(UUID userId, String name) {
+    public User update(UUID userId, String name) {
         User user = findByUserId(userId);
         user.update(name);
         return user;
