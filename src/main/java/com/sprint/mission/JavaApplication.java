@@ -26,7 +26,7 @@ import java.util.Optional;
 import java.util.Scanner;
 import java.util.UUID;
 
-public class Main {
+public class JavaApplication {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
