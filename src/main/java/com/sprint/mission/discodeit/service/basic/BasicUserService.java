@@ -3,6 +3,7 @@ package com.sprint.mission.discodeit.service.basic;
 import com.sprint.mission.discodeit.dto.binarycontent.CreateBinaryContentRequest;
 import com.sprint.mission.discodeit.dto.user.CreateUserRequest;
 import com.sprint.mission.discodeit.dto.user.UpdateUserRequest;
+import com.sprint.mission.discodeit.dto.user.UserResponseDto;
 import com.sprint.mission.discodeit.entity.BinaryContent;
 import com.sprint.mission.discodeit.entity.User;
 import com.sprint.mission.discodeit.entity.status.UserStatus;
@@ -48,15 +49,19 @@ public class BasicUserService implements UserService {
         return user.getId();
     }
 
-    // [ ] 사용자의 온라인 상태 정보를 같이 포함하세요.
     @Override
-    public User findByUserId(UUID userId) {
-        return userRepository.findByUserId(userId);
+    public UserResponseDto findByUserId(UUID userId) {
+        User user = userRepository.findByUserId(userId);
+        boolean isOnline = userStatusRepository.findByUserId(userId).isOnline();
+        
+        return UserResponseDto.from(user, isOnline);
     }
 
     @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public List<UserResponseDto> findAll() {
+        return userRepository.findAll().stream()
+            .map(u -> UserResponseDto.from(u,
+                userStatusRepository.findByUserId(u.getId()).isOnline())).toList();
     }
 
     @Override

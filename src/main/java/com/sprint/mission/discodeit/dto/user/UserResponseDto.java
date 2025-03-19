@@ -9,21 +9,21 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FindUserRequest {
+public class UserResponseDto {
 
     private UUID id;
-    String name;
-    String email;
-    boolean isOnline;
-    UUID profileImageId;
+    private String name;
+    private String email;
+    private UUID profileId;
+    private boolean isOnline;
 
-    public static FindUserRequest from(User user, boolean isOnline){
-        return new FindUserRequest(
+    public static UserResponseDto from(User user, boolean isOnline) {
+        return new UserResponseDto(
             user.getId(),
             user.getName(),
             user.getEmail(),
-            isOnline,
-            user.getProfileImageId()
+            user.getProfileImageId(),
+            isOnline
         );
     }
 }

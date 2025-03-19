@@ -3,6 +3,7 @@ package com.sprint.mission.discodeit.service.file;
 import com.sprint.mission.discodeit.dto.binarycontent.CreateBinaryContentRequest;
 import com.sprint.mission.discodeit.dto.user.CreateUserRequest;
 import com.sprint.mission.discodeit.dto.user.UpdateUserRequest;
+import com.sprint.mission.discodeit.dto.user.UserResponseDto;
 import com.sprint.mission.discodeit.entity.BinaryContent;
 import com.sprint.mission.discodeit.entity.User;
 import com.sprint.mission.discodeit.entity.status.UserStatus;
@@ -38,7 +39,7 @@ public class FileUserService implements UserService {
 
         UserStatus userStatus = new UserStatus(user.getId());
         userStatusRepository.save(userStatus);
-        
+
         return user.getId();
     }
 
@@ -51,12 +52,12 @@ public class FileUserService implements UserService {
     }
 
     @Override
-    public User findByUserId(UUID userId) {
+    public UserResponseDto findByUserId(UUID userId) {
         return userRepository.findByUserId(userId);
     }
 
     @Override
-    public List<User> findAll() {
+    public List<UserResponseDto> findAll() {
         return userRepository.findAll();
     }
 
