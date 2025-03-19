@@ -1,7 +1,6 @@
 package com.sprint.mission.discodeit.repository.jcf;
 
 import com.sprint.mission.discodeit.entity.Channel;
-import com.sprint.mission.discodeit.entity.ChannelType;
 import com.sprint.mission.discodeit.repository.ChannelRepository;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +14,14 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class JCFChannelRepository implements ChannelRepository {
+
     private static final Map<UUID, Channel> channelDb = new HashMap<>();
+
+    private static void validChannelId(UUID channelId) {
+        if (!channelDb.containsKey(channelId)) {
+            throw new NoSuchElementException("[ERROR]Channel ID Error");
+        }
+    }
 
     @Override
     public void save(Channel channel) {
@@ -25,7 +31,8 @@ public class JCFChannelRepository implements ChannelRepository {
     @Override
     public Channel findByChannelId(UUID channelId) {
         return Optional.ofNullable(channelDb.get(channelId))
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR]유효하지 않은 아이디 입니다. id : " + channelId));
+            .orElseThrow(
+                () -> new IllegalArgumentException("[ERROR]유효하지 않은 아이디 입니다. id : " + channelId));
     }
 
     @Override
@@ -34,28 +41,8 @@ public class JCFChannelRepository implements ChannelRepository {
     }
 
     @Override
-    public Channel update(UUID channelId, String channelName, ChannelType channelType) {
-        Channel channel = findByChannelId(channelId);
-        channel.updateName(channelName);
-        channel.updateChannelType(channelType);
-
-        return channel;
-    }
-
-    @Override
     public void delete(UUID channelId) {
         validChannelId(channelId);
         channelDb.remove(channelId);
-    }
-
-    @Override
-    public void clearDb() {
-        channelDb.clear();
-    }
-
-    private static void validChannelId(UUID channelId) {
-        if(!channelDb.containsKey(channelId)){
-            throw new NoSuchElementException("[ERROR]Channel ID Error");
-        }
     }
 }

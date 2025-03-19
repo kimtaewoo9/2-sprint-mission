@@ -20,4 +20,14 @@ public class ReadStatus {
         this.channelId = channelId;
         this.userId = userId;
     }
+
+    public void updateChannelId(UUID channelId) {
+        this.channelId = channelId;
+        this.updatedAt = Instant.now();
+    }
+
+    public void updateUserId(UUID userId) {
+        this.userId = userId;
+        this.updatedAt = Instant.now();
+    }
 }
