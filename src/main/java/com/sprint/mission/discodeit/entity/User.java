@@ -22,6 +22,7 @@ public class User implements Serializable, Comparable<User> {
     private String email;
     private String password;
     private UUID profileImageId = null;
+    private Instant lastLoginAt;
 
     public User(String name, String email, String password) {
         this.id = UUID.randomUUID();
@@ -30,6 +31,7 @@ public class User implements Serializable, Comparable<User> {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.lastLoginAt = createdAt;
     }
 
     public void updateName(String name) {
@@ -44,6 +46,14 @@ public class User implements Serializable, Comparable<User> {
 
     public void updateProfileImageId(UUID profileImageId) {
         this.profileImageId = profileImageId;
+    }
+
+    public void updatePassword(String password) {
+        this.password = password;
+    }
+
+    public void updateLastLoginAt(Instant lastLoginAt) {
+        this.lastLoginAt = lastLoginAt;
     }
 
     @Override
