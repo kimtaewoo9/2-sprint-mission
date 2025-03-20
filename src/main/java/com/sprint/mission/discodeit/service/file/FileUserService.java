@@ -53,12 +53,17 @@ public class FileUserService implements UserService {
 
     @Override
     public UserResponseDto findByUserId(UUID userId) {
-        return userRepository.findByUserId(userId);
+        User user = userRepository.findByUserId(userId);
+        boolean isOline = userStatusRepository.findByUserId(userId).isOnline();
+
+        return UserResponseDto.from(user, isOline);
     }
 
     @Override
     public List<UserResponseDto> findAll() {
-        return userRepository.findAll();
+        return userRepository.findAll().stream()
+            .map(user -> UserResponseDto.from(user,
+                userStatusRepository.findByUserId(user.getId()).isOnline())).toList();
     }
 
     @Override

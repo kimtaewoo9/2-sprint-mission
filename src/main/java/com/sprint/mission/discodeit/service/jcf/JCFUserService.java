@@ -51,12 +51,19 @@ public class JCFUserService implements UserService {
 
     @Override
     public UserResponseDto findByUserId(UUID userId) {
-        return userRepository.findByUserId(userId);
+        User user = userRepository.findByUserId(userId);
+        boolean isOnline = userStatusRepository.findByUserId(userId).isOnline();
+
+        return UserResponseDto.from(user, isOnline);
     }
 
     @Override
     public List<UserResponseDto> findAll() {
-        return userRepository.findAll();
+        return userRepository.findAll().stream()
+            .map(
+                user -> UserResponseDto.from(user,
+                    userStatusRepository.findByUserId(user.getId()).isOnline()))
+            .toList();
     }
 
     @Override

@@ -2,13 +2,9 @@ package com.sprint.mission.discodeit.dto.user;
 
 import com.sprint.mission.discodeit.entity.User;
 import java.util.UUID;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class UserResponseDto {
 
     private UUID id;
@@ -16,6 +12,9 @@ public class UserResponseDto {
     private String email;
     private UUID profileId;
     private boolean isOnline;
+
+    private UserResponseDto(UUID id, String name, String email, UUID profileId, boolean isOnline) {
+    }
 
     public static UserResponseDto from(User user, boolean isOnline) {
         return new UserResponseDto(
