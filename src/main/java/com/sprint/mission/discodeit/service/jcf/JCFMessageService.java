@@ -86,6 +86,13 @@ public class JCFMessageService implements MessageService {
             throw new IllegalArgumentException("[ERROR] message id not found");
         }
 
+        message.updateContent(request.getContent());
+        List<UUID> binaryContentIds = request.getBinaryContentIds();
+        for (UUID binaryContentId : binaryContentIds) {
+            message.updateImages(binaryContentId);
+        }
+        
+        messageRepository.save(message);
     }
 
     @Override

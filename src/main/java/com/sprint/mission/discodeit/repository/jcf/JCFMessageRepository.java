@@ -1,6 +1,5 @@
 package com.sprint.mission.discodeit.repository.jcf;
 
-import com.sprint.mission.discodeit.dto.message.UpdateMessageRequest;
 import com.sprint.mission.discodeit.entity.Message;
 import com.sprint.mission.discodeit.repository.MessageRepository;
 import java.util.Comparator;
@@ -27,12 +26,6 @@ public class JCFMessageRepository implements MessageRepository {
         return Optional.ofNullable(messageDb.get(messageId))
             .orElseThrow(
                 () -> new IllegalArgumentException("[ERROR]유효하지 않은 아이디 입니다. id : " + messageId));
-    }
-
-    @Override
-    public void update(UUID messageId, UpdateMessageRequest request) {
-        Message message = findByMessageId(messageId);
-        message.updateContent(request.getContent());
     }
 
     @Override

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateChannelRequest {
-    String channelName;
-    ChannelType channelType;
+
+    private String channelName;
+    private ChannelType channelType;
 }

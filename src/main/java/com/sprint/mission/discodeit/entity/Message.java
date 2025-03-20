@@ -34,15 +34,8 @@ public class Message implements Serializable, Comparable<Message> {
     }
 
     public void updateContent(String newContent) {
-        boolean anyValueUpdated = false;
-        if (newContent != null && !newContent.equals(this.content)) {
-            this.content = newContent;
-            anyValueUpdated = true;
-        }
-
-        if (anyValueUpdated) {
-            this.updatedAt = Instant.now();
-        }
+        this.content = newContent;
+        this.updatedAt = Instant.now();
     }
 
     public void updateImages(UUID imageId) {

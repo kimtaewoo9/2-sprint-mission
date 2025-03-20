@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateBinaryContentRequest {
 
-    byte[] binaryImage;
+    private byte[] binaryImage;
 }
