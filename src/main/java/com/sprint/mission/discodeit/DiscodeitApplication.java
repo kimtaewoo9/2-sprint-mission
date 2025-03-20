@@ -4,12 +4,13 @@ import com.sprint.mission.discodeit.dto.channel.ChannelResponseDto;
 import com.sprint.mission.discodeit.dto.channel.CreateChannelRequest;
 import com.sprint.mission.discodeit.dto.channel.UpdateChannelRequest;
 import com.sprint.mission.discodeit.dto.message.CreateMessageRequest;
+import com.sprint.mission.discodeit.dto.message.MessageResponseDto;
 import com.sprint.mission.discodeit.dto.message.UpdateMessageRequest;
 import com.sprint.mission.discodeit.dto.user.CreateUserRequest;
 import com.sprint.mission.discodeit.dto.user.UpdateUserRequest;
+import com.sprint.mission.discodeit.dto.user.UserResponseDto;
 import com.sprint.mission.discodeit.entity.ChannelType;
 import com.sprint.mission.discodeit.entity.Message;
-import com.sprint.mission.discodeit.entity.User;
 import com.sprint.mission.discodeit.enums.MANAGE_CHANNEL;
 import com.sprint.mission.discodeit.enums.MANAGE_MESSAGE;
 import com.sprint.mission.discodeit.enums.MANAGE_OPTIONS;
@@ -118,7 +119,10 @@ public class DiscodeitApplication {
                 ChannelResponseDto channel = channelService.findByChannelId(channelId);
                 System.out.println(channel);
             } else if (selected == MANAGE_CHANNEL.FIND_ALL_CHANNEL) {
-                List<ChannelResponseDto> channels = channelService.findAll();
+                System.out.println("사용자 ID를 입력해주세요.");
+                UUID userId = UUID.fromString(sc.nextLine());
+
+                List<ChannelResponseDto> channels = channelService.findAllByUserId(userId);
                 if (channels.isEmpty()) {
                     System.out.println("채널이 없습니다.");
                     continue;
@@ -208,9 +212,9 @@ public class DiscodeitApplication {
                 System.out.println(message);
             } else if (selected == MANAGE_MESSAGE.FIND_ALL_MESSAGE) {
                 System.out.println("모든 메시지를 출력합니다.");
-                List<Message> messages = messageService.readAll();
+                List<MessageResponseDto> messages = messageService.findAll();
 
-                for (Message message : messages) {
+                for (MessageResponseDto message : messages) {
                     System.out.printf("메시지 내용 : %s%n", message.getContent());
                     System.out.printf("보낸 사용자 ID : %s%n", message.getChannelId().toString());
                     System.out.printf("채널 ID : %s%n", message.getChannelId().toString());
@@ -234,7 +238,7 @@ public class DiscodeitApplication {
                 String newContent = sc.nextLine();
 
                 messageService.update(messageId,
-                    new UpdateMessageRequest(newContent, channelId, senderId));
+                    new UpdateMessageRequest(newContent));
                 System.out.println("메시지 정보가 수정되었습니다.");
             } else if (selected == MANAGE_MESSAGE.DELETE_MESSAGE) {
                 System.out.println("삭제할 메시지의 ID 입력:");
@@ -284,19 +288,20 @@ public class DiscodeitApplication {
                 System.out.println("조회하실 사용자의 ID를 입력하세요.");
                 UUID userId = UUID.fromString(sc.nextLine());
 
-                User user = userService.findByUserId(userId);
-                System.out.println(user);
+                UserResponseDto responseDto = userService.findByUserId(userId);
+                System.out.println("사용자 이름: " + responseDto.getName());
+                System.out.println("사용자 이메일: " + responseDto.getEmail());
             } else if (selected == MANAGE_USER.FIND_ALL_USER) {
-                List<User> users = userService.findAll();
+                List<UserResponseDto> users = userService.findAll();
                 if (users.isEmpty()) {
                     System.out.println("유저가 없습니다.");
                     continue;
                 }
                 System.out.println("모든 사용자를 출력합니다.");
 
-                for (User user : users) {
+                for (UserResponseDto user : users) {
                     System.out.printf("user name : %s, ", user.getName());
-                    System.out.printf("user ID : %s%n", user.getId().toString());
+                    System.out.printf("user ID : %s%n", user.getId());
                 }
             } else if (selected == MANAGE_USER.UPDATE_USER) {
                 System.out.println("유저 정보를 수정합니다.");
