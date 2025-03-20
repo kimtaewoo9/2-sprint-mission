@@ -3,8 +3,7 @@ package com.sprint.mission.discodeit.repository.jcf;
 import com.sprint.mission.discodeit.dto.message.UpdateMessageRequest;
 import com.sprint.mission.discodeit.entity.Message;
 import com.sprint.mission.discodeit.repository.MessageRepository;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Repository;
 public class JCFMessageRepository implements MessageRepository {
 
     private static final Map<UUID, Message> messageDb = new HashMap<>();
-    
+
     @Override
     public void save(Message message) {
         messageDb.put(message.getId(), message);
@@ -38,7 +37,8 @@ public class JCFMessageRepository implements MessageRepository {
 
     @Override
     public List<Message> findAll() {
-        return Collections.unmodifiableList(new ArrayList<>(messageDb.values()));
+        return messageDb.values().stream()
+            .sorted(Comparator.comparing(Message::getCreatedAt)).toList();
     }
 
     @Override

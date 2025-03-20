@@ -10,7 +10,7 @@ import lombok.ToString;
 
 @Getter
 @ToString
-public class Message implements Serializable {
+public class Message implements Serializable, Comparable<Message> {
 
     private static final long serialVersionUID = 1L;
 
@@ -47,5 +47,10 @@ public class Message implements Serializable {
 
     public void updateImages(UUID imageId) {
         this.attachedImageIds.add(imageId);
+    }
+
+    @Override
+    public int compareTo(Message message) {
+        return this.createdAt.compareTo(message.createdAt);
     }
 }
