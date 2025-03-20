@@ -10,7 +10,7 @@ import lombok.ToString;
 
 @Getter
 @ToString
-public class User implements Serializable {
+public class User implements Serializable, Comparable<User> {
 
     private static final long serialVersionUID = 1L;
 
@@ -44,5 +44,10 @@ public class User implements Serializable {
 
     public void updateProfileImageId(UUID profileImageId) {
         this.profileImageId = profileImageId;
+    }
+
+    @Override
+    public int compareTo(User other) {
+        return this.name.compareTo(other.name);
     }
 }

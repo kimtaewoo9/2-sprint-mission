@@ -2,8 +2,7 @@ package com.sprint.mission.discodeit.repository.jcf;
 
 import com.sprint.mission.discodeit.entity.User;
 import com.sprint.mission.discodeit.repository.UserRepository;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +46,8 @@ public class JCFUserRepository implements UserRepository {
 
     @Override
     public List<User> findAll() {
-        return Collections.unmodifiableList(new ArrayList<>(userDb.values()));
+        return userDb.values().stream()
+            .sorted(Comparator.comparing(User::getName)).toList();
     }
 
     @Override
