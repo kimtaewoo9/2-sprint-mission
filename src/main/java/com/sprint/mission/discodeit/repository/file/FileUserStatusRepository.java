@@ -17,7 +17,7 @@ public class FileUserStatusRepository implements UserStatusRepository {
 
     public FileUserStatusRepository() {
         this.userStatusDirectory = FileUtils.baseDirectory.resolve("users");
-        FileUtils.init(userStatusDirectory);
+        FileUtils.initializeDirectory(userStatusDirectory);
     }
 
     @Override

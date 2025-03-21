@@ -16,7 +16,7 @@ public class FileUtils {
     public static final Path baseDirectory = Paths.get(System.getProperty("user.dir"))
         .resolve("data");
 
-    public static void init(Path directory) {
+    public static void initializeDirectory(Path directory) {
         if (!Files.exists(directory)) {
             try {
                 Files.createDirectories(directory);

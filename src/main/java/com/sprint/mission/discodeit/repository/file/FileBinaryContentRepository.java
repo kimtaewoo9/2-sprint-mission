@@ -17,7 +17,7 @@ public class FileBinaryContentRepository implements BinaryContentRepository {
 
     public FileBinaryContentRepository() {
         this.binaryContentDirectory = FileUtils.baseDirectory.resolve("binaryContents");
-        FileUtils.init(binaryContentDirectory);
+        FileUtils.initializeDirectory(binaryContentDirectory);
     }
 
     @Override

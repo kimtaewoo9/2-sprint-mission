@@ -17,7 +17,7 @@ public class FileReadStatusRepository implements ReadStatusRepository {
 
     public FileReadStatusRepository() {
         this.readStatusDirectory = FileUtils.baseDirectory.resolve("readStatuses");
-        FileUtils.init(readStatusDirectory);
+        FileUtils.initializeDirectory(readStatusDirectory);
     }
 
     @Override

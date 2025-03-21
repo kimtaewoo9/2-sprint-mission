@@ -15,7 +15,7 @@ public class FileUserRepository implements UserRepository {
 
     public FileUserRepository() {
         this.userDirectory = FileUtils.baseDirectory.resolve("users");
-        FileUtils.init(userDirectory);
+        FileUtils.initializeDirectory(userDirectory);
     }
 
     @Override

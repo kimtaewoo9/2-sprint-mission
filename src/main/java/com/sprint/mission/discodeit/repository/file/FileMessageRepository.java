@@ -17,7 +17,7 @@ public class FileMessageRepository implements MessageRepository {
 
     public FileMessageRepository() {
         this.messageDirectory = FileUtils.baseDirectory.resolve("messages");
-        FileUtils.init(messageDirectory);
+        FileUtils.initializeDirectory(messageDirectory);
     }
 
     @Override

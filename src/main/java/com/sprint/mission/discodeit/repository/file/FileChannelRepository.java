@@ -17,7 +17,7 @@ public class FileChannelRepository implements ChannelRepository {
 
     public FileChannelRepository() {
         this.channelDirectory = FileUtils.baseDirectory.resolve("channels");
-        FileUtils.init(channelDirectory);
+        FileUtils.initializeDirectory(channelDirectory);
     }
 
     @Override
