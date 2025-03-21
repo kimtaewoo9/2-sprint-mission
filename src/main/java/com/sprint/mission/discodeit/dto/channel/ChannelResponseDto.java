@@ -22,9 +22,11 @@ public class ChannelResponseDto {
     private Instant lastMessageTimestamp;
     private List<UUID> userIds;
 
-    public static ChannelResponseDto from(Channel channel, Instant lastMessageTimestamp, List<UUID> userIds){
+    public static ChannelResponseDto from(Channel channel, Instant lastMessageTimestamp,
+        List<UUID> userIds) {
         ChannelResponseDto response = new ChannelResponseDto();
         response.setChannelId(channel.getId());
+        response.setName(channel.getName());
         response.setChannelType(channel.getType());
         response.setCreatedAt(channel.getCreatedAt());
         response.setUpdatedAt(channel.getUpdatedAt());

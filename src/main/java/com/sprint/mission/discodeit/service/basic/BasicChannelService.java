@@ -41,7 +41,6 @@ public class BasicChannelService implements ChannelService {
     public UUID createPrivateChannel(CreateChannelRequest request, List<UUID> userIds) {
         Channel channel = new Channel(null, ChannelType.PRIVATE);
 
-        //  read status -> 사용자가 채널 별 마지막으로 메시지를 읽은 시간을 표현하는 도메인 모델입니다. 사용자별 각 채널에 읽지 않은 메시지를 확인하기 위해 활용합니다
         for (UUID userId : userIds) {
             User user = userRepository.findByUserId(userId);
             ReadStatus readStatus = new ReadStatus(channel.getId(), user.getId());
@@ -129,5 +128,11 @@ public class BasicChannelService implements ChannelService {
             forEach(rs -> readStatusRepository.delete(rs.getId()));
 
         channelRepository.delete(channelId);
+    }
+
+    @Override
+    public void addUser(UUID channelId, UUID userId) {
+        Channel channel = channelRepository.findByChannelId(channelId);
+        channel.addUser(userId);
     }
 }

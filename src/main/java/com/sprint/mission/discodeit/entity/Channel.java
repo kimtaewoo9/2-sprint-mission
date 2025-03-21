@@ -46,4 +46,8 @@ public class Channel implements Serializable {
         this.type = type;
         this.updatedAt = Instant.now();
     }
+
+    public void addUser(UUID userId) {
+        userIds.add(userId);
+    }
 }

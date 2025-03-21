@@ -20,5 +20,5 @@ public interface ChannelService {
 
     void remove(UUID channelId);
 
-    // 채널에 유저 추가, 채널에 있는 유저 삭제 구현
+    void addUser(UUID channelId, UUID userId);
 }
