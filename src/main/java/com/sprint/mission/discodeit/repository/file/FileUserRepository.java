@@ -6,11 +6,9 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Primary
 public class FileUserRepository implements UserRepository {
 
     private final Path userDirectory;
@@ -48,7 +46,7 @@ public class FileUserRepository implements UserRepository {
     public List<User> findAll() {
         return FileUtils.load(userDirectory);
     }
-    
+
     @Override
     public void delete(UUID userId) {
         Path userFile = userDirectory.resolve(userId.toString() + ".user");

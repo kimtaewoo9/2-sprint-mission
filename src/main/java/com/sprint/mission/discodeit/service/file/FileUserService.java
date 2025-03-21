@@ -31,7 +31,7 @@ public class FileUserService implements UserService {
         boolean emailCheck = userRepository.findAll().stream()
             .anyMatch(u -> u.getEmail().equals(request.getEmail()));
         if (emailCheck) {
-            throw new IllegalArgumentException("[ERROR]중복된 이메일 입니다.");
+            throw new IllegalArgumentException("[ERROR] 중복된 이메일 입니다.");
         }
 
         User user = new User(request.getName(), request.getEmail(), request.getPassword());

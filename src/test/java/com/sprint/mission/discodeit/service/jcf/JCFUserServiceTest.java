@@ -99,11 +99,13 @@ class JCFUserServiceTest {
         when(userRepository.findByUserId(userId)).thenReturn(user);
         when(userStatusRepository.findByUserId(userId)).thenReturn(userStatus);
 
-        User result = userRepository.findByUserId(userId);
+        UserResponseDto result = userService.findByUserId(userId);
 
         Assertions.assertThat(result).isNotNull();
-        Assertions.assertThat(result.getName()).isEqualTo("김태우");
-        Assertions.assertThat(result.getEmail()).isEqualTo("bezzi1654@kookmin.ac.kr");
+        Assertions.assertThat(result.getName()).
+            isEqualTo("김태우");
+        Assertions.assertThat(result.getEmail()).
+            isEqualTo("bezzi1654@kookmin.ac.kr");
     }
 
     @Test
