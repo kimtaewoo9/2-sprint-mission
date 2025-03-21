@@ -126,6 +126,25 @@ class JCFChannelServiceTest {
     }
 
     @Test
+    @DisplayName("채널에 유저를 추가하기")
+    void addUser() throws Exception {
+
+        // given
+        UUID userId1 = UUID.randomUUID();
+        UUID userId2 = UUID.randomUUID();
+        UUID userId3 = UUID.randomUUID();
+        Channel channel = new Channel("newChannel", ChannelType.PUBLIC);
+
+        // when
+        channel.addUser(userId1);
+        channel.addUser(userId2);
+        channel.addUser(userId3);
+
+        // then
+        Assertions.assertThat(channel.getUserIds()).hasSize(3);
+    }
+
+    @Test
     @DisplayName("channel에 접속한 경우 private도 보여야함")
     void 유저ID로_전체채널조회2() throws Exception {
         // findAll()로 전체 리스트 받아서, 모든 public channel + 자신이 속한 private channel 보여주기
@@ -228,5 +247,5 @@ class JCFChannelServiceTest {
 
     }
 
-    
+
 }
