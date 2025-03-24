@@ -29,7 +29,7 @@ public class UserStatus implements Serializable {
         return Instant.now().minusSeconds(5 * 60).isBefore(lastSeenAt);
     }
 
-    public void updateUpdatedAt(Instant lastSeenAt) {
-        this.lastSeenAt = lastSeenAt;
+    public void updateLastSeenAt(Instant lastSeenAt) {
+        this.lastSeenAt = lastSeenAt; // 사용자가 접속한 경우 이 값을 주기적으로 업데이트할 예정입니다.
     }
 }

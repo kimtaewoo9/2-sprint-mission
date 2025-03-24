@@ -53,8 +53,8 @@ public class BasicMessageService implements MessageService {
         for (CreateBinaryContentRequest binaryContentDto : binaryContents) {
             BinaryContent content = new BinaryContent(binaryContentDto.getBinaryImage());
 
-            binaryContentRepository.save(content);
             binaryContentIds.add(content.getId());
+            binaryContentRepository.save(content);
         }
 
         update(message.getId(),

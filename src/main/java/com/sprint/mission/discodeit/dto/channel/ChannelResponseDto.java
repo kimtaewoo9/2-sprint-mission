@@ -15,10 +15,10 @@ import lombok.NoArgsConstructor;
 public class ChannelResponseDto {
 
     private UUID channelId;
-    private Instant createdAt;
-    private Instant updatedAt;
     private String name;
     private ChannelType channelType;
+    private Instant createdAt;
+    private Instant updatedAt;
     private Instant lastMessageTimestamp;
     private List<UUID> userIds;
 

@@ -32,7 +32,7 @@ public class FileChannelService implements ChannelService {
     private final MessageRepository messageRepository;
 
     @Override
-    public UUID createPublicChannel(CreateChannelRequest request) {
+    public UUID create(CreateChannelRequest request) {
         Channel channel = new Channel(request.getChannelName(), ChannelType.PUBLIC);
         channelRepository.save(channel);
 
@@ -40,7 +40,7 @@ public class FileChannelService implements ChannelService {
     }
 
     @Override
-    public UUID createPrivateChannel(CreateChannelRequest request, List<UUID> userIds) {
+    public UUID create(CreateChannelRequest request, List<UUID> userIds) {
         Channel channel = new Channel(null, ChannelType.PRIVATE);
 
         for (UUID userId : userIds) {

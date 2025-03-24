@@ -53,8 +53,8 @@ public class JCFMessageService implements MessageService {
         for (CreateBinaryContentRequest binaryContentDto : binaryContents) {
             BinaryContent content = new BinaryContent(binaryContentDto.getBinaryImage());
 
-            binaryContentRepository.save(content);
             binaryContentIds.add(content.getId());
+            binaryContentRepository.save(content);
         }
 
         update(message.getId(),
@@ -91,7 +91,7 @@ public class JCFMessageService implements MessageService {
         for (UUID binaryContentId : binaryContentIds) {
             message.updateImages(binaryContentId);
         }
-        
+
         messageRepository.save(message);
     }
 
