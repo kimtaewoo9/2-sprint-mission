@@ -21,10 +21,12 @@ public class FileBinaryContentRepository implements BinaryContentRepository {
     }
 
     @Override
-    public void save(BinaryContent binaryContent) {
+    public UUID save(BinaryContent binaryContent) {
         Path binaryFile = binaryContentDirectory.resolve(
             binaryContent.getId().toString() + ".binaryContent");
         FileUtils.save(binaryFile, binaryContent);
+
+        return binaryContent.getId();
     }
 
     @Override

@@ -43,7 +43,17 @@ public class JCFUserRepository implements UserRepository {
                 return user;
             }
         }
-        throw new IllegalArgumentException("[ERROR]유효하지 않은 이름 입니다.");
+        throw new IllegalArgumentException("[ERROR] 유효하지 않은 이름 입니다.");
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        for (User user : findAll()) {
+            if (user.getEmail().equals(email)) {
+                return user;
+            }
+        }
+        throw new IllegalArgumentException("[ERROR] 유효하지 않은 이메일 입니다.");
     }
 
     @Override

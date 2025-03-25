@@ -1,13 +1,11 @@
 package com.sprint.mission.discodeit.dto.readstatus;
 
 import java.util.UUID;
-import lombok.Data;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.Data;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class CreateReadStatusRequest {
 
     private UUID channelId;

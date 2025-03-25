@@ -28,10 +28,14 @@ public class FileUserService implements UserService {
 
     @Override
     public UUID create(CreateUserRequest request) {
-        boolean emailCheck = userRepository.findAll().stream()
-            .anyMatch(u -> u.getEmail().equals(request.getEmail()));
-        if (emailCheck) {
-            throw new IllegalArgumentException("[ERROR] 중복된 이메일 입니다.");
+        String username = request.getName();
+        String email = request.getEmail();
+
+        if (userRepository.findByUserName(username) == null) {
+            throw new IllegalArgumentException("[ERROR] user name already exist");
+        }
+        if (userRepository.findByEmail(email) == null) {
+            throw new IllegalArgumentException("[ERROR] email already exist");
         }
 
         User user = new User(request.getName(), request.getEmail(), request.getPassword());
@@ -43,11 +47,21 @@ public class FileUserService implements UserService {
         return user.getId();
     }
 
-    public UUID create(CreateUserRequest request, UUID profileImageId) {
+    @Override
+    public UUID create(CreateUserRequest request, CreateBinaryContentRequest binaryContentRequest) {
         UUID uuid = create(request);
         User user = userRepository.findByUserId(uuid);
 
-        user.updateProfileImageId(profileImageId);
+        String fileName = binaryContentRequest.getName();
+        String contentType = binaryContentRequest.getContentType();
+        byte[] bytes = binaryContentRequest.getBytes();
+        long size = bytes.length;
+
+        BinaryContent binaryContent = new BinaryContent(fileName, size, contentType, bytes);
+        binaryContentRepository.save(binaryContent);
+
+        user.updateProfileImageId(binaryContent.getId());
+
         return user.getId();
     }
 
@@ -77,19 +91,17 @@ public class FileUserService implements UserService {
         return user.getId();
     }
 
+    @Override
     public UUID update(UUID userId, UpdateUserRequest request,
-        CreateBinaryContentRequest binaryContentDto) {
-        UUID uuid = update(userId, request);
+        UUID profileId) {
 
-        User user = userRepository.findByUserId(uuid);
+        UUID findUser = update(userId, request);
 
+        User user = userRepository.findByUserId(findUser);
         binaryContentRepository.delete(user.getProfileImageId());
 
-        BinaryContent newBinaryContent = new BinaryContent(binaryContentDto.getBinaryImage());
-        binaryContentRepository.save(newBinaryContent);
-        user.updateProfileImageId(newBinaryContent.getId());
-
-        return uuid;
+        user.updateProfileImageId(profileId);
+        return user.getId();
     }
 
     @Override

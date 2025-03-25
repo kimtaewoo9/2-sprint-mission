@@ -21,7 +21,7 @@ public class FileUtils {
             try {
                 Files.createDirectories(directory);
             } catch (IOException e) {
-                throw new RuntimeException("[ERROR]파일 생성 중 오류가 발생했습니다.");
+                throw new RuntimeException("[ERROR] 파일 생성 중 오류가 발생했습니다.");
             }
         }
     }
@@ -33,7 +33,7 @@ public class FileUtils {
         ) {
             oos.writeObject(data);
         } catch (IOException e) {
-            throw new RuntimeException("[ERROR]파일 저장 실패 : " + filePath, e);
+            throw new RuntimeException("[ERROR] 파일 저장 실패 : " + filePath, e);
         }
     }
 
@@ -46,7 +46,7 @@ public class FileUtils {
                 Object data = ois.readObject();
                 return (T) data;
             } catch (IOException | ClassNotFoundException e) {
-                throw new RuntimeException("[ERROR]파일 로드 중 오류 발생");
+                throw new RuntimeException("[ERROR] 파일 로드 중 오류 발생");
             }
         }
         return null;
@@ -64,14 +64,14 @@ public class FileUtils {
                             Object data = ois.readObject();
                             return (T) data;
                         } catch (IOException | ClassNotFoundException e) {
-                            throw new RuntimeException("[ERROR]파일 불러오기 중 오류가 발생했습니다.");
+                            throw new RuntimeException("[ERROR] 파일 불러오기 중 오류가 발생했습니다.");
                         }
                     })
                     .sorted()
                     .toList();
                 return list;
             } catch (IOException e) {
-                throw new RuntimeException("[ERROR]파일 불러오기 중 오류가 발생했습니다.");
+                throw new RuntimeException("[ERROR] 파일 불러오기 중 오류가 발생했습니다.");
             }
         } else {
             return new ArrayList<>();
@@ -86,7 +86,7 @@ public class FileUtils {
             }
             return false;
         } catch (IOException e) {
-            throw new RuntimeException("[ERROR]파일 삭제 중 오류가 발생했습니다.", e);
+            throw new RuntimeException("[ERROR] 파일 삭제 중 오류가 발생했습니다.", e);
         }
     }
 }

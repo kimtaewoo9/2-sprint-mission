@@ -1,12 +1,10 @@
 package com.sprint.mission.discodeit.dto.user;
 
-import lombok.Data;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.Data;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class CreateUserRequest {
 
     private String name;

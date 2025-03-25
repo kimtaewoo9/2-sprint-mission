@@ -15,8 +15,9 @@ public class JCFBinaryContentRepository implements BinaryContentRepository {
     private final Map<UUID, BinaryContent> store = new HashMap<>();
 
     @Override
-    public void save(BinaryContent binaryContent) {
+    public UUID save(BinaryContent binaryContent) {
         store.put(binaryContent.getId(), binaryContent);
+        return binaryContent.getId();
     }
 
     @Override

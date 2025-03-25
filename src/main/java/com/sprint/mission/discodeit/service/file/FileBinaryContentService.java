@@ -16,10 +16,20 @@ public class FileBinaryContentService implements BinaryContentService {
     private final BinaryContentRepository binaryContentRepository;
 
     @Override
-    public void create(CreateBinaryContentRequest binaryContentRequest) {
-        BinaryContent binaryContent = new BinaryContent(binaryContentRequest.getBinaryImage());
+    public UUID create(CreateBinaryContentRequest request) {
+        String fileName = request.getName();
+        String contentType = request.getContentType();
+        byte[] bytes = request.getBytes();
 
-        binaryContentRepository.save(binaryContent);
+        BinaryContent binaryContent =
+            new BinaryContent(
+                fileName,
+                (long) bytes.length,
+                contentType,
+                bytes
+            );
+
+        return binaryContentRepository.save(binaryContent);
     }
 
     @Override
