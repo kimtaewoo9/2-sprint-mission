@@ -81,8 +81,21 @@ public class BasicUserService implements UserService {
     @Override
     public UUID update(UUID userId, UpdateUserRequest request) {
         User user = userRepository.findByUserId(userId);
-        user.updateName(request.getName());
-        user.updateEmail(request.getEmail());
+
+        String username = request.getName();
+        String email = request.getEmail();
+        if (userRepository.existsByUsername(username)) {
+            throw new IllegalArgumentException("[ERROR] already exist");
+        }
+        if (userRepository.existByEmail(email)) {
+            throw new IllegalArgumentException("[ERROR] already exist");
+        }
+
+        String password = request.getPassword();
+
+        user.updateName(username);
+        user.updateEmail(email);
+        user.updatePassword(password);
 
         userRepository.save(user);
 
@@ -91,14 +104,25 @@ public class BasicUserService implements UserService {
 
     @Override
     public UUID update(UUID userId, UpdateUserRequest request,
-        UUID profileId) {
+        CreateBinaryContentRequest binaryContentRequest) {
 
         UUID findUser = update(userId, request);
 
         User user = userRepository.findByUserId(findUser);
         binaryContentRepository.delete(user.getProfileImageId());
 
-        user.updateProfileImageId(profileId);
+        String fileName = binaryContentRequest.getName();
+        String contentType = binaryContentRequest.getContentType();
+        byte[] bytes = binaryContentRequest.getBytes();
+        long length = bytes.length;
+
+        BinaryContent binaryContent = new BinaryContent(fileName,
+            length,
+            contentType,
+            bytes);
+
+        user.updateProfileImageId(binaryContent.getId());
+
         return user.getId();
     }
 

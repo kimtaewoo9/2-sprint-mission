@@ -20,7 +20,7 @@ public interface UserService {
     UUID update(UUID userId, UpdateUserRequest request);
 
     UUID update(UUID userId, UpdateUserRequest request,
-        UUID profileId);
+        CreateBinaryContentRequest binaryContentRequest);
 
     void remove(UUID userId);
 }
