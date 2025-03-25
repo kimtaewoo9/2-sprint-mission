@@ -103,10 +103,10 @@ public class DiscodeitApplication {
 
                 UUID uuid = null;
                 if (channelType == ChannelType.PUBLIC) {
-                    uuid = channelService.createPublicChannel(
+                    uuid = channelService.create(
                         new CreateChannelRequest(channelName, channelType));
                 } else {
-                    uuid = channelService.createPrivateChannel(
+                    uuid = channelService.create(
                         // [ ] 채널에 참여하는 User의 정보를 받아 User 별 ReadStatus 정보를 생성합니다.
                         new CreateChannelRequest(channelName, channelType), null);
                 }

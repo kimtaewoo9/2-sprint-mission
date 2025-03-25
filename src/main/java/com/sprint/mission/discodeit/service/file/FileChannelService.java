@@ -6,7 +6,6 @@ import com.sprint.mission.discodeit.dto.channel.UpdateChannelRequest;
 import com.sprint.mission.discodeit.entity.Channel;
 import com.sprint.mission.discodeit.entity.ChannelType;
 import com.sprint.mission.discodeit.entity.Message;
-import com.sprint.mission.discodeit.entity.User;
 import com.sprint.mission.discodeit.entity.status.ReadStatus;
 import com.sprint.mission.discodeit.repository.ChannelRepository;
 import com.sprint.mission.discodeit.repository.MessageRepository;
@@ -44,11 +43,10 @@ public class FileChannelService implements ChannelService {
         Channel channel = new Channel(null, ChannelType.PRIVATE);
 
         for (UUID userId : userIds) {
-            User user = userRepository.findByUserId(userId);
-            ReadStatus readStatus = new ReadStatus(channel.getId(), user.getId());
+            ReadStatus readStatus = new ReadStatus(channel.getId(), userId);
             readStatusRepository.save(readStatus);
 
-            channel.getUserIds().add(user.getId());
+            channel.getUserIds().add(userId);
         }
         channelRepository.save(channel);
 
@@ -136,5 +134,6 @@ public class FileChannelService implements ChannelService {
     public void addUser(UUID channelId, UUID userId) {
         Channel channel = channelRepository.findByChannelId(channelId);
         channel.addUser(userId);
+        channelRepository.save(channel);
     }
 }

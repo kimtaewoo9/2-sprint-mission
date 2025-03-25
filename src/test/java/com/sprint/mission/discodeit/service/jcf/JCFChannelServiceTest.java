@@ -56,7 +56,7 @@ class JCFChannelServiceTest {
         );
 
         // when
-        UUID channelId = channelService.createPublicChannel(request);
+        UUID channelId = channelService.create(request);
 
         // then
         verify(channelRepository).save(any(Channel.class));
@@ -74,7 +74,7 @@ class JCFChannelServiceTest {
         List<UUID> userIds = List.of(UUID.randomUUID(), UUID.randomUUID());
 
         // when
-        UUID channelId = channelService.createPrivateChannel(request, userIds);
+        UUID channelId = channelService.create(request, userIds);
 
         // then
         verify(channelRepository).save(any(Channel.class));
@@ -102,30 +102,6 @@ class JCFChannelServiceTest {
     }
 
     @Test
-    @DisplayName("유저 ID로 전체 채널 조회")
-    void 유저ID로_전체채널조회() throws Exception {
-        // findAll()로 전체 리스트 받아서, 모든 public channel + 자신이 속한 private channel 보여주기
-
-        //given
-        UUID userId = UUID.randomUUID();
-        List<Channel> channels = Arrays.asList(
-            new Channel("채널1", ChannelType.PUBLIC),
-            new Channel("채널2", ChannelType.PUBLIC),
-            new Channel("채널3", ChannelType.PUBLIC),
-            new Channel("채널4", ChannelType.PRIVATE)
-        );
-        // 채널 4는 보이면 안됨 .
-        when(channelRepository.findAll()).thenReturn(channels);
-
-        // when
-        List<ChannelResponseDto> result = channelService.findAllByUserId(userId);
-
-        // then
-        verify(channelRepository).findAll(); // findAll이 실행되어야하고.
-        Assertions.assertThat(result).hasSize(3); // result는 Public만 보여야함.
-    }
-
-    @Test
     @DisplayName("채널에 유저를 추가하기")
     void addUser() throws Exception {
 
@@ -142,6 +118,29 @@ class JCFChannelServiceTest {
 
         // then
         Assertions.assertThat(channel.getUserIds()).hasSize(3);
+    }
+
+    @Test
+    @DisplayName("유저 ID로 전체 채널 조회")
+    void 유저ID로_전체채널조회() throws Exception {
+        // findAll()로 전체 리스트 받아서, 모든 public channel + 자신이 속한 private channel 보여주기
+
+        //given
+        UUID userId = UUID.randomUUID();
+        List<Channel> channels = Arrays.asList(
+            new Channel("채널1", ChannelType.PUBLIC),
+            new Channel("채널2", ChannelType.PUBLIC),
+            new Channel("채널3", ChannelType.PUBLIC),
+            new Channel("채널4", ChannelType.PRIVATE)
+        );
+        when(channelRepository.findAll()).thenReturn(channels);
+
+        // when
+        List<ChannelResponseDto> result = channelService.findAllByUserId(userId);
+
+        // then
+        verify(channelRepository).findAll(); // findAll이 실행되어야하고.
+        Assertions.assertThat(result).hasSize(3); // result는 Public만 보여야함.
     }
 
     @Test
