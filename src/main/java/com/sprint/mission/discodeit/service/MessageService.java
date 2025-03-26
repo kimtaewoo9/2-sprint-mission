@@ -1,5 +1,6 @@
 package com.sprint.mission.discodeit.service;
 
+import com.sprint.mission.discodeit.dto.binarycontent.CreateBinaryContentRequest;
 import com.sprint.mission.discodeit.dto.message.CreateMessageRequest;
 import com.sprint.mission.discodeit.dto.message.MessageResponseDto;
 import com.sprint.mission.discodeit.dto.message.UpdateMessageRequest;
@@ -10,6 +11,9 @@ import java.util.UUID;
 public interface MessageService {
 
     void create(CreateMessageRequest request);
+
+    void create(CreateMessageRequest request,
+        List<CreateBinaryContentRequest> binaryContents);
 
     Message findById(UUID messageId);
 

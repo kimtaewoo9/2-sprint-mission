@@ -36,8 +36,10 @@ public class BasicMessageService implements MessageService {
         messageRepository.save(message);
     }
 
+    @Override
     public void create(CreateMessageRequest request,
         List<CreateBinaryContentRequest> binaryContents) {
+
         validateContent(request.getContent());
         validateUserIdAndChannelId(request.getSenderId(), request.getChannelId());
 
@@ -51,7 +53,17 @@ public class BasicMessageService implements MessageService {
 
         List<UUID> binaryContentIds = new ArrayList<>();
         for (CreateBinaryContentRequest binaryContentDto : binaryContents) {
-            BinaryContent content = new BinaryContent(binaryContentDto.getBinaryImage());
+            String name = binaryContentDto.getName();
+            String contentType = binaryContentDto.getContentType();
+            byte[] bytes = binaryContentDto.getBytes();
+            int size = bytes.length;
+
+            BinaryContent content = new BinaryContent(
+                name,
+                size,
+                contentType,
+                bytes
+            );
 
             binaryContentIds.add(content.getId());
             binaryContentRepository.save(content);
@@ -82,11 +94,14 @@ public class BasicMessageService implements MessageService {
     @Override
     public void update(UUID messageId, UpdateMessageRequest request) {
         Message message = findById(messageId);
+
         if (message == null) {
             throw new IllegalArgumentException("[ERROR] message id not found");
         }
 
-        message.updateContent(request.getContent());
+        String content = request.getContent();
+        message.updateContent(content);
+
         List<UUID> binaryContentIds = request.getBinaryContentIds();
         for (UUID binaryContentId : binaryContentIds) {
             message.updateImages(binaryContentId);
@@ -100,8 +115,8 @@ public class BasicMessageService implements MessageService {
         Message message = messageRepository.findByMessageId(messageId);
 
         List<UUID> attachedImageIds = message.getAttachedImageIds();
-        for (UUID id : attachedImageIds) {
-            binaryContentRepository.delete(id);
+        for (UUID attachedImageId : attachedImageIds) {
+            binaryContentRepository.delete(attachedImageId);
         }
 
         messageRepository.delete(messageId);
