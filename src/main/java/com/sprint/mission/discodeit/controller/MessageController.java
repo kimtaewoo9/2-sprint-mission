@@ -24,7 +24,7 @@ public class MessageController {
 
     private final MessageService messageService;
 
-    @GetMapping("/findAll}")
+    @GetMapping("/findAll")
     public ResponseEntity<List<MessageResponseDto>> getMessages(@PathVariable UUID channelId) {
         List<MessageResponseDto> messageResponseDtos = messageService.findByChannelId(channelId);
 

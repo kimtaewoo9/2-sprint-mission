@@ -16,7 +16,7 @@ public class UserResponseDto {
     private String username;
     private String email;
     private UUID profileId;
-    private boolean isOnline;
+    private boolean online;
 
     public static UserResponseDto from(User user, boolean isOnline) {
         return new UserResponseDto(

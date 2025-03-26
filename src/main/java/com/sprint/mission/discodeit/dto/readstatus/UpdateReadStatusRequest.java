@@ -1,6 +1,6 @@
 package com.sprint.mission.discodeit.dto.readstatus;
 
-import java.util.UUID;
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -8,6 +8,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class UpdateReadStatusRequest {
 
-    private UUID channelId;
-    private UUID userId;
+    private Instant newLastLeadAt;
 }

@@ -30,9 +30,9 @@ public class UserController {
 
     @GetMapping("/findAll")
     public ResponseEntity<List<UserResponseDto>> getUserList() {
-        List<UserResponseDto> responseDtos = userService.findAll();
+        List<UserResponseDto> users = userService.findAll();
 
-        return ResponseEntity.ok(responseDtos);
+        return ResponseEntity.ok(users);
     }
 
     @GetMapping("/findAll/{userId}")

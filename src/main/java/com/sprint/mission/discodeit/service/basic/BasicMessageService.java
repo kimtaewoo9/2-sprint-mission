@@ -15,10 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Primary
 public class BasicMessageService implements MessageService {
 
     private final MessageRepository messageRepository;

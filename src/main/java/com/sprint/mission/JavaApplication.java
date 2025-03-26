@@ -37,12 +37,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.UUID;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class JavaApplication {
 
     public static void main(String[] args) {
+        SpringApplication.run(JavaApplication.class, args);
+
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
