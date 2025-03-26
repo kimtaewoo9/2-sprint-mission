@@ -29,7 +29,7 @@ public class BasicBinaryContentService implements BinaryContentService {
                 bytes
             );
 
-        return binaryContentRepository.save(binaryContent);
+        return binaryContent.getId();
     }
 
     @Override
