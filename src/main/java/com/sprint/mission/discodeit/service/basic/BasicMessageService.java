@@ -27,17 +27,19 @@ public class BasicMessageService implements MessageService {
     private final BinaryContentRepository binaryContentRepository;
 
     @Override
-    public void create(CreateMessageRequest request) {
+    public UUID create(CreateMessageRequest request) {
         validateContent(request.getContent());
         validateUserIdAndChannelId(request.getSenderId(), request.getChannelId());
 
         Message message = new Message(request.getContent(), request.getSenderId(),
             request.getChannelId());
         messageRepository.save(message);
+
+        return message.getId();
     }
 
     @Override
-    public void create(CreateMessageRequest request,
+    public UUID create(CreateMessageRequest request,
         List<CreateBinaryContentRequest> binaryContents) {
 
         validateContent(request.getContent());
@@ -71,11 +73,16 @@ public class BasicMessageService implements MessageService {
 
         update(message.getId(),
             new UpdateMessageRequest(message.getContent(), binaryContentIds));
+
+        return message.getId();
     }
 
     @Override
-    public Message findById(UUID messageId) {
-        return messageRepository.findByMessageId(messageId);
+    public MessageResponseDto findById(UUID messageId) {
+        Message message = messageRepository.findByMessageId(messageId);
+        MessageResponseDto messageResponseDto = MessageResponseDto.from(message);
+
+        return messageResponseDto;
     }
 
     @Override
@@ -93,7 +100,7 @@ public class BasicMessageService implements MessageService {
 
     @Override
     public void update(UUID messageId, UpdateMessageRequest request) {
-        Message message = findById(messageId);
+        Message message = messageRepository.findByMessageId(messageId);
 
         if (message == null) {
             throw new IllegalArgumentException("[ERROR] message id not found");

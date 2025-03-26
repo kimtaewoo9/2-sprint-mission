@@ -26,7 +26,7 @@ public class ChannelController {
 
     private final ChannelService channelService;
 
-    @GetMapping("findAll/{userId}}")
+    @GetMapping("/findAll/{userId}}")
     public ResponseEntity<List<ChannelResponseDto>> channelList(@PathVariable UUID userId) {
         List<ChannelResponseDto> channelResponseDtos = channelService.findAllByUserId(userId);
 
@@ -69,7 +69,7 @@ public class ChannelController {
         @PathVariable UUID channelId
     ) {
         channelService.remove(channelId);
-        
+
         return ResponseEntity.noContent().build();
     }
 }
