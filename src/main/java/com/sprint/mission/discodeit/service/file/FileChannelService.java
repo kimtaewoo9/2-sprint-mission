@@ -10,7 +10,6 @@ import com.sprint.mission.discodeit.entity.status.ReadStatus;
 import com.sprint.mission.discodeit.repository.ChannelRepository;
 import com.sprint.mission.discodeit.repository.MessageRepository;
 import com.sprint.mission.discodeit.repository.ReadStatusRepository;
-import com.sprint.mission.discodeit.repository.UserRepository;
 import com.sprint.mission.discodeit.service.ChannelService;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -26,21 +25,23 @@ import org.springframework.stereotype.Service;
 public class FileChannelService implements ChannelService {
 
     private final ChannelRepository channelRepository;
-    private final UserRepository userRepository;
     private final ReadStatusRepository readStatusRepository;
     private final MessageRepository messageRepository;
 
     @Override
-    public UUID create(CreateChannelRequest request) {
-        Channel channel = new Channel(request.getChannelName(), ChannelType.PUBLIC);
+    public UUID createPublicChannel(CreateChannelRequest request) {
+        String name = request.getChannelName();
+        Channel channel = new Channel(name, ChannelType.PUBLIC);
+
         channelRepository.save(channel);
 
         return channel.getId();
     }
 
     @Override
-    public UUID create(CreateChannelRequest request, List<UUID> userIds) {
-        Channel channel = new Channel(null, ChannelType.PRIVATE);
+    public UUID createPrivateChannel(CreateChannelRequest request, List<UUID> userIds) {
+        String name = request.getChannelName();
+        Channel channel = new Channel(name, ChannelType.PRIVATE);
 
         for (UUID userId : userIds) {
             ReadStatus readStatus = new ReadStatus(channel.getId(), userId);
@@ -48,6 +49,7 @@ public class FileChannelService implements ChannelService {
 
             channel.getUserIds().add(userId);
         }
+
         channelRepository.save(channel);
 
         return channel.getId();
@@ -86,8 +88,7 @@ public class FileChannelService implements ChannelService {
 
             List<UUID> userIds = null;
             if (channel.getType() == ChannelType.PRIVATE) {
-                userIds = new ArrayList<>();
-                userIds.addAll(channel.getUserIds());
+                userIds = new ArrayList<>(channel.getUserIds());
             }
 
             channelResponseDtos.add(
@@ -108,8 +109,9 @@ public class FileChannelService implements ChannelService {
             throw new IllegalArgumentException("[ERROR] private channel cannot be modified");
         }
 
-        channel.updateName(request.getChannelName());
-        channel.updateChannelType(request.getChannelType());
+        String newName = request.getChannelName();
+
+        channel.updateName(newName);
 
         channelRepository.save(channel);
     }
