@@ -62,4 +62,16 @@ public class FileUserRepository implements UserRepository {
         Path userFile = userDirectory.resolve(userId.toString() + ".user");
         FileUtils.delete(userFile);
     }
+
+    @Override
+    public boolean existsByUsername(String username) {
+        return findAll().stream()
+            .anyMatch(u -> u.getName().equals(username));
+    }
+
+    @Override
+    public boolean existByEmail(String email) {
+        return findAll().stream()
+            .anyMatch(u -> u.getEmail().equals(email));
+    }
 }

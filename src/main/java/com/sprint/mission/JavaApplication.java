@@ -37,7 +37,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.UUID;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@SpringBootApplication
 public class JavaApplication {
 
     public static void main(String[] args) {
@@ -217,7 +219,10 @@ public class JavaApplication {
                 System.out.println("조회하실 메시지의 ID를 입력하세요.");
                 UUID messageId = UUID.fromString(sc.nextLine());
 
-                Message message = messageService.findById(messageId);
+                MessageResponseDto responseDto = messageService.findById(messageId);
+
+                Message message = new Message(responseDto.getContent(), responseDto.getSenderId(),
+                    responseDto.getChannelId());
                 System.out.println(message);
             } else if (selected == MANAGE_MESSAGE.FIND_ALL_MESSAGE) {
                 System.out.println("모든 메시지를 출력합니다.");
@@ -300,7 +305,7 @@ public class JavaApplication {
 
                 UserResponseDto responseDto = userService.findByUserId(userId);
 
-                System.out.println("사용자 ID: " + responseDto.getName());
+                System.out.println("사용자 ID: " + responseDto.getUsername());
                 System.out.println("사용자 email: " + responseDto.getEmail());
 
             } else if (selected == MANAGE_USER.FIND_ALL_USER) {
@@ -312,7 +317,7 @@ public class JavaApplication {
                 System.out.println("모든 사용자를 출력합니다.");
 
                 for (UserResponseDto user : users) {
-                    System.out.printf("user name : %s, ", user.getName());
+                    System.out.printf("user name : %s, ", user.getUsername());
                     System.out.printf("user ID : %s%n", user.getId());
                 }
             } else if (selected == MANAGE_USER.UPDATE_USER) {

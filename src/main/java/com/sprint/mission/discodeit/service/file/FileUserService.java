@@ -55,7 +55,7 @@ public class FileUserService implements UserService {
         String fileName = binaryContentRequest.getName();
         String contentType = binaryContentRequest.getContentType();
         byte[] bytes = binaryContentRequest.getBytes();
-        long size = bytes.length;
+        int size = bytes.length;
 
         BinaryContent binaryContent = new BinaryContent(fileName, size, contentType, bytes);
         binaryContentRepository.save(binaryContent);
@@ -116,7 +116,7 @@ public class FileUserService implements UserService {
         String fileName = binaryContentRequest.getName();
         String contentType = binaryContentRequest.getContentType();
         byte[] bytes = binaryContentRequest.getBytes();
-        long length = bytes.length;
+        int length = bytes.length;
 
         BinaryContent binaryContent = new BinaryContent(fileName,
             length,

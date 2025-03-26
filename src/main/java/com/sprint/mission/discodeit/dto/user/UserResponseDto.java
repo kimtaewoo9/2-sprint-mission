@@ -13,7 +13,7 @@ public class UserResponseDto {
     private UUID id;
     private Instant createdAt;
     private Instant updatedAt;
-    private String name;
+    private String username;
     private String email;
     private UUID profileId;
     private boolean isOnline;

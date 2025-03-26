@@ -24,7 +24,7 @@ public class JCFBinaryContentService implements BinaryContentService {
         BinaryContent binaryContent =
             new BinaryContent(
                 fileName,
-                (long) bytes.length,
+                bytes.length,
                 contentType,
                 bytes
             );
