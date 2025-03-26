@@ -4,7 +4,6 @@ import com.sprint.mission.discodeit.dto.binarycontent.CreateBinaryContentRequest
 import com.sprint.mission.discodeit.dto.user.CreateUserRequest;
 import com.sprint.mission.discodeit.dto.user.UpdateUserRequest;
 import com.sprint.mission.discodeit.dto.user.UserResponseDto;
-import com.sprint.mission.discodeit.service.BinaryContentService;
 import com.sprint.mission.discodeit.service.UserService;
 import java.io.IOException;
 import java.util.List;
@@ -23,21 +22,20 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
-    private final BinaryContentService binaryContentService;
 
-    @GetMapping
+    @GetMapping("/findAll")
     public ResponseEntity<List<UserResponseDto>> getUserList() {
         List<UserResponseDto> responseDtos = userService.findAll();
 
         return ResponseEntity.ok(responseDtos);
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/findAll/{userId}")
     public ResponseEntity<UserResponseDto> getUser(@PathVariable UUID userId) {
         UserResponseDto response = userService.findByUserId(userId);
 
@@ -94,7 +92,7 @@ public class UserController {
     @DeleteMapping("/{userId}")
     public ResponseEntity<?> delete(@PathVariable UUID userId) {
         userService.remove(userId);
-        
+
         return ResponseEntity.noContent().build();
     }
 }

@@ -1,7 +1,8 @@
 package com.sprint.mission.discodeit.service.file;
 
 import com.sprint.mission.discodeit.dto.channel.ChannelResponseDto;
-import com.sprint.mission.discodeit.dto.channel.CreateChannelRequest;
+import com.sprint.mission.discodeit.dto.channel.CreatePrivateChannelRequest;
+import com.sprint.mission.discodeit.dto.channel.CreatePublicChannelRequest;
 import com.sprint.mission.discodeit.dto.channel.UpdateChannelRequest;
 import com.sprint.mission.discodeit.entity.Channel;
 import com.sprint.mission.discodeit.entity.ChannelType;
@@ -29,7 +30,7 @@ public class FileChannelService implements ChannelService {
     private final MessageRepository messageRepository;
 
     @Override
-    public UUID createPublicChannel(CreateChannelRequest request) {
+    public UUID createPublicChannel(CreatePublicChannelRequest request) {
         String name = request.getChannelName();
         Channel channel = new Channel(name, ChannelType.PUBLIC);
 
@@ -39,9 +40,10 @@ public class FileChannelService implements ChannelService {
     }
 
     @Override
-    public UUID createPrivateChannel(CreateChannelRequest request, List<UUID> userIds) {
-        String name = request.getChannelName();
-        Channel channel = new Channel(name, ChannelType.PRIVATE);
+    public UUID createPrivateChannel(CreatePrivateChannelRequest request) {
+        Channel channel = new Channel(null, ChannelType.PRIVATE);
+
+        List<UUID> userIds = request.getParticipantIds();
 
         for (UUID userId : userIds) {
             ReadStatus readStatus = new ReadStatus(channel.getId(), userId);

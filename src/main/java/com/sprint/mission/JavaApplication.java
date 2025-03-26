@@ -1,7 +1,8 @@
 package com.sprint.mission;
 
 import com.sprint.mission.discodeit.dto.channel.ChannelResponseDto;
-import com.sprint.mission.discodeit.dto.channel.CreateChannelRequest;
+import com.sprint.mission.discodeit.dto.channel.CreatePrivateChannelRequest;
+import com.sprint.mission.discodeit.dto.channel.CreatePublicChannelRequest;
 import com.sprint.mission.discodeit.dto.channel.UpdateChannelRequest;
 import com.sprint.mission.discodeit.dto.message.CreateMessageRequest;
 import com.sprint.mission.discodeit.dto.message.MessageResponseDto;
@@ -71,7 +72,7 @@ public class JavaApplication {
 
     private static void channelView() {
         ChannelService channelService = new FileChannelService(new FileChannelRepository(),
-            new JCFUserRepository(), new FileReadStatusRepository(), new JCFMessageRepository());
+            new FileReadStatusRepository(), new JCFMessageRepository());
 
         Scanner sc = new Scanner(System.in);
         boolean run = true;
@@ -104,11 +105,12 @@ public class JavaApplication {
                 };
 
                 if (channelType == ChannelType.PUBLIC) {
-                    channelService.create(
-                        new CreateChannelRequest(channelName, channelType));
+                    channelService.createPublicChannel(
+                        new CreatePublicChannelRequest(channelName));
                 } else {
-                    channelService.create(
-                        new CreateChannelRequest(channelName, channelType), null);
+                    channelService.createPrivateChannel(
+                        new CreatePrivateChannelRequest(List.of())
+                    );
                 }
 
                 System.out.println("새로운 채널이 생성 되었습니다.");
@@ -153,7 +155,7 @@ public class JavaApplication {
                 } else {
                     channelType = ChannelType.PRIVATE;
                 }
-                channelService.update(uuid, new UpdateChannelRequest(newName, channelType));
+                channelService.update(uuid, new UpdateChannelRequest(newName));
                 System.out.println("채널 정보가 수정되었습니다.");
             } else if (selected == MANAGE_CHANNEL.DELETE_CHANNEL) {
                 System.out.println("삭제할 채널 ID를 입력하세요 : ");
@@ -173,11 +175,11 @@ public class JavaApplication {
         UserService userService = new JCFUserService(new JCFUserRepository(),
             new FileBinaryContentRepository(), new FileUserStatusRepository());
         ChannelService channelService = new FileChannelService(new FileChannelRepository(),
-            new JCFUserRepository(), new FileReadStatusRepository(), new JCFMessageRepository());
+            new FileReadStatusRepository(), new JCFMessageRepository());
         MessageService messageService = new FileMessageService(new FileMessageRepository(),
             new FileUserService(new FileUserRepository(), new FileBinaryContentRepository(),
                 new FileUserStatusRepository()),
-            new FileChannelService(new JCFChannelRepository(), new FileUserRepository(),
+            new FileChannelService(new JCFChannelRepository(),
                 new FileReadStatusRepository(), new FileMessageRepository()),
             new FileBinaryContentRepository());
 

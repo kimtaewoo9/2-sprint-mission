@@ -6,7 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.sprint.mission.discodeit.dto.channel.ChannelResponseDto;
-import com.sprint.mission.discodeit.dto.channel.CreateChannelRequest;
+import com.sprint.mission.discodeit.dto.channel.CreatePublicChannelRequest;
 import com.sprint.mission.discodeit.entity.Channel;
 import com.sprint.mission.discodeit.entity.ChannelType;
 import com.sprint.mission.discodeit.entity.User;
@@ -47,7 +47,7 @@ class FileChannelServiceTest {
     void createPublicChannel() {
 
         // given
-        CreateChannelRequest request = new CreateChannelRequest("newPublicChannel",
+        CreatePublicChannelRequest request = new CreatePublicChannelRequest("newPublicChannel",
             ChannelType.PUBLIC);
 
         // when
@@ -63,7 +63,7 @@ class FileChannelServiceTest {
     void createPrivateChannel() {
 
         // given
-        CreateChannelRequest request = new CreateChannelRequest("privateChannel",
+        CreatePublicChannelRequest request = new CreatePublicChannelRequest("privateChannel",
             ChannelType.PRIVATE);
         List<UUID> userIds = List.of(UUID.randomUUID(), UUID.randomUUID());
 
