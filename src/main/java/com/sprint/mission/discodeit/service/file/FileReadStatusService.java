@@ -71,6 +71,20 @@ public class FileReadStatusService implements ReadStatusService {
 
         ReadStatus readStatus = readStatusRepository.find(readStatusId);
         readStatus.update(newLastLeadAt);
+
+        readStatusRepository.save(readStatus);
+    }
+
+    @Override
+    public void updateByChannelId(UUID channelId, UpdateReadStatusRequest request) {
+        // 채널 내 모든 메시지 읽기
+        Instant newLastLeadAt = request.getNewLastLeadAt();
+
+        List<ReadStatus> readStatuses = readStatusRepository.findAllByChannelId(channelId);
+
+        for (ReadStatus readStatus : readStatuses) {
+            readStatus.update(newLastLeadAt);
+        }
     }
 
     @Override

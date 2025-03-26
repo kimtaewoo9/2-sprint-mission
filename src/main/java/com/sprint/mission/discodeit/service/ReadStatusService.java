@@ -20,5 +20,7 @@ public interface ReadStatusService {
 
     void update(UUID id, UpdateReadStatusRequest request);
 
+    void updateByChannelId(UUID channelId, UpdateReadStatusRequest request);
+
     void delete(UUID readStatusId);
 }
