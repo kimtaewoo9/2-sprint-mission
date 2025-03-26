@@ -2,27 +2,22 @@ package com.sprint.mission.discodeit.repository.file;
 
 import com.sprint.mission.discodeit.entity.Message;
 import com.sprint.mission.discodeit.repository.MessageRepository;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Repository;
 
+@Repository
+@Primary
 public class FileMessageRepository implements MessageRepository {
+
     private final Path messageDirectory;
 
-    private FileMessageRepository() {
-        this.messageDirectory = FileUtils.getBaseDirectory().resolve("messages");
-        FileUtils.init(messageDirectory);
-    }
-
-    private static class SingletonHolder{
-        private static final FileMessageRepository INSTANCE = new FileMessageRepository();
-    }
-
-    public static FileMessageRepository getInstance(){
-        return SingletonHolder.INSTANCE;
+    public FileMessageRepository() {
+        this.messageDirectory = FileUtils.baseDirectory.resolve("messages");
+        FileUtils.initializeDirectory(messageDirectory);
     }
 
     @Override
@@ -33,17 +28,11 @@ public class FileMessageRepository implements MessageRepository {
 
     @Override
     public Message findByMessageId(UUID messageId) {
-        Path messageFile = messageDirectory.resolve(messageId.toString() +".message");
-        return Optional.ofNullable((Message)FileUtils.loadById(messageFile))
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR]유효 하지 않은 아이디 입니다. id :" + messageId));
+        Path messageFile = messageDirectory.resolve(messageId.toString() + ".message");
+        return Optional.ofNullable((Message) FileUtils.loadById(messageFile))
+            .orElseThrow(
+                () -> new IllegalArgumentException("[ERROR]유효 하지 않은 아이디 입니다. id :" + messageId));
 
-    }
-
-    @Override
-    public Message update(UUID messageId, String newContent) {
-        Message message = findByMessageId(messageId);
-        message.update(newContent);
-        return message;
     }
 
     @Override
@@ -52,13 +41,14 @@ public class FileMessageRepository implements MessageRepository {
     }
 
     @Override
-    public void delete(UUID messageId) {
-        Path messageFile = messageDirectory.resolve(messageId.toString()+".message");
-        FileUtils.delete(messageFile);
+    public List<Message> findAllByChannelId(UUID channelId) {
+        return findAll().stream()
+            .filter(m -> m.getChannelId().equals(channelId)).toList();
     }
 
     @Override
-    public void clearDb() {
-        FileUtils.clearDirectory(messageDirectory);
+    public void delete(UUID messageId) {
+        Path messageFile = messageDirectory.resolve(messageId.toString() + ".message");
+        FileUtils.delete(messageFile);
     }
 }

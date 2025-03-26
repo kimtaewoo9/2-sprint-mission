@@ -5,10 +5,14 @@ import java.util.List;
 import java.util.UUID;
 
 public interface MessageRepository {
+
     void save(Message message);
+
     Message findByMessageId(UUID messageId);
-    Message update(UUID messageId, String newContent);
+
     List<Message> findAll();
+
+    List<Message> findAllByChannelId(UUID channelId);
+
     void delete(UUID id);
-    void clearDb();
 }

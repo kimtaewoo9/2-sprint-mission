@@ -2,27 +2,22 @@ package com.sprint.mission.discodeit.repository.file;
 
 import com.sprint.mission.discodeit.entity.Channel;
 import com.sprint.mission.discodeit.repository.ChannelRepository;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Repository;
 
+@Repository
+@Primary
 public class FileChannelRepository implements ChannelRepository {
+
     private final Path channelDirectory;
 
-    private FileChannelRepository() {
-        this.channelDirectory = FileUtils.getBaseDirectory().resolve("channels");
-        FileUtils.init(channelDirectory);
-    }
-
-    private static class SingletonHolder{
-        private static final FileChannelRepository INSTANCE = new FileChannelRepository();
-    }
-
-    public static FileChannelRepository getInstance(){
-        return SingletonHolder.INSTANCE;
+    public FileChannelRepository() {
+        this.channelDirectory = FileUtils.baseDirectory.resolve("channels");
+        FileUtils.initializeDirectory(channelDirectory);
     }
 
     @Override
@@ -34,8 +29,9 @@ public class FileChannelRepository implements ChannelRepository {
     @Override
     public Channel findByChannelId(UUID channelId) {
         Path channelFile = channelDirectory.resolve(channelId.toString() + ".channel");
-        return Optional.ofNullable((Channel)FileUtils.loadById(channelFile))
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR]유효 하지 않은 아이디 입니다. id : " + channelId));
+        return Optional.ofNullable((Channel) FileUtils.loadById(channelFile))
+            .orElseThrow(
+                () -> new IllegalArgumentException("[ERROR]유효 하지 않은 아이디 입니다. id : " + channelId));
     }
 
     @Override
@@ -44,20 +40,8 @@ public class FileChannelRepository implements ChannelRepository {
     }
 
     @Override
-    public Channel modify(UUID channelId, String channelName) {
-        Channel channel = findByChannelId(channelId);
-        channel.update(channelName);
-        return channel;
-    }
-
-    @Override
     public void delete(UUID channelId) {
-        Path channelFile = channelDirectory.resolve(channelId.toString()+".channel");
+        Path channelFile = channelDirectory.resolve(channelId.toString() + ".channel");
         FileUtils.delete(channelFile);
-    }
-
-    @Override
-    public void clearDb() {
-        FileUtils.clearDirectory(channelDirectory);
     }
 }

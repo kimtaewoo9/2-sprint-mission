@@ -1,52 +1,49 @@
 package com.sprint.mission.discodeit.entity;
 
 import java.io.Serializable;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.ToString;
 
 @Getter
-public class Message implements Serializable {
+@ToString
+public class Message implements Serializable, Comparable<Message> {
+
     private static final long serialVersionUID = 1L;
 
     private final UUID id;
-    private final Long createdAt;
-    private Long updatedAt;
-    private String content;
-
+    private final Instant createdAt;
     private final UUID senderId;
     private final UUID channelId;
+    private Instant updatedAt;
+    private String content;
+    private List<UUID> attachedImageIds;
 
     public Message(String content, UUID senderId, UUID channelId) {
         this.id = UUID.randomUUID();
-        this.createdAt = System.currentTimeMillis();
+        this.createdAt = Instant.now();
         this.updatedAt = this.createdAt;
 
         this.content = content;
         this.senderId = senderId;
         this.channelId = channelId;
+        this.attachedImageIds = new ArrayList<>();
     }
 
-    public void update(String newContent){
-        boolean anyValueUpdated = false;
-        if(newContent != null && !newContent.equals(this.content)){
-            this.content = newContent;
-            anyValueUpdated = true;
-        }
+    public void updateContent(String newContent) {
+        this.content = newContent;
+        this.updatedAt = Instant.now();
+    }
 
-        if(anyValueUpdated){
-            this.updatedAt = System.currentTimeMillis();
-        }
+    public void updateImages(UUID imageId) {
+        this.attachedImageIds.add(imageId);
     }
 
     @Override
-    public String toString() {
-        return "Message{" +
-                "id=" + id +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                ", content='" + content + '\'' +
-                ", sender='" + senderId + '\'' +
-                '}';
+    public int compareTo(Message message) {
+        return this.createdAt.compareTo(message.createdAt);
     }
 }

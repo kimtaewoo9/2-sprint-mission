@@ -5,10 +5,14 @@ import java.util.List;
 import java.util.UUID;
 
 public interface UserRepository {
+
     void save(User user);
+
     User findByUserId(UUID userID);
+
+    User findByUserName(String name);
+
     List<User> findAll();
-    User modify(UUID userId, String newName);
+
     void delete(UUID userId);
-    void clearDb();
 }

@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum MANAGE_USER {
-
+    
     CREATE_USER(1, "사용자 등록"),
     FIND_USER(2, "사용자 정보 조회"),
     FIND_ALL_USER(3, "모든 사용자 정보 조회"),
@@ -16,14 +16,14 @@ public enum MANAGE_USER {
     private final String text;
 
 
-    MANAGE_USER(int number, String text){
+    MANAGE_USER(int number, String text) {
         this.number = number;
         this.text = text;
     }
 
-    public static MANAGE_USER findByNumber(int number){
-        for(MANAGE_USER option : MANAGE_USER.values()){
-            if(number == option.number){
+    public static MANAGE_USER findByNumber(int number) {
+        for (MANAGE_USER option : MANAGE_USER.values()) {
+            if (number == option.number) {
                 return option;
             }
         }

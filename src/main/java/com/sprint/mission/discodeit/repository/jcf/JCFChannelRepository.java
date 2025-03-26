@@ -10,18 +10,17 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class JCFChannelRepository implements ChannelRepository {
+
     private static final Map<UUID, Channel> channelDb = new HashMap<>();
 
-    private static class SingletonHolder{
-        private static final JCFChannelRepository INSTANCE = new JCFChannelRepository();
-    }
-
-    private JCFChannelRepository(){};
-
-    public static JCFChannelRepository getInstance(){
-        return SingletonHolder.INSTANCE;
+    private static void validChannelId(UUID channelId) {
+        if (!channelDb.containsKey(channelId)) {
+            throw new NoSuchElementException("[ERROR]Channel ID Error");
+        }
     }
 
     @Override
@@ -32,7 +31,8 @@ public class JCFChannelRepository implements ChannelRepository {
     @Override
     public Channel findByChannelId(UUID channelId) {
         return Optional.ofNullable(channelDb.get(channelId))
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR]유효하지 않은 아이디 입니다. id : " + channelId));
+            .orElseThrow(
+                () -> new IllegalArgumentException("[ERROR]유효하지 않은 아이디 입니다. id : " + channelId));
     }
 
     @Override
@@ -41,27 +41,8 @@ public class JCFChannelRepository implements ChannelRepository {
     }
 
     @Override
-    public Channel modify(UUID channelId, String channelName) {
-        Channel channel = findByChannelId(channelId);
-        channel.update(channelName);
-
-        return channel;
-    }
-
-    @Override
     public void delete(UUID channelId) {
         validChannelId(channelId);
         channelDb.remove(channelId);
-    }
-
-    @Override
-    public void clearDb() {
-        channelDb.clear();
-    }
-
-    private static void validChannelId(UUID channelId) {
-        if(!channelDb.containsKey(channelId)){
-            throw new NoSuchElementException("[ERROR]Channel ID Error");
-        }
     }
 }
