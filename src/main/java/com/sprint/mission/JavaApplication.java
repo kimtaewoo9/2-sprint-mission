@@ -161,7 +161,7 @@ public class JavaApplication {
                 } else {
                     channelType = ChannelType.PRIVATE;
                 }
-                channelService.update(uuid, new UpdateChannelRequest(newName));
+                channelService.update(uuid, new UpdateChannelRequest(newName, "description"));
                 System.out.println("채널 정보가 수정되었습니다.");
             } else if (selected == MANAGE_CHANNEL.DELETE_CHANNEL) {
                 System.out.println("삭제할 채널 ID를 입력하세요 : ");

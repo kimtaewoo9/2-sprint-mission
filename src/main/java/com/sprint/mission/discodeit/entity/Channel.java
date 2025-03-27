@@ -40,7 +40,7 @@ public class Channel implements Serializable {
     }
 
     public void updateDescription(String description) {
-        this.name = description;
+        this.description = description;
         this.updatedAt = Instant.now();
     }
 

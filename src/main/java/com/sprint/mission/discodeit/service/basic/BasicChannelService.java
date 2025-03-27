@@ -134,7 +134,7 @@ public class BasicChannelService implements ChannelService {
         channel.updateName(newName);
         channel.updateDescription(newDescription);
 
-        channelRepository.save(channel);
+//        channelRepository.save(channel);
     }
 
     @Override
