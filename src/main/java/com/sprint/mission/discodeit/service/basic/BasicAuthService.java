@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Primary
 public class BasicAuthService implements AuthService {
 
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Override
     public UserResponseDto login(LoginForm form) {
