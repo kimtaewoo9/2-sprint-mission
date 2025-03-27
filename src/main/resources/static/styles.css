@@ -10,6 +10,9 @@ body {
 }
 
 .container {
+  display: flex;
+  justify-content: space-between; /* 좌우 간격 조정 */
+  align-items: flex-start; /* 상단 정렬 */
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
