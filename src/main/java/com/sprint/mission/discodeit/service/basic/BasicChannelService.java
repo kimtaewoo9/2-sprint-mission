@@ -129,8 +129,10 @@ public class BasicChannelService implements ChannelService {
         }
 
         String newName = request.getChannelName();
+        String newDescription = request.getDescription();
 
         channel.updateName(newName);
+        channel.updateDescription(newDescription);
 
         channelRepository.save(channel);
     }

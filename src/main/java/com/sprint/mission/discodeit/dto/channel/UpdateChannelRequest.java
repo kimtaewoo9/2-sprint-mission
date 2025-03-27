@@ -8,4 +8,5 @@ import lombok.Getter;
 public class UpdateChannelRequest {
 
     private String channelName;
+    private String description;
 }

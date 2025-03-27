@@ -31,8 +31,8 @@ public class BasicMessageService implements MessageService {
     @Override
     public UUID create(CreateMessageRequest request) {
         validateContent(request.getContent());
-        
-//        validateUserIdAndChannelId(request.getSenderId(), request.getChannelId());
+
+        validateUserIdAndChannelId(request.getSenderId(), request.getChannelId());
 
         Message message = new Message(request.getContent(), request.getSenderId(),
             request.getChannelId());
