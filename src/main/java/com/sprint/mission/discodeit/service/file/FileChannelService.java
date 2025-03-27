@@ -30,7 +30,8 @@ public class FileChannelService implements ChannelService {
     @Override
     public UUID createPublicChannel(CreatePublicChannelRequest request) {
         String name = request.getChannelName();
-        Channel channel = new Channel(name, ChannelType.PUBLIC);
+        String description = request.getDescription();
+        Channel channel = new Channel(name, description, ChannelType.PUBLIC);
 
         channelRepository.save(channel);
 
@@ -39,11 +40,12 @@ public class FileChannelService implements ChannelService {
 
     @Override
     public UUID createPrivateChannel(CreatePrivateChannelRequest request) {
-        Channel channel = new Channel(null, ChannelType.PRIVATE);
+        Channel channel = new Channel(null, null, ChannelType.PRIVATE);
 
         List<UUID> userIds = request.getParticipantIds();
 
         for (UUID userId : userIds) {
+
             ReadStatus readStatus = new ReadStatus(channel.getId(), userId);
             readStatusRepository.save(readStatus);
 

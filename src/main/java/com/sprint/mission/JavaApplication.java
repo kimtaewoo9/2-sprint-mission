@@ -111,10 +111,11 @@ public class JavaApplication {
 
                 if (channelType == ChannelType.PUBLIC) {
                     channelService.createPublicChannel(
-                        new CreatePublicChannelRequest(channelName));
+                        new CreatePublicChannelRequest(channelName, ChannelType.PUBLIC,
+                            "description"));
                 } else {
                     channelService.createPrivateChannel(
-                        new CreatePrivateChannelRequest(List.of())
+                        new CreatePrivateChannelRequest(List.of(), ChannelType.PRIVATE)
                     );
                 }
 
