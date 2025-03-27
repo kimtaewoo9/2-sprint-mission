@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class CreatePublicChannelRequest extends CreateChannelRequest {
+public class CreatePublicChannelRequest {
 
-    private String channelName;
+    private final String channelName;
 }

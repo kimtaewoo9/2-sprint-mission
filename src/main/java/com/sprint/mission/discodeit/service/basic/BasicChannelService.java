@@ -17,10 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Primary
 public class BasicChannelService implements ChannelService {
 
     private final ChannelRepository channelRepository;
@@ -44,6 +46,7 @@ public class BasicChannelService implements ChannelService {
         List<UUID> userIds = request.getParticipantIds();
 
         for (UUID userId : userIds) {
+
             ReadStatus readStatus = new ReadStatus(channel.getId(), userId);
             readStatusRepository.save(readStatus);
 

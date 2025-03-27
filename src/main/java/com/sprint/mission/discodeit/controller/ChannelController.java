@@ -1,7 +1,6 @@
 package com.sprint.mission.discodeit.controller;
 
 import com.sprint.mission.discodeit.dto.channel.ChannelResponseDto;
-import com.sprint.mission.discodeit.dto.channel.CreateChannelRequest;
 import com.sprint.mission.discodeit.dto.channel.CreatePrivateChannelRequest;
 import com.sprint.mission.discodeit.dto.channel.CreatePublicChannelRequest;
 import com.sprint.mission.discodeit.dto.channel.UpdateChannelRequest;
@@ -27,30 +26,33 @@ public class ChannelController {
     private final ChannelService channelService;
 
     @GetMapping("/findAll/{userId}")
-    public ResponseEntity<List<ChannelResponseDto>> channelList(@PathVariable UUID userId) {
+    public ResponseEntity<List<ChannelResponseDto>> getChannelListByUserId(
+        @PathVariable UUID userId) {
         List<ChannelResponseDto> channelResponseDtos = channelService.findAllByUserId(userId);
 
         return ResponseEntity.ok(channelResponseDtos);
     }
 
-    @PostMapping
+    @PostMapping("/public")
     public ResponseEntity<ChannelResponseDto> create(
-        @RequestBody CreateChannelRequest request
+        @RequestBody CreatePublicChannelRequest request
     ) {
 
-        if (request instanceof CreatePublicChannelRequest publicChannelRequest) {
-            UUID channelId = channelService.createPublicChannel(publicChannelRequest);
-            ChannelResponseDto response = channelService.findByChannelId(channelId);
+        UUID channelId = channelService.createPublicChannel(request);
+        ChannelResponseDto response = channelService.findByChannelId(channelId);
 
-            return ResponseEntity.ok(response);
-        } else if (request instanceof CreatePrivateChannelRequest privateChannelRequest) {
-            UUID channelId = channelService.createPrivateChannel(privateChannelRequest);
-            ChannelResponseDto response = channelService.findByChannelId(channelId);
+        return ResponseEntity.ok(response);
+    }
 
-            return ResponseEntity.ok(response);
-        }
+    @PostMapping("/private")
+    public ResponseEntity<ChannelResponseDto> create(
+        @RequestBody CreatePrivateChannelRequest request
+    ) {
 
-        throw new IllegalArgumentException("[ERROR] invalid channel type");
+        UUID channelId = channelService.createPrivateChannel(request);
+        ChannelResponseDto response = channelService.findByChannelId(channelId);
+
+        return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/{channelId}")

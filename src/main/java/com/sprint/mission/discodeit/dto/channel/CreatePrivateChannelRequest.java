@@ -5,9 +5,10 @@ import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+
 @Getter
 @AllArgsConstructor
-public class CreatePrivateChannelRequest extends CreateChannelRequest {
+public class CreatePrivateChannelRequest {
 
     private List<UUID> participantIds;
 }
