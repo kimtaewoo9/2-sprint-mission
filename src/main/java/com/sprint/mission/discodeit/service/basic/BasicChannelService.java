@@ -79,6 +79,21 @@ public class BasicChannelService implements ChannelService {
     }
 
     @Override
+    public List<ChannelResponseDto> findAll() {
+        List<ChannelResponseDto> channelResponseDtos = new ArrayList<>();
+
+        List<Channel> channels = channelRepository.findAll();
+        for (Channel channel : channels) {
+            ChannelResponseDto responseDto = ChannelResponseDto.from(channel,
+                getLastMessageTimestamp(channel.getId()),
+                channel.getUserIds());
+            channelResponseDtos.add(responseDto);
+        }
+
+        return channelResponseDtos;
+    }
+
+    @Override
     public List<ChannelResponseDto> findAllByUserId(UUID userId) {
         List<Channel> channels = channelRepository.findAll();
         List<ChannelResponseDto> channelResponseDtos = new ArrayList<>();

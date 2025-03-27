@@ -76,6 +76,19 @@ public class FileChannelService implements ChannelService {
     }
 
     @Override
+    public List<ChannelResponseDto> findAll() {
+        List<ChannelResponseDto> channelResponseDtos = new ArrayList<>();
+
+        List<Channel> channels = channelRepository.findAll();
+        for (Channel channel : channels) {
+            ChannelResponseDto.from(channel, getLastMessageTimestamp(channel.getId()),
+                channel.getUserIds());
+        }
+
+        return channelResponseDtos;
+    }
+
+    @Override
     public List<ChannelResponseDto> findAllByUserId(UUID userId) {
         List<Channel> channels = channelRepository.findAll();
         List<ChannelResponseDto> channelResponseDtos = new ArrayList<>();

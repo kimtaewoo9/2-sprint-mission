@@ -25,12 +25,19 @@ public class ChannelController {
 
     private final ChannelService channelService;
 
-    @GetMapping("/findAll/{userId}")
+    @GetMapping("/user/{userId}")
     public ResponseEntity<List<ChannelResponseDto>> getChannelListByUserId(
         @PathVariable UUID userId) {
-        List<ChannelResponseDto> channelResponseDtos = channelService.findAllByUserId(userId);
+        List<ChannelResponseDto> channelList = channelService.findAllByUserId(userId);
 
-        return ResponseEntity.ok(channelResponseDtos);
+        return ResponseEntity.ok(channelList);
+    }
+
+    @GetMapping("/findAll")
+    public ResponseEntity<List<ChannelResponseDto>> getAllChannels() {
+        List<ChannelResponseDto> channelList = channelService.findAll();
+
+        return ResponseEntity.ok(channelList);
     }
 
     @PostMapping("/public")

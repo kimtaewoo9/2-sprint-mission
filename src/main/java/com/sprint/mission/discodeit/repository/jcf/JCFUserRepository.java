@@ -59,7 +59,7 @@ public class JCFUserRepository implements UserRepository {
     @Override
     public List<User> findAll() {
         return userDb.values().stream()
-            .sorted(Comparator.comparing(User::getName)).toList();
+            .sorted(Comparator.comparing(User::getCreatedAt)).toList();
     }
 
     @Override

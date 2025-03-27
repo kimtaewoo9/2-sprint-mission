@@ -3,16 +3,17 @@ package com.sprint.mission.discodeit.repository.jcf;
 import com.sprint.mission.discodeit.entity.Channel;
 import com.sprint.mission.discodeit.repository.ChannelRepository;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@Primary
 public class JCFChannelRepository implements ChannelRepository {
 
     private static final Map<UUID, Channel> channelDb = new HashMap<>();
@@ -37,7 +38,7 @@ public class JCFChannelRepository implements ChannelRepository {
 
     @Override
     public List<Channel> findAll() {
-        return Collections.unmodifiableList(new ArrayList<>(channelDb.values()));
+        return new ArrayList<>(channelDb.values());
     }
 
     @Override
