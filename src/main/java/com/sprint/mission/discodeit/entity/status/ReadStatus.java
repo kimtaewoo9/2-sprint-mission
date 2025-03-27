@@ -7,6 +7,8 @@ import lombok.Getter;
 @Getter
 public class ReadStatus {
 
+    private static final long serialVersionUID = 1L;
+
     private UUID id;
     private Instant createAt;
     private Instant updatedAt;

@@ -14,11 +14,9 @@ import com.sprint.mission.discodeit.service.UserService;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 @Service
-@Primary
 @RequiredArgsConstructor
 public class FileUserService implements UserService {
 
@@ -31,10 +29,10 @@ public class FileUserService implements UserService {
         String username = request.getName();
         String email = request.getEmail();
 
-        if (userRepository.findByUserName(username) == null) {
+        if (userRepository.existsByUsername(username)) {
             throw new IllegalArgumentException("[ERROR] user name already exist");
         }
-        if (userRepository.findByEmail(email) == null) {
+        if (userRepository.existByEmail(email)) {
             throw new IllegalArgumentException("[ERROR] email already exist");
         }
 

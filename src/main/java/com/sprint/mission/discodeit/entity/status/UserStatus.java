@@ -8,6 +8,8 @@ import lombok.Getter;
 @Getter
 public class UserStatus implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private static final long ONLINE_THRESHOLD_MINUTES = 5;
     private static final long SECONDS_PER_MINUTE = 60;
     private static final long ONLINE_THRESHOLD_SECONDS =

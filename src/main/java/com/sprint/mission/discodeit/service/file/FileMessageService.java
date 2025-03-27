@@ -45,8 +45,11 @@ public class FileMessageService implements MessageService {
         validateContent(request.getContent());
         validateUserIdAndChannelId(request.getSenderId(), request.getChannelId());
 
-        Message message = new Message(request.getContent(), request.getSenderId(),
-            request.getChannelId());
+        String content = request.getContent();
+        UUID senderId = request.getSenderId();
+        UUID channelId = request.getChannelId();
+
+        Message message = new Message(content, senderId, channelId);
         messageRepository.save(message);
 
         if (binaryContents == null || binaryContents.isEmpty()) {
@@ -60,15 +63,15 @@ public class FileMessageService implements MessageService {
             byte[] bytes = binaryContentDto.getBytes();
             int size = bytes.length;
 
-            BinaryContent content = new BinaryContent(
+            BinaryContent binaryContent = new BinaryContent(
                 name,
                 size,
                 contentType,
                 bytes
             );
 
-            binaryContentIds.add(content.getId());
-            binaryContentRepository.save(content);
+            binaryContentIds.add(binaryContent.getId());
+            binaryContentRepository.save(binaryContent);
         }
 
         update(message.getId(),

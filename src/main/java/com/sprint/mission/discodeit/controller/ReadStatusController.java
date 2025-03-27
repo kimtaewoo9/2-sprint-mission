@@ -3,7 +3,6 @@ package com.sprint.mission.discodeit.controller;
 import com.sprint.mission.discodeit.dto.readstatus.CreateReadStatusRequest;
 import com.sprint.mission.discodeit.dto.readstatus.ReadStatusResponseDto;
 import com.sprint.mission.discodeit.dto.readstatus.UpdateReadStatusRequest;
-import com.sprint.mission.discodeit.entity.User;
 import com.sprint.mission.discodeit.repository.ChannelRepository;
 import com.sprint.mission.discodeit.repository.UserRepository;
 import com.sprint.mission.discodeit.service.ReadStatusService;
@@ -28,9 +27,8 @@ public class ReadStatusController {
     private final UserRepository userRepository;
     private final ChannelRepository channelRepository;
 
-    @PostMapping("/{channelId}")
+    @PostMapping("/channels/{channelId}")
     public ResponseEntity<ReadStatusResponseDto> create(
-        @PathVariable UUID channelId,
         @RequestBody CreateReadStatusRequest request) {
 
         UUID readStatusId = readStatusService.create(request);
@@ -39,22 +37,21 @@ public class ReadStatusController {
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/{channelId}")
-    public ResponseEntity<ReadStatusResponseDto> update(
+    @PatchMapping("/channels/{channelId}")
+    public ResponseEntity<Void> update(
         @PathVariable UUID channelId,
         @RequestBody UpdateReadStatusRequest request) {
 
-        List<ReadStatusResponseDto> readStatusResponseDtos =
+        List<ReadStatusResponseDto> readStatuses =
             readStatusService.findAllByChannelId(channelId);
 
-        return ResponseEntity.ok();
+        return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/users/{userId}")
     public ResponseEntity<List<ReadStatusResponseDto>> getReadStatusByUserId(
         @PathVariable UUID userId
     ) {
-        User user = userRepository.findByUserId(userId);
         List<ReadStatusResponseDto> readStatuses = readStatusService.findAllByUserId(userId);
 
         return ResponseEntity.ok(readStatuses);

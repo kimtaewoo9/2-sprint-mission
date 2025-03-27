@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,29 +26,29 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserController {
 
     private final UserService userService;
-
+    
     @GetMapping("/findAll")
-    public ResponseEntity<List<UserResponseDto>> getUserList() {
-        List<UserResponseDto> users = userService.findAll();
+    public ResponseEntity<List<UserResponseDto>> findAllUsers() {
+        List<UserResponseDto> userList = userService.findAll();
 
-        return ResponseEntity.ok(users);
+        return ResponseEntity.ok(userList);
     }
 
     @GetMapping("/findAll/{userId}")
     public ResponseEntity<UserResponseDto> getUser(@PathVariable UUID userId) {
-        UserResponseDto response = userService.findByUserId(userId);
+        UserResponseDto user = userService.findByUserId(userId);
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(user);
     }
 
-    @PostMapping
-    public ResponseEntity<UserResponseDto> create(@RequestParam("user") CreateUserRequest request,
-        @RequestParam(value = "file", required = false) MultipartFile file)
+    @PostMapping("/findAll")
+    public ResponseEntity<UserResponseDto> create(
+        @RequestPart(value = "user") CreateUserRequest request,
+        @RequestPart(value = "profileImage", required = false) MultipartFile file)
         throws Exception {
 
-        UUID userId = null;
-        UserResponseDto responseDto = null;
-        if (file != null && !file.isEmpty()) {
+        UUID userId;
+        if (file == null || file.isEmpty()) {
             userId = userService.create(request);
         } else {
             CreateBinaryContentRequest binaryContentRequest =
@@ -62,13 +61,13 @@ public class UserController {
 
         UserResponseDto response = userService.findByUserId(userId);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/{userId}")
     public ResponseEntity<UserResponseDto> update(@PathVariable UUID userId,
-        @RequestParam UpdateUserRequest request,
-        @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
+        @RequestPart(value = "user") UpdateUserRequest request,
+        @RequestPart(value = "file", required = false) MultipartFile file) throws IOException {
 
         UpdateUserRequest updateUserRequest = new UpdateUserRequest(request.getName(),
             request.getEmail(), request.getPassword());

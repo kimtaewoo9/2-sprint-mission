@@ -67,7 +67,6 @@ public class FileUtils {
                             throw new RuntimeException("[ERROR] 파일 불러오기 중 오류가 발생했습니다.");
                         }
                     })
-                    .sorted()
                     .toList();
                 return list;
             } catch (IOException e) {
