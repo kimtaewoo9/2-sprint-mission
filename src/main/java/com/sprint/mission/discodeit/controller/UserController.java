@@ -26,7 +26,16 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserController {
 
     private final UserService userService;
-    
+
+    private static CreateBinaryContentRequest getCreateBinaryContentRequest(MultipartFile file)
+        throws IOException {
+        CreateBinaryContentRequest binaryContentRequest =
+            new CreateBinaryContentRequest(file.getOriginalFilename(),
+                file.getContentType(),
+                file.getBytes());
+        return binaryContentRequest;
+    }
+
     @GetMapping("/findAll")
     public ResponseEntity<List<UserResponseDto>> findAllUsers() {
         List<UserResponseDto> userList = userService.findAll();
@@ -52,13 +61,10 @@ public class UserController {
             userId = userService.create(request);
         } else {
             CreateBinaryContentRequest binaryContentRequest =
-                new CreateBinaryContentRequest(file.getName(),
-                    file.getContentType(),
-                    file.getBytes());
+                getCreateBinaryContentRequest(file);
 
             userId = userService.create(request, binaryContentRequest);
         }
-
         UserResponseDto response = userService.findByUserId(userId);
 
         return ResponseEntity.ok(response);
@@ -73,16 +79,13 @@ public class UserController {
             request.getEmail(), request.getPassword());
 
         if (file != null && !file.isEmpty()) {
-            CreateBinaryContentRequest binaryContentRequest = new CreateBinaryContentRequest(
-                file.getName(),
-                file.getContentType(),
-                file.getBytes());
+            CreateBinaryContentRequest binaryContentRequest =
+                getCreateBinaryContentRequest(file);
 
             userService.update(userId, updateUserRequest, binaryContentRequest);
         } else {
             userService.update(userId, updateUserRequest);
         }
-
         UserResponseDto responseDto = userService.findByUserId(userId);
 
         return ResponseEntity.ok(responseDto);

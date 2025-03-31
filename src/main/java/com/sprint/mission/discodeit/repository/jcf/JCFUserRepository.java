@@ -9,11 +9,9 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Primary
 public class JCFUserRepository implements UserRepository {
 
     private static final Map<UUID, User> userDb = new HashMap<>();
