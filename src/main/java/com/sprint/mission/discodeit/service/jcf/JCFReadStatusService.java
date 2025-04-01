@@ -70,7 +70,7 @@ public class JCFReadStatusService implements ReadStatusService {
         Instant newLastLeadAt = request.getNewLastLeadAt();
 
         ReadStatus readStatus = readStatusRepository.find(readStatusId);
-        readStatus.update(newLastLeadAt);
+        readStatus.updateLastReadAt(newLastLeadAt);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class JCFReadStatusService implements ReadStatusService {
         List<ReadStatus> readStatuses = readStatusRepository.findAllByChannelId(channelId);
 
         for (ReadStatus readStatus : readStatuses) {
-            readStatus.update(newLastLeadAt);
+            readStatus.updateLastReadAt(newLastLeadAt);
         }
     }
 

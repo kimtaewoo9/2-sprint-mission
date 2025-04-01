@@ -3,8 +3,6 @@ package com.sprint.mission.discodeit.controller;
 import com.sprint.mission.discodeit.dto.readstatus.CreateReadStatusRequest;
 import com.sprint.mission.discodeit.dto.readstatus.ReadStatusResponseDto;
 import com.sprint.mission.discodeit.dto.readstatus.UpdateReadStatusRequest;
-import com.sprint.mission.discodeit.repository.ChannelRepository;
-import com.sprint.mission.discodeit.repository.UserRepository;
 import com.sprint.mission.discodeit.service.ReadStatusService;
 import java.util.List;
 import java.util.UUID;
@@ -24,10 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReadStatusController {
 
     private final ReadStatusService readStatusService;
-    private final UserRepository userRepository;
-    private final ChannelRepository channelRepository;
 
-    @PostMapping("/channels/{channelId}")
+    @PostMapping
     public ResponseEntity<ReadStatusResponseDto> create(
         @RequestBody CreateReadStatusRequest request) {
 
@@ -37,13 +33,23 @@ public class ReadStatusController {
         return ResponseEntity.ok(response);
     }
 
+    @PatchMapping("/{readStatusId}")
+    public ResponseEntity<Void> updateReadStatus(
+        @PathVariable UUID readStatusId,
+        @RequestBody UpdateReadStatusRequest request
+    ) {
+        readStatusService.update(readStatusId, request);
+
+        return ResponseEntity.ok().build();
+    }
+
+
     @PatchMapping("/channels/{channelId}")
-    public ResponseEntity<Void> update(
+    public ResponseEntity<Void> updateReadStatusByChannelId(
         @PathVariable UUID channelId,
         @RequestBody UpdateReadStatusRequest request) {
 
-        List<ReadStatusResponseDto> readStatuses =
-            readStatusService.findAllByChannelId(channelId);
+        readStatusService.updateByChannelId(channelId, request);
 
         return ResponseEntity.ok().build();
     }

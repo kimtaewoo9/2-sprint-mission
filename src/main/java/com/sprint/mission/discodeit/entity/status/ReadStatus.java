@@ -25,7 +25,7 @@ public class ReadStatus {
         this.userId = userId;
     }
 
-    public void update(Instant lastReadAt) {
+    public void updateLastReadAt(Instant lastReadAt) {
         this.lastReadAt = lastReadAt;
     }
 

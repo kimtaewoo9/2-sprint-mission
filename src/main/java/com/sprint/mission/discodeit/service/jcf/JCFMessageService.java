@@ -31,8 +31,11 @@ public class JCFMessageService implements MessageService {
         validateContent(request.getContent());
         validateUserIdAndChannelId(request.getSenderId(), request.getChannelId());
 
-        Message message = new Message(request.getContent(), request.getSenderId(),
-            request.getChannelId());
+        String content = request.getContent();
+        UUID senderId = request.getSenderId();
+        UUID channelId = request.getChannelId();
+
+        Message message = new Message(content, senderId, channelId);
         messageRepository.save(message);
 
         return message.getId();

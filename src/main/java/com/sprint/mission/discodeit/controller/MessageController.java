@@ -4,12 +4,12 @@ import com.sprint.mission.discodeit.dto.binarycontent.CreateBinaryContentRequest
 import com.sprint.mission.discodeit.dto.message.CreateMessageRequest;
 import com.sprint.mission.discodeit.dto.message.MessageResponseDto;
 import com.sprint.mission.discodeit.dto.message.UpdateMessageRequest;
-import com.sprint.mission.discodeit.repository.file.FileMessageRepository;
 import com.sprint.mission.discodeit.service.MessageService;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +28,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class MessageController {
 
     private final MessageService messageService;
-    private final FileMessageRepository fileMessageRepository;
 
     @GetMapping("/{channelId}")
     public ResponseEntity<List<MessageResponseDto>> getAllByChannelId(
@@ -40,10 +39,9 @@ public class MessageController {
     }
 
     @PostMapping
-    public ResponseEntity<MessageResponseDto> create(
+    public ResponseEntity<MessageResponseDto> createMessage(
         @RequestPart("message") CreateMessageRequest request,
-        @RequestPart(value = "attachedImage", required = false) List<MultipartFile> files)
-        throws IOException {
+        @RequestPart(value = "attachedImage", required = false) List<MultipartFile> files) {
 
         UUID messageId;
         if (files == null || files.isEmpty()) {
@@ -55,7 +53,7 @@ public class MessageController {
 
         MessageResponseDto response = messageService.findById(messageId);
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     private List<CreateBinaryContentRequest> convertFiles(List<MultipartFile> files) {
@@ -76,7 +74,7 @@ public class MessageController {
     }
 
     @PatchMapping("/{messageId}")
-    public ResponseEntity<MessageResponseDto> update(
+    public ResponseEntity<MessageResponseDto> updateMessage(
         @PathVariable UUID messageId,
         @RequestBody UpdateMessageRequest request) {
 
@@ -87,7 +85,7 @@ public class MessageController {
     }
 
     @DeleteMapping("/{messageId}")
-    public ResponseEntity<Void> delete(@PathVariable UUID messageId) {
+    public ResponseEntity<Void> deleteMessage(@PathVariable UUID messageId) {
         messageService.remove(messageId);
 
         return ResponseEntity.noContent().build();
