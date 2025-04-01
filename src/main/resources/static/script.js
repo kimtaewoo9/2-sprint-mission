@@ -1,9 +1,9 @@
 // API endpoints
 const API_BASE_URL = '/api';
 const ENDPOINTS = {
-  USERS: `${API_BASE_URL}/user/findAll`,
-  CHANNELS: `${API_BASE_URL}/channel/findAll`,
-  BINARY_CONTENT: `${API_BASE_URL}/binaryContent/find`
+  USERS: `${API_BASE_URL}/users`,
+  CHANNELS: `${API_BASE_URL}/channels`,
+  BINARY_CONTENT: `${API_BASE_URL}/binaryContents/{binaryContentId}`
 };
 
 let currentPage = 1; // 현재 페이지 (기본값: 1)
@@ -36,7 +36,6 @@ async function fetchAndRenderUsers() {
 
 async function fetchAndRenderChannels() {
   const channelListElement = document.getElementById('channelList');
-  channelListElement.innerHTML = '<p>로딩 중...</p>';
 
   try {
     const response = await fetch(ENDPOINTS.CHANNELS);

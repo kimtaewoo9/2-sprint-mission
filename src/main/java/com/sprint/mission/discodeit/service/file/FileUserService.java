@@ -26,7 +26,7 @@ public class FileUserService implements UserService {
 
     @Override
     public UUID create(CreateUserRequest request) {
-        String username = request.getName();
+        String username = request.getUsername();
         String email = request.getEmail();
 
         if (userRepository.existsByUsername(username)) {
@@ -35,8 +35,9 @@ public class FileUserService implements UserService {
         if (userRepository.existByEmail(email)) {
             throw new IllegalArgumentException("[ERROR] email already exist");
         }
+        String password = request.getPassword();
 
-        User user = new User(request.getName(), request.getEmail(), request.getPassword());
+        User user = new User(username, email, password);
         userRepository.save(user);
 
         UserStatus userStatus = new UserStatus(user.getId());
@@ -50,7 +51,7 @@ public class FileUserService implements UserService {
         UUID uuid = create(request);
         User user = userRepository.findByUserId(uuid);
 
-        String fileName = binaryContentRequest.getName();
+        String fileName = binaryContentRequest.getFileName();
         String contentType = binaryContentRequest.getContentType();
         byte[] bytes = binaryContentRequest.getBytes();
         int size = bytes.length;
@@ -82,7 +83,7 @@ public class FileUserService implements UserService {
     public UUID update(UUID userId, UpdateUserRequest request) {
         User user = userRepository.findByUserId(userId);
 
-        String username = request.getName();
+        String username = request.getUsername();
         String email = request.getEmail();
         if (userRepository.existsByUsername(username)) {
             throw new IllegalArgumentException("[ERROR] already exist");
@@ -111,7 +112,7 @@ public class FileUserService implements UserService {
         User user = userRepository.findByUserId(findUser);
         binaryContentRepository.delete(user.getProfileImageId());
 
-        String fileName = binaryContentRequest.getName();
+        String fileName = binaryContentRequest.getFileName();
         String contentType = binaryContentRequest.getContentType();
         byte[] bytes = binaryContentRequest.getBytes();
         int length = bytes.length;
@@ -122,6 +123,7 @@ public class FileUserService implements UserService {
             bytes);
 
         user.updateProfileImageId(binaryContent.getId());
+        userRepository.save(user);
 
         return user.getId();
     }

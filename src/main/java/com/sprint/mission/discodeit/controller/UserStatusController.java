@@ -1,0 +1,33 @@
+package com.sprint.mission.discodeit.controller;
+
+import com.sprint.mission.discodeit.dto.userstatus.UpdateUserStatusRequest;
+import com.sprint.mission.discodeit.entity.status.UserStatus;
+import com.sprint.mission.discodeit.service.UserStatusService;
+import java.util.UUID;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/users")
+@RequiredArgsConstructor
+public class UserStatusController {
+
+    private final UserStatusService userStatusService;
+
+    @PatchMapping("/{userId}/userStatus")
+    public ResponseEntity<UserStatus> updateUserStatusByUserId(
+        @PathVariable UUID userId,
+        @RequestBody UpdateUserStatusRequest request
+    ) {
+
+        UUID userStatusId = userStatusService.updateByUserId(userId, request);
+        UserStatus userStatus = userStatusService.findByUserStatusId(userStatusId);
+
+        return ResponseEntity.ok(userStatus);
+    }
+}

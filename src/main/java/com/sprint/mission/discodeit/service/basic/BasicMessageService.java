@@ -31,10 +31,10 @@ public class BasicMessageService implements MessageService {
     @Override
     public UUID create(CreateMessageRequest request) {
         validateContent(request.getContent());
-        validateUserIdAndChannelId(request.getSenderId(), request.getChannelId());
+        validateUserIdAndChannelId(request.getAuthorId(), request.getChannelId());
 
         String content = request.getContent();
-        UUID senderId = request.getSenderId();
+        UUID senderId = request.getAuthorId();
         UUID channelId = request.getChannelId();
 
         Message message = new Message(content, senderId, channelId);
@@ -48,10 +48,10 @@ public class BasicMessageService implements MessageService {
         List<CreateBinaryContentRequest> binaryContents) {
 
         validateContent(request.getContent());
-        validateUserIdAndChannelId(request.getSenderId(), request.getChannelId());
+        validateUserIdAndChannelId(request.getAuthorId(), request.getChannelId());
 
         String content = request.getContent();
-        UUID senderId = request.getSenderId();
+        UUID senderId = request.getAuthorId();
         UUID channelId = request.getChannelId();
 
         Message message = new Message(content, senderId, channelId);
@@ -63,7 +63,7 @@ public class BasicMessageService implements MessageService {
 
         List<UUID> binaryContentIds = new ArrayList<>();
         for (CreateBinaryContentRequest binaryContentDto : binaryContents) {
-            String name = binaryContentDto.getName();
+            String name = binaryContentDto.getFileName();
             String contentType = binaryContentDto.getContentType();
             byte[] bytes = binaryContentDto.getBytes();
             int size = bytes.length;
@@ -118,6 +118,10 @@ public class BasicMessageService implements MessageService {
         message.updateContent(content);
 
         List<UUID> binaryContentIds = request.getBinaryContentIds();
+        if (binaryContentIds == null || binaryContentIds.isEmpty()) {
+            return;
+        }
+
         for (UUID binaryContentId : binaryContentIds) {
             message.updateImages(binaryContentId);
         }

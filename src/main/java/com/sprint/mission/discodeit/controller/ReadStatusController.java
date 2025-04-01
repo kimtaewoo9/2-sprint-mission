@@ -16,14 +16,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/read-status")
+@RequestMapping("/api/readStatuses")
 @RequiredArgsConstructor
 public class ReadStatusController {
 
     private final ReadStatusService readStatusService;
+
+    @GetMapping
+    public ResponseEntity<List<ReadStatusResponseDto>> findAllByUserId(
+        @RequestParam UUID userId
+    ) {
+        List<ReadStatusResponseDto> readStatuses = readStatusService.findAllByUserId(userId);
+
+        return ResponseEntity.ok(readStatuses);
+    }
 
     @PostMapping
     public ResponseEntity<ReadStatusResponseDto> create(
@@ -36,13 +46,14 @@ public class ReadStatusController {
     }
 
     @PutMapping("/{readStatusId}")
-    public ResponseEntity<Void> updateReadStatus(
+    public ResponseEntity<ReadStatusResponseDto> updateReadStatus(
         @PathVariable UUID readStatusId,
         @RequestBody UpdateReadStatusRequest request
     ) {
         readStatusService.update(readStatusId, request);
+        ReadStatusResponseDto response = readStatusService.find(readStatusId);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(response);
     }
 
 
@@ -54,14 +65,5 @@ public class ReadStatusController {
         readStatusService.updateByChannelId(channelId, request);
 
         return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/users/{userId}")
-    public ResponseEntity<List<ReadStatusResponseDto>> getReadStatusByUserId(
-        @PathVariable UUID userId
-    ) {
-        List<ReadStatusResponseDto> readStatuses = readStatusService.findAllByUserId(userId);
-
-        return ResponseEntity.ok(readStatuses);
     }
 }

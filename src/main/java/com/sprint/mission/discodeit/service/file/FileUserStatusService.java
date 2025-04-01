@@ -20,7 +20,7 @@ public class FileUserStatusService implements UserStatusService {
     private final UserRepository userRepository;
 
     @Override
-    public void create(CreateUserStatusRequest request) {
+    public UUID create(CreateUserStatusRequest request) {
         User user = userRepository.findByUserId(request.getUserId());
         if (user == null) {
             throw new IllegalArgumentException("[ERROR] user not exist");
@@ -33,6 +33,8 @@ public class FileUserStatusService implements UserStatusService {
 
         UserStatus userStatus = new UserStatus(request.getUserId());
         userStatusRepository.save(userStatus);
+
+        return userStatus.getId();
     }
 
     @Override
@@ -46,19 +48,23 @@ public class FileUserStatusService implements UserStatusService {
     }
 
     @Override
-    public void update(UUID userStatusId, UpdateUserStatusRequest request) {
+    public UUID update(UUID userStatusId, UpdateUserStatusRequest request) {
         UserStatus userStatus = userStatusRepository.findByUserStatusId(userStatusId);
 
         userStatus.updateUserId(request.getUserId());
         userStatusRepository.save(userStatus);
+
+        return userStatus.getId();
     }
 
     @Override
-    public void updateByUserId(UUID userId, UpdateUserStatusRequest request) {
+    public UUID updateByUserId(UUID userId, UpdateUserStatusRequest request) {
         UserStatus userStatus = userStatusRepository.findByUserId(userId);
 
         userStatus.updateUserId(request.getUserId());
         userStatusRepository.save(userStatus);
+
+        return userStatus.getId();
     }
 
     @Override

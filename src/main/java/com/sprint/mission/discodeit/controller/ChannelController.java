@@ -13,11 +13,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -27,21 +28,6 @@ public class ChannelController {
 
     private final ChannelService channelService;
 
-    @GetMapping
-    public ResponseEntity<List<ChannelResponseDto>> getAllChannels() {
-        List<ChannelResponseDto> channelList = channelService.findAll();
-
-        return ResponseEntity.ok(channelList);
-    }
-
-    @GetMapping("/users/{userId}")
-    public ResponseEntity<List<ChannelResponseDto>> getChannelsByUserId(
-        @PathVariable UUID userId) {
-        List<ChannelResponseDto> channelList = channelService.findAllByUserId(userId);
-
-        return ResponseEntity.ok(channelList);
-    }
-    
     @PostMapping("/public")
     public ResponseEntity<ChannelResponseDto> createPublicChannel(
         @RequestBody CreatePublicChannelRequest request
@@ -64,7 +50,16 @@ public class ChannelController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PutMapping("/{channelId}")
+    @GetMapping
+    public ResponseEntity<List<ChannelResponseDto>> findAll(
+        @RequestParam UUID userId
+    ) {
+        List<ChannelResponseDto> response = channelService.findAllByUserId(userId);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/{channelId}")
     public ResponseEntity<ChannelResponseDto> updateChannel(
         @PathVariable UUID channelId,
         @RequestBody UpdateChannelRequest request) {

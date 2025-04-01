@@ -66,13 +66,15 @@ public class FileReadStatusService implements ReadStatusService {
     }
 
     @Override
-    public void update(UUID readStatusId, UpdateReadStatusRequest request) {
+    public UUID update(UUID readStatusId, UpdateReadStatusRequest request) {
         Instant newLastLeadAt = request.getNewLastLeadAt();
 
         ReadStatus readStatus = readStatusRepository.find(readStatusId);
         readStatus.updateLastReadAt(newLastLeadAt);
 
         readStatusRepository.save(readStatus);
+
+        return readStatus.getId();
     }
 
     @Override

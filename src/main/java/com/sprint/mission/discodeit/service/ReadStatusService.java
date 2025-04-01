@@ -13,12 +13,12 @@ public interface ReadStatusService {
     UUID create(CreateReadStatusRequest request);
 
     ReadStatusResponseDto find(UUID readStatusId);
-
+    
     List<ReadStatusResponseDto> findAllByUserId(UUID userId);
 
     List<ReadStatusResponseDto> findAllByChannelId(UUID channelId);
 
-    void update(UUID id, UpdateReadStatusRequest request);
+    UUID update(UUID id, UpdateReadStatusRequest request);
 
     void updateByChannelId(UUID channelId, UpdateReadStatusRequest request);
 

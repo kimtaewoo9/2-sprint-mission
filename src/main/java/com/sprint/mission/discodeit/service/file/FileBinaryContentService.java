@@ -17,7 +17,7 @@ public class FileBinaryContentService implements BinaryContentService {
 
     @Override
     public UUID create(CreateBinaryContentRequest request) {
-        String fileName = request.getName();
+        String fileName = request.getFileName();
         String contentType = request.getContentType();
         byte[] bytes = request.getBytes();
 

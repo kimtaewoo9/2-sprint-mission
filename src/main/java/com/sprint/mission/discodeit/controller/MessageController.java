@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,9 +30,9 @@ public class MessageController {
 
     private final MessageService messageService;
 
-    @GetMapping("/{channelId}")
-    public ResponseEntity<List<MessageResponseDto>> getAllByChannelId(
-        @PathVariable UUID channelId
+    @GetMapping
+    public ResponseEntity<List<MessageResponseDto>> findAllByChannelId(
+        @RequestParam UUID channelId
     ) {
         List<MessageResponseDto> messageList = messageService.findByChannelId(channelId);
 
@@ -39,9 +40,9 @@ public class MessageController {
     }
 
     @PostMapping
-    public ResponseEntity<MessageResponseDto> createMessage(
-        @RequestPart("message") CreateMessageRequest request,
-        @RequestPart(value = "attachedImage", required = false) List<MultipartFile> files) {
+    public ResponseEntity<MessageResponseDto> create(
+        @RequestPart("messageCreateRequest") CreateMessageRequest request,
+        @RequestPart(value = "attachments", required = false) List<MultipartFile> files) {
 
         UUID messageId;
         if (files == null || files.isEmpty()) {

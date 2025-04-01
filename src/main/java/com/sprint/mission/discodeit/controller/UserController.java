@@ -12,9 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,7 +37,7 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponseDto>> getAllUsers() {
+    public ResponseEntity<List<UserResponseDto>> findAll() {
         List<UserResponseDto> userList = userService.findAll();
 
         return ResponseEntity.ok(userList);
@@ -52,8 +52,8 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserResponseDto> createUser(
-        @RequestPart(value = "user") CreateUserRequest request,
-        @RequestPart(value = "profileImage", required = false) MultipartFile file)
+        @RequestPart(value = "userCreateRequest") CreateUserRequest request,
+        @RequestPart(value = "profile", required = false) MultipartFile file)
         throws Exception {
 
         UUID userId;
@@ -70,26 +70,24 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/{userId}")
+    @PatchMapping("/{userId}")
     public ResponseEntity<UserResponseDto> updateUser(@PathVariable UUID userId,
-        @RequestPart(value = "user") UpdateUserRequest request,
-        @RequestPart(value = "profileImage", required = false) MultipartFile file)
+        @RequestPart(value = "userUpdateRequest") UpdateUserRequest request,
+        @RequestPart(value = "profile", required = false) MultipartFile file)
         throws IOException {
 
-        UpdateUserRequest updateUserRequest = new UpdateUserRequest(request.getName(),
-            request.getEmail(), request.getPassword());
+        if (file == null || file.isEmpty()) {
+            userService.update(userId, request);
 
-        if (file != null && !file.isEmpty()) {
+        } else {
             CreateBinaryContentRequest binaryContentRequest =
                 getCreateBinaryContentRequest(file);
 
-            userService.update(userId, updateUserRequest, binaryContentRequest);
-        } else {
-            userService.update(userId, updateUserRequest);
+            userService.update(userId, request, binaryContentRequest);
         }
-        UserResponseDto responseDto = userService.findByUserId(userId);
+        UserResponseDto response = userService.findByUserId(userId);
 
-        return ResponseEntity.ok(responseDto);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{userId}")

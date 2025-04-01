@@ -29,7 +29,7 @@ public class JCFChannelService implements ChannelService {
 
     @Override
     public UUID createPublicChannel(CreatePublicChannelRequest request) {
-        String name = request.getChannelName();
+        String name = request.getName();
         String description = request.getDescription();
         Channel channel = new Channel(name, description, ChannelType.PUBLIC);
 
@@ -126,13 +126,13 @@ public class JCFChannelService implements ChannelService {
             throw new IllegalArgumentException("[ERROR] private channel cannot be modified");
         }
 
-        String newName = request.getChannelName();
-        String newDescription = request.getDescription();
+        String newName = request.getNewName();
+        String newDescription = request.getNewDescription();
 
         channel.updateName(newName);
         channel.updateDescription(newDescription);
 
-//        channelRepository.save(channel);
+        channelRepository.save(channel);
     }
 
     @Override

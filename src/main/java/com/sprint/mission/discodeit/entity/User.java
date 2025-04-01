@@ -21,7 +21,7 @@ public class User implements Serializable, Comparable<User> {
     private String name;
     private String email;
     private String password;
-    private UUID profileImageId = null;
+    private UUID profileImageId;
     private Instant lastLoginAt;
 
     public User(String name, String email, String password) {
