@@ -48,7 +48,7 @@ public class BasicChannelService implements ChannelService {
 
         for (UUID userId : userIds) {
 
-            ReadStatus readStatus = new ReadStatus(channel.getId(), userId);
+            ReadStatus readStatus = new ReadStatus(channel.getId(), userId, Instant.MIN);
             readStatusRepository.save(readStatus);
 
             channel.getUserIds().add(userId);

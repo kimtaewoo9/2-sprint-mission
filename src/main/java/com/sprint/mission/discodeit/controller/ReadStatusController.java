@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,7 +44,7 @@ public class ReadStatusController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PutMapping("/{readStatusId}")
+    @PatchMapping("/{readStatusId}")
     public ResponseEntity<ReadStatusResponseDto> updateReadStatus(
         @PathVariable UUID readStatusId,
         @RequestBody UpdateReadStatusRequest request
@@ -54,16 +53,5 @@ public class ReadStatusController {
         ReadStatusResponseDto response = readStatusService.find(readStatusId);
 
         return ResponseEntity.ok(response);
-    }
-
-
-    @PatchMapping("/channels/{channelId}")
-    public ResponseEntity<Void> updateReadStatusByChannelId(
-        @PathVariable UUID channelId,
-        @RequestBody UpdateReadStatusRequest request) {
-
-        readStatusService.updateByChannelId(channelId, request);
-
-        return ResponseEntity.ok().build();
     }
 }

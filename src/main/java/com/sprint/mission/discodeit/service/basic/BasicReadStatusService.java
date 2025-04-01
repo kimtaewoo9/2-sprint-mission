@@ -26,18 +26,23 @@ public class BasicReadStatusService implements ReadStatusService {
 
     @Override
     public UUID create(CreateReadStatusRequest request) {
-        if (channelRepository.findByChannelId(request.getChannelId()) == null) {
-            throw new IllegalArgumentException("[ERROR] channel not found");
-        }
-        if (userRepository.findByUserId(request.getUserId()) == null) {
+        UUID userId = request.getUserId();
+        UUID channelId = request.getChannelId();
+
+        if (userRepository.findByUserId(userId) == null) {
             throw new IllegalArgumentException("[ERROR] user not found");
+        }
+        if (channelRepository.findByChannelId(channelId) == null) {
+            throw new IllegalArgumentException("[ERROR] channel not found");
         }
         if (readStatusRepository.isExist(request.getChannelId(),
             request.getUserId()) != null) {
             throw new IllegalArgumentException("[ERROR] read status is already exist");
         }
 
-        ReadStatus readStatus = new ReadStatus(request.getChannelId(), request.getUserId());
+        Instant lastReadAt = request.getLastReadAt();
+
+        ReadStatus readStatus = new ReadStatus(channelId, userId, lastReadAt);
         readStatusRepository.save(readStatus);
 
         return readStatus.getId();
@@ -81,7 +86,6 @@ public class BasicReadStatusService implements ReadStatusService {
 
     @Override
     public void updateByChannelId(UUID channelId, UpdateReadStatusRequest request) {
-        // 채널 내 모든 메시지 읽기
         Instant newLastLeadAt = request.getNewLastLeadAt();
 
         List<ReadStatus> readStatuses = readStatusRepository.findAllByChannelId(channelId);

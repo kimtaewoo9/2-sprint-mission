@@ -31,7 +31,6 @@ public class BasicMessageService implements MessageService {
     @Override
     public UUID create(CreateMessageRequest request) {
         validateContent(request.getContent());
-        validateUserIdAndChannelId(request.getAuthorId(), request.getChannelId());
 
         String content = request.getContent();
         UUID senderId = request.getAuthorId();
@@ -48,7 +47,6 @@ public class BasicMessageService implements MessageService {
         List<CreateBinaryContentRequest> binaryContents) {
 
         validateContent(request.getContent());
-        validateUserIdAndChannelId(request.getAuthorId(), request.getChannelId());
 
         String content = request.getContent();
         UUID senderId = request.getAuthorId();
@@ -139,15 +137,6 @@ public class BasicMessageService implements MessageService {
         }
 
         messageRepository.delete(messageId);
-    }
-
-    private void validateUserIdAndChannelId(UUID userId, UUID channelId) {
-        try {
-            userService.findByUserId(userId);
-            channelService.findByChannelId(channelId);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("사용자 정보 또는 채널 정보를 확인할 수 없습니다.");
-        }
     }
 
     private void validateContent(String content) {
