@@ -39,7 +39,17 @@ public class FileUserRepository implements UserRepository {
                 return user;
             }
         }
-        throw new IllegalArgumentException("[ERROR]유효하지 않은 이름 입니다.");
+        throw new IllegalArgumentException("[ERROR] 유효하지 않은 이름 입니다.");
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        for (User user : findAll()) {
+            if (user.getEmail().equals(email)) {
+                return user;
+            }
+        }
+        throw new IllegalArgumentException("[ERROR] 유효하지 않은 이메일 입니다.");
     }
 
     @Override
@@ -51,5 +61,17 @@ public class FileUserRepository implements UserRepository {
     public void delete(UUID userId) {
         Path userFile = userDirectory.resolve(userId.toString() + ".user");
         FileUtils.delete(userFile);
+    }
+
+    @Override
+    public boolean existsByUsername(String username) {
+        return findAll().stream()
+            .anyMatch(u -> u.getName().equals(username));
+    }
+
+    @Override
+    public boolean existByEmail(String email) {
+        return findAll().stream()
+            .anyMatch(u -> u.getEmail().equals(email));
     }
 }

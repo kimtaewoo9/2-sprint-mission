@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public interface BinaryContentRepository {
 
-    void save(BinaryContent binaryContent);
+    UUID save(BinaryContent binaryContent);
 
     BinaryContent find(UUID id);
 

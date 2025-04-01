@@ -4,12 +4,12 @@ import lombok.Getter;
 
 @Getter
 public class UpdateUserRequest {
+
     String name;
     String email;
     String password;
-    String profileImageId;
 
-    public UpdateUserRequest(String name, String email, String password){
+    public UpdateUserRequest(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;

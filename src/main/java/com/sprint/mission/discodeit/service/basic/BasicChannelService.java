@@ -1,53 +1,59 @@
 package com.sprint.mission.discodeit.service.basic;
 
 import com.sprint.mission.discodeit.dto.channel.ChannelResponseDto;
-import com.sprint.mission.discodeit.dto.channel.CreateChannelRequest;
+import com.sprint.mission.discodeit.dto.channel.CreatePrivateChannelRequest;
+import com.sprint.mission.discodeit.dto.channel.CreatePublicChannelRequest;
 import com.sprint.mission.discodeit.dto.channel.UpdateChannelRequest;
 import com.sprint.mission.discodeit.entity.Channel;
 import com.sprint.mission.discodeit.entity.ChannelType;
 import com.sprint.mission.discodeit.entity.Message;
-import com.sprint.mission.discodeit.entity.User;
 import com.sprint.mission.discodeit.entity.status.ReadStatus;
 import com.sprint.mission.discodeit.repository.ChannelRepository;
 import com.sprint.mission.discodeit.repository.MessageRepository;
 import com.sprint.mission.discodeit.repository.ReadStatusRepository;
-import com.sprint.mission.discodeit.repository.UserRepository;
 import com.sprint.mission.discodeit.service.ChannelService;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Primary
 public class BasicChannelService implements ChannelService {
 
     private final ChannelRepository channelRepository;
-    private final UserRepository userRepository;
     private final ReadStatusRepository readStatusRepository;
     private final MessageRepository messageRepository;
 
     @Override
-    public UUID createPublicChannel(CreateChannelRequest request) {
-        Channel channel = new Channel(request.getChannelName(), ChannelType.PUBLIC);
+    public UUID createPublicChannel(CreatePublicChannelRequest request) {
+        String name = request.getChannelName();
+        String description = request.getDescription();
+        Channel channel = new Channel(name, description, ChannelType.PUBLIC);
+
         channelRepository.save(channel);
 
         return channel.getId();
     }
 
     @Override
-    public UUID createPrivateChannel(CreateChannelRequest request, List<UUID> userIds) {
-        Channel channel = new Channel(null, ChannelType.PRIVATE);
+    public UUID createPrivateChannel(CreatePrivateChannelRequest request) {
+        Channel channel = new Channel(null, null, ChannelType.PRIVATE);
+
+        List<UUID> userIds = request.getParticipantIds();
 
         for (UUID userId : userIds) {
-            User user = userRepository.findByUserId(userId);
-            ReadStatus readStatus = new ReadStatus(channel.getId(), user.getId());
+
+            ReadStatus readStatus = new ReadStatus(channel.getId(), userId);
             readStatusRepository.save(readStatus);
 
-            channel.getUserIds().add(user.getId());
+            channel.getUserIds().add(userId);
         }
+
         channelRepository.save(channel);
 
         return channel.getId();
@@ -74,6 +80,21 @@ public class BasicChannelService implements ChannelService {
     }
 
     @Override
+    public List<ChannelResponseDto> findAll() {
+        List<ChannelResponseDto> channelResponseDtos = new ArrayList<>();
+
+        List<Channel> channels = channelRepository.findAll();
+        for (Channel channel : channels) {
+            ChannelResponseDto responseDto = ChannelResponseDto.from(channel,
+                getLastMessageTimestamp(channel.getId()),
+                channel.getUserIds());
+            channelResponseDtos.add(responseDto);
+        }
+
+        return channelResponseDtos;
+    }
+
+    @Override
     public List<ChannelResponseDto> findAllByUserId(UUID userId) {
         List<Channel> channels = channelRepository.findAll();
         List<ChannelResponseDto> channelResponseDtos = new ArrayList<>();
@@ -86,8 +107,7 @@ public class BasicChannelService implements ChannelService {
 
             List<UUID> userIds = null;
             if (channel.getType() == ChannelType.PRIVATE) {
-                userIds = new ArrayList<>();
-                userIds.addAll(channel.getUserIds());
+                userIds = new ArrayList<>(channel.getUserIds());
             }
 
             channelResponseDtos.add(
@@ -108,10 +128,13 @@ public class BasicChannelService implements ChannelService {
             throw new IllegalArgumentException("[ERROR] private channel cannot be modified");
         }
 
-        channel.updateName(request.getChannelName());
-        channel.updateChannelType(request.getChannelType());
+        String newName = request.getChannelName();
+        String newDescription = request.getDescription();
 
-        channelRepository.save(channel);
+        channel.updateName(newName);
+        channel.updateDescription(newDescription);
+
+//        channelRepository.save(channel);
     }
 
     @Override
@@ -131,8 +154,16 @@ public class BasicChannelService implements ChannelService {
     }
 
     @Override
-    public void addUser(UUID channelId, UUID userId) {
+    public void addMember(UUID channelId, UUID userId) {
         Channel channel = channelRepository.findByChannelId(channelId);
-        channel.addUser(userId);
+        channel.addMember(userId);
+        channelRepository.save(channel);
+    }
+
+    @Override
+    public void removeMember(UUID channelId, UUID userId) {
+        Channel channel = channelRepository.findByChannelId(channelId);
+        channel.removeMember(userId);
+        channelRepository.save(channel);
     }
 }

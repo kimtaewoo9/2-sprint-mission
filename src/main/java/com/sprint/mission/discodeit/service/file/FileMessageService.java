@@ -27,22 +27,29 @@ public class FileMessageService implements MessageService {
     private final BinaryContentRepository binaryContentRepository;
 
     @Override
-    public void create(CreateMessageRequest request) {
+    public UUID create(CreateMessageRequest request) {
         validateContent(request.getContent());
         validateUserIdAndChannelId(request.getSenderId(), request.getChannelId());
 
         Message message = new Message(request.getContent(), request.getSenderId(),
             request.getChannelId());
         messageRepository.save(message);
+
+        return message.getId();
     }
 
-    public void create(CreateMessageRequest request,
+    @Override
+    public UUID create(CreateMessageRequest request,
         List<CreateBinaryContentRequest> binaryContents) {
+
         validateContent(request.getContent());
         validateUserIdAndChannelId(request.getSenderId(), request.getChannelId());
 
-        Message message = new Message(request.getContent(), request.getSenderId(),
-            request.getChannelId());
+        String content = request.getContent();
+        UUID senderId = request.getSenderId();
+        UUID channelId = request.getChannelId();
+
+        Message message = new Message(content, senderId, channelId);
         messageRepository.save(message);
 
         if (binaryContents == null || binaryContents.isEmpty()) {
@@ -51,19 +58,34 @@ public class FileMessageService implements MessageService {
 
         List<UUID> binaryContentIds = new ArrayList<>();
         for (CreateBinaryContentRequest binaryContentDto : binaryContents) {
-            BinaryContent content = new BinaryContent(binaryContentDto.getBinaryImage());
+            String name = binaryContentDto.getName();
+            String contentType = binaryContentDto.getContentType();
+            byte[] bytes = binaryContentDto.getBytes();
+            int size = bytes.length;
 
-            binaryContentRepository.save(content);
-            binaryContentIds.add(content.getId());
+            BinaryContent binaryContent = new BinaryContent(
+                name,
+                size,
+                contentType,
+                bytes
+            );
+
+            binaryContentIds.add(binaryContent.getId());
+            binaryContentRepository.save(binaryContent);
         }
 
         update(message.getId(),
             new UpdateMessageRequest(message.getContent(), binaryContentIds));
+
+        return message.getId();
     }
 
     @Override
-    public Message findById(UUID messageId) {
-        return messageRepository.findByMessageId(messageId);
+    public MessageResponseDto findById(UUID messageId) {
+        Message message = messageRepository.findByMessageId(messageId);
+        MessageResponseDto messageResponseDto = MessageResponseDto.from(message);
+
+        return messageResponseDto;
     }
 
     @Override
@@ -81,12 +103,15 @@ public class FileMessageService implements MessageService {
 
     @Override
     public void update(UUID messageId, UpdateMessageRequest request) {
-        Message message = findById(messageId);
+        Message message = messageRepository.findByMessageId(messageId);
+
         if (message == null) {
             throw new IllegalArgumentException("[ERROR] message id not found");
         }
 
-        message.updateContent(request.getContent());
+        String content = request.getContent();
+        message.updateContent(content);
+
         List<UUID> binaryContentIds = request.getBinaryContentIds();
         for (UUID binaryContentId : binaryContentIds) {
             message.updateImages(binaryContentId);
@@ -100,8 +125,8 @@ public class FileMessageService implements MessageService {
         Message message = messageRepository.findByMessageId(messageId);
 
         List<UUID> attachedImageIds = message.getAttachedImageIds();
-        for (UUID id : attachedImageIds) {
-            binaryContentRepository.delete(id);
+        for (UUID attachedImageId : attachedImageIds) {
+            binaryContentRepository.delete(attachedImageId);
         }
 
         messageRepository.delete(messageId);

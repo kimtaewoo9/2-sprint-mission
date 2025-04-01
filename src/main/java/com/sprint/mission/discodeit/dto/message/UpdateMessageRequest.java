@@ -11,8 +11,4 @@ public class UpdateMessageRequest {
 
     private String content;
     private List<UUID> binaryContentIds;
-
-    public UpdateMessageRequest(String content) {
-        this.content = content;
-    }
 }

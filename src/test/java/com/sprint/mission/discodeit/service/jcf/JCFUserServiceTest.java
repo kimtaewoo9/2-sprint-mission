@@ -102,7 +102,7 @@ class JCFUserServiceTest {
         UserResponseDto result = userService.findByUserId(userId);
 
         Assertions.assertThat(result).isNotNull();
-        Assertions.assertThat(result.getName()).
+        Assertions.assertThat(result.getUsername()).
             isEqualTo("김태우");
         Assertions.assertThat(result.getEmail()).
             isEqualTo("bezzi1654@kookmin.ac.kr");

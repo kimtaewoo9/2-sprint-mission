@@ -7,19 +7,31 @@ import com.sprint.mission.discodeit.service.BinaryContentService;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Primary
 public class BasicBinaryContentService implements BinaryContentService {
 
     private final BinaryContentRepository binaryContentRepository;
 
     @Override
-    public void create(CreateBinaryContentRequest binaryContentRequest) {
-        BinaryContent binaryContent = new BinaryContent(binaryContentRequest.getBinaryImage());
+    public UUID create(CreateBinaryContentRequest request) {
+        String fileName = request.getName();
+        String contentType = request.getContentType();
+        byte[] bytes = request.getBytes();
 
-        binaryContentRepository.save(binaryContent);
+        BinaryContent binaryContent =
+            new BinaryContent(
+                fileName,
+                bytes.length,
+                contentType,
+                bytes
+            );
+
+        return binaryContent.getId();
     }
 
     @Override

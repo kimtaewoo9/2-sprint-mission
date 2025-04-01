@@ -7,16 +7,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@Primary
 public class JCFBinaryContentRepository implements BinaryContentRepository {
 
     private final Map<UUID, BinaryContent> store = new HashMap<>();
 
     @Override
-    public void save(BinaryContent binaryContent) {
+    public UUID save(BinaryContent binaryContent) {
         store.put(binaryContent.getId(), binaryContent);
+        return binaryContent.getId();
     }
 
     @Override

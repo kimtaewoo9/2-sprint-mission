@@ -2,11 +2,9 @@ package com.sprint.mission.discodeit.dto.message;
 
 import java.util.UUID;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 
-@Data
-@NoArgsConstructor
+@Getter
 @AllArgsConstructor
 public class CreateMessageRequest {
 

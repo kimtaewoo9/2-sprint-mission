@@ -6,11 +6,9 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Primary
 public class FileChannelRepository implements ChannelRepository {
 
     private final Path channelDirectory;

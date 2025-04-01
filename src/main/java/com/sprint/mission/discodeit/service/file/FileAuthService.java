@@ -1,28 +1,36 @@
 package com.sprint.mission.discodeit.service.file;
 
 import com.sprint.mission.discodeit.dto.login.LoginForm;
+import com.sprint.mission.discodeit.dto.user.UserResponseDto;
 import com.sprint.mission.discodeit.entity.User;
 import com.sprint.mission.discodeit.repository.UserRepository;
 import com.sprint.mission.discodeit.service.AuthService;
 import java.time.Instant;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class FileAuthService implements AuthService {
 
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Override
-    public User login(LoginForm form) {
+    public UserResponseDto login(LoginForm form) {
 
-        User user = userRepository.findByUserName(form.getName());
-        boolean result = user.getPassword().equals(form.getPassword());
+        String username = form.getName();
+        String password = form.getPassword();
+
+        User user = userRepository.findByUserName(username);
+        boolean result = user.getPassword().equals(password);
         if (!result) {
             throw new IllegalArgumentException("[ERROR] 다시 입력 해주세요.");
         }
 
         user.updateLastLoginAt(Instant.now());
 
-        return user;
+        UserResponseDto userResponseDto = UserResponseDto.from(user, true);
+
+        return userResponseDto;
     }
 }

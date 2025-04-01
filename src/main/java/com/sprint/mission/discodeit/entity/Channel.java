@@ -3,9 +3,7 @@ package com.sprint.mission.discodeit.entity;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.ToString;
@@ -18,22 +16,21 @@ public class Channel implements Serializable {
 
     private final UUID id;
     private final Instant createdAt;
-    private final Map<UUID, User> users;
     private final List<UUID> userIds;
-    private final Map<UUID, Message> messages;
+
     private Instant updatedAt;
     private String name;
+    private String description;
     private ChannelType type;
 
-    public Channel(String name, ChannelType type) {
+    public Channel(String name, String description, ChannelType type) {
         this.id = UUID.randomUUID();
         this.createdAt = Instant.now();
         this.updatedAt = this.createdAt;
         this.name = name;
+        this.description = description;
         this.type = type;
 
-        this.users = new HashMap<>();
-        this.messages = new HashMap<>();
         this.userIds = new ArrayList<>();
     }
 
@@ -42,12 +39,21 @@ public class Channel implements Serializable {
         this.updatedAt = Instant.now();
     }
 
+    public void updateDescription(String description) {
+        this.description = description;
+        this.updatedAt = Instant.now();
+    }
+
     public void updateChannelType(ChannelType type) {
         this.type = type;
         this.updatedAt = Instant.now();
     }
 
-    public void addUser(UUID userId) {
+    public void addMember(UUID userId) {
         userIds.add(userId);
+    }
+
+    public void removeMember(UUID userId) {
+        userIds.remove(userId);
     }
 }

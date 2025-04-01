@@ -1,7 +1,8 @@
 package com.sprint.mission;
 
 import com.sprint.mission.discodeit.dto.channel.ChannelResponseDto;
-import com.sprint.mission.discodeit.dto.channel.CreateChannelRequest;
+import com.sprint.mission.discodeit.dto.channel.CreatePrivateChannelRequest;
+import com.sprint.mission.discodeit.dto.channel.CreatePublicChannelRequest;
 import com.sprint.mission.discodeit.dto.channel.UpdateChannelRequest;
 import com.sprint.mission.discodeit.dto.message.CreateMessageRequest;
 import com.sprint.mission.discodeit.dto.message.MessageResponseDto;
@@ -36,10 +37,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.UUID;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@SpringBootApplication
 public class JavaApplication {
 
     public static void main(String[] args) {
+        SpringApplication.run(JavaApplication.class, args);
+
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -71,7 +77,7 @@ public class JavaApplication {
 
     private static void channelView() {
         ChannelService channelService = new FileChannelService(new FileChannelRepository(),
-            new JCFUserRepository(), new FileReadStatusRepository(), new JCFMessageRepository());
+            new FileReadStatusRepository(), new JCFMessageRepository());
 
         Scanner sc = new Scanner(System.in);
         boolean run = true;
@@ -105,10 +111,12 @@ public class JavaApplication {
 
                 if (channelType == ChannelType.PUBLIC) {
                     channelService.createPublicChannel(
-                        new CreateChannelRequest(channelName, channelType));
+                        new CreatePublicChannelRequest(channelName, ChannelType.PUBLIC,
+                            "description"));
                 } else {
                     channelService.createPrivateChannel(
-                        new CreateChannelRequest(channelName, channelType), null);
+                        new CreatePrivateChannelRequest(List.of(), ChannelType.PRIVATE)
+                    );
                 }
 
                 System.out.println("새로운 채널이 생성 되었습니다.");
@@ -153,7 +161,7 @@ public class JavaApplication {
                 } else {
                     channelType = ChannelType.PRIVATE;
                 }
-                channelService.update(uuid, new UpdateChannelRequest(newName, channelType));
+                channelService.update(uuid, new UpdateChannelRequest(newName, "description"));
                 System.out.println("채널 정보가 수정되었습니다.");
             } else if (selected == MANAGE_CHANNEL.DELETE_CHANNEL) {
                 System.out.println("삭제할 채널 ID를 입력하세요 : ");
@@ -173,11 +181,11 @@ public class JavaApplication {
         UserService userService = new JCFUserService(new JCFUserRepository(),
             new FileBinaryContentRepository(), new FileUserStatusRepository());
         ChannelService channelService = new FileChannelService(new FileChannelRepository(),
-            new JCFUserRepository(), new FileReadStatusRepository(), new JCFMessageRepository());
+            new FileReadStatusRepository(), new JCFMessageRepository());
         MessageService messageService = new FileMessageService(new FileMessageRepository(),
             new FileUserService(new FileUserRepository(), new FileBinaryContentRepository(),
                 new FileUserStatusRepository()),
-            new FileChannelService(new JCFChannelRepository(), new FileUserRepository(),
+            new FileChannelService(new JCFChannelRepository(),
                 new FileReadStatusRepository(), new FileMessageRepository()),
             new FileBinaryContentRepository());
 
@@ -215,7 +223,10 @@ public class JavaApplication {
                 System.out.println("조회하실 메시지의 ID를 입력하세요.");
                 UUID messageId = UUID.fromString(sc.nextLine());
 
-                Message message = messageService.findById(messageId);
+                MessageResponseDto responseDto = messageService.findById(messageId);
+
+                Message message = new Message(responseDto.getContent(), responseDto.getSenderId(),
+                    responseDto.getChannelId());
                 System.out.println(message);
             } else if (selected == MANAGE_MESSAGE.FIND_ALL_MESSAGE) {
                 System.out.println("모든 메시지를 출력합니다.");
@@ -298,7 +309,7 @@ public class JavaApplication {
 
                 UserResponseDto responseDto = userService.findByUserId(userId);
 
-                System.out.println("사용자 ID: " + responseDto.getName());
+                System.out.println("사용자 ID: " + responseDto.getUsername());
                 System.out.println("사용자 email: " + responseDto.getEmail());
 
             } else if (selected == MANAGE_USER.FIND_ALL_USER) {
@@ -310,7 +321,7 @@ public class JavaApplication {
                 System.out.println("모든 사용자를 출력합니다.");
 
                 for (UserResponseDto user : users) {
-                    System.out.printf("user name : %s, ", user.getName());
+                    System.out.printf("user name : %s, ", user.getUsername());
                     System.out.printf("user ID : %s%n", user.getId());
                 }
             } else if (selected == MANAGE_USER.UPDATE_USER) {

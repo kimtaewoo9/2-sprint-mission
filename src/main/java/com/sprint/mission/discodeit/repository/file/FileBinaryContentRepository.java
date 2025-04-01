@@ -6,11 +6,9 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Primary
 public class FileBinaryContentRepository implements BinaryContentRepository {
 
     private final Path binaryContentDirectory;
@@ -21,10 +19,12 @@ public class FileBinaryContentRepository implements BinaryContentRepository {
     }
 
     @Override
-    public void save(BinaryContent binaryContent) {
+    public UUID save(BinaryContent binaryContent) {
         Path binaryFile = binaryContentDirectory.resolve(
             binaryContent.getId().toString() + ".binaryContent");
         FileUtils.save(binaryFile, binaryContent);
+
+        return binaryContent.getId();
     }
 
     @Override
