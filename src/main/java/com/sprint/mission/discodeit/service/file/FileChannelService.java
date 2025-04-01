@@ -83,8 +83,10 @@ public class FileChannelService implements ChannelService {
 
         List<Channel> channels = channelRepository.findAll();
         for (Channel channel : channels) {
-            ChannelResponseDto.from(channel, getLastMessageTimestamp(channel.getId()),
+            ChannelResponseDto responseDto = ChannelResponseDto.from(channel,
+                getLastMessageTimestamp(channel.getId()),
                 channel.getUserIds());
+            channelResponseDtos.add(responseDto);
         }
 
         return channelResponseDtos;
@@ -150,9 +152,16 @@ public class FileChannelService implements ChannelService {
     }
 
     @Override
-    public void addUser(UUID channelId, UUID userId) {
+    public void addMember(UUID channelId, UUID userId) {
         Channel channel = channelRepository.findByChannelId(channelId);
-        channel.addUser(userId);
+        channel.addMember(userId);
+        channelRepository.save(channel);
+    }
+
+    @Override
+    public void removeMember(UUID channelId, UUID userId) {
+        Channel channel = channelRepository.findByChannelId(channelId);
+        channel.removeMember(userId);
         channelRepository.save(channel);
     }
 }

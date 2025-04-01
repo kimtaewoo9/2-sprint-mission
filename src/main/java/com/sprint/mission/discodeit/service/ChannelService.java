@@ -23,5 +23,7 @@ public interface ChannelService {
 
     void remove(UUID channelId);
 
-    void addUser(UUID channelId, UUID userId);
+    void addMember(UUID channelId, UUID userId);
+
+    void removeMember(UUID channelId, UUID userId);
 }

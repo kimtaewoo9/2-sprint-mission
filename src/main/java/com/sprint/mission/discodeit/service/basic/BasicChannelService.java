@@ -154,9 +154,16 @@ public class BasicChannelService implements ChannelService {
     }
 
     @Override
-    public void addUser(UUID channelId, UUID userId) {
+    public void addMember(UUID channelId, UUID userId) {
         Channel channel = channelRepository.findByChannelId(channelId);
-        channel.addUser(userId);
+        channel.addMember(userId);
+        channelRepository.save(channel);
+    }
+
+    @Override
+    public void removeMember(UUID channelId, UUID userId) {
+        Channel channel = channelRepository.findByChannelId(channelId);
+        channel.removeMember(userId);
         channelRepository.save(channel);
     }
 }

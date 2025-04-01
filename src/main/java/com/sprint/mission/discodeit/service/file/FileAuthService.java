@@ -6,12 +6,14 @@ import com.sprint.mission.discodeit.entity.User;
 import com.sprint.mission.discodeit.repository.UserRepository;
 import com.sprint.mission.discodeit.service.AuthService;
 import java.time.Instant;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class FileAuthService implements AuthService {
 
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Override
     public UserResponseDto login(LoginForm form) {

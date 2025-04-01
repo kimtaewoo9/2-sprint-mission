@@ -49,7 +49,11 @@ public class Channel implements Serializable {
         this.updatedAt = Instant.now();
     }
 
-    public void addUser(UUID userId) {
+    public void addMember(UUID userId) {
         userIds.add(userId);
+    }
+
+    public void removeMember(UUID userId) {
+        userIds.remove(userId);
     }
 }
