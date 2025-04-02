@@ -5,6 +5,7 @@ import com.sprint.mission.discodeit.entity.status.UserStatus;
 import com.sprint.mission.discodeit.service.UserStatusService;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,14 +21,19 @@ public class UserStatusController {
     private final UserStatusService userStatusService;
 
     @PatchMapping("/{userId}/userStatus")
-    public ResponseEntity<UserStatus> updateUserStatusByUserId(
+    public ResponseEntity<?> updateUserStatusByUserId(
         @PathVariable UUID userId,
         @RequestBody UpdateUserStatusRequest request
     ) {
 
-        UUID userStatusId = userStatusService.updateByUserId(userId, request);
-        UserStatus userStatus = userStatusService.findByUserStatusId(userStatusId);
+        try {
+            UUID userStatusId = userStatusService.updateByUserId(userId, request);
+            UserStatus userStatus = userStatusService.findByUserStatusId(userStatusId);
 
-        return ResponseEntity.ok(userStatus);
+            return ResponseEntity.ok(userStatus);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body("UserStatus with userId " + userId + " not found");
+        }
     }
 }

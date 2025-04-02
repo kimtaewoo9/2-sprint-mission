@@ -14,6 +14,7 @@ import com.sprint.mission.discodeit.repository.ReadStatusRepository;
 import com.sprint.mission.discodeit.service.ChannelService;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -66,11 +67,7 @@ public class BasicChannelService implements ChannelService {
         List<UUID> userIds = channel.getUserIds();
         Instant lastMessageTimestamp = getLastMessageTimestamp(channelId);
 
-        if (channel.getType() == ChannelType.PRIVATE) {
-            return ChannelResponseDto.from(channel, lastMessageTimestamp, userIds);
-        } else {
-            return ChannelResponseDto.from(channel, lastMessageTimestamp, null);
-        }
+        return ChannelResponseDto.from(channel, userIds, lastMessageTimestamp);
     }
 
     private Instant getLastMessageTimestamp(UUID channelId) {
@@ -86,8 +83,8 @@ public class BasicChannelService implements ChannelService {
         List<Channel> channels = channelRepository.findAll();
         for (Channel channel : channels) {
             ChannelResponseDto responseDto = ChannelResponseDto.from(channel,
-                getLastMessageTimestamp(channel.getId()),
-                channel.getUserIds());
+                channel.getUserIds(),
+                getLastMessageTimestamp(channel.getId()));
             channelResponseDtos.add(responseDto);
         }
 
@@ -96,26 +93,37 @@ public class BasicChannelService implements ChannelService {
 
     @Override
     public List<ChannelResponseDto> findAllByUserId(UUID userId) {
-        List<Channel> channels = channelRepository.findAll();
-        List<ChannelResponseDto> channelResponseDtos = new ArrayList<>();
+        List<UUID> mySubscribedChannelIds = readStatusRepository.findAllByUserId(userId).stream()
+            .map(ReadStatus::getChannelId)
+            .toList();
 
-        for (Channel channel : channels) {
-            if (channel.getType() == ChannelType.PRIVATE && channel.getUserIds().
-                stream().noneMatch(id -> id.equals(userId))) {
-                continue;
-            }
+        return channelRepository.findAll().stream()
+            .filter(channel ->
+                channel.getType().equals(ChannelType.PUBLIC)
+                    || mySubscribedChannelIds.contains(channel.getId())
+            )
+            .map(this::toDto)
+            .toList();
+    }
 
-            List<UUID> userIds = null;
-            if (channel.getType() == ChannelType.PRIVATE) {
-                userIds = new ArrayList<>(channel.getUserIds());
-            }
+    private ChannelResponseDto toDto(Channel channel) {
+        Instant lastMessageAt = messageRepository.findAllByChannelId(channel.getId())
+            .stream()
+            .sorted(Comparator.comparing(Message::getCreatedAt).reversed())
+            .map(Message::getCreatedAt)
+            .limit(1)
+            .findFirst()
+            .orElse(Instant.MIN);
 
-            channelResponseDtos.add(
-                ChannelResponseDto.from(channel, getLastMessageTimestamp(channel.getId()),
-                    userIds));
+        List<UUID> participantIds = new ArrayList<>();
+        if (channel.getType() == ChannelType.PRIVATE) {
+            readStatusRepository.findAllByChannelId(channel.getId())
+                .stream()
+                .map(ReadStatus::getUserId)
+                .forEach(participantIds::add);
         }
 
-        return channelResponseDtos;
+        return ChannelResponseDto.from(channel, participantIds, lastMessageAt);
     }
 
     @Override

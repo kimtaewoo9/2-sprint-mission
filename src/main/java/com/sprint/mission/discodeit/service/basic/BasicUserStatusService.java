@@ -7,6 +7,7 @@ import com.sprint.mission.discodeit.entity.status.UserStatus;
 import com.sprint.mission.discodeit.repository.UserRepository;
 import com.sprint.mission.discodeit.repository.UserStatusRepository;
 import com.sprint.mission.discodeit.service.UserStatusService;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -23,17 +24,21 @@ public class BasicUserStatusService implements UserStatusService {
 
     @Override
     public UUID create(CreateUserStatusRequest request) {
-        User user = userRepository.findByUserId(request.getUserId());
+        UUID userId = request.getUserId();
+
+        User user = userRepository.findByUserId(userId);
         if (user == null) {
             throw new IllegalArgumentException("[ERROR] user not exist");
         }
 
-        UserStatus checkUserStatus = userStatusRepository.findByUserId(request.getUserId());
-        if (checkUserStatus != null) {
+        UserStatus check = userStatusRepository.findByUserId(request.getUserId());
+        if (check != null) {
             throw new IllegalArgumentException("[ERROR] user status is already exist");
         }
 
-        UserStatus userStatus = new UserStatus(request.getUserId());
+        Instant lastActiveAt = request.getLastActiveAt();
+
+        UserStatus userStatus = new UserStatus(userId, lastActiveAt);
         userStatusRepository.save(userStatus);
 
         return userStatus.getId();
@@ -51,19 +56,28 @@ public class BasicUserStatusService implements UserStatusService {
 
     @Override
     public UUID update(UUID userStatusId, UpdateUserStatusRequest request) {
-        UserStatus userStatus = userStatusRepository.findByUserStatusId(userStatusId);
+        Instant newLastActiveAt = request.getNewLastActiveAt();
 
-        userStatus.updateUserId(request.getUserId());
+        UserStatus userStatus = userStatusRepository.findByUserStatusId(userStatusId);
+        userStatus.updateLastSeenAt(newLastActiveAt);
+
         userStatusRepository.save(userStatus);
 
         return userStatus.getId();
     }
 
+
     @Override
     public UUID updateByUserId(UUID userId, UpdateUserStatusRequest request) {
-        UserStatus userStatus = userStatusRepository.findByUserId(userId);
+        Instant newLastActiveAt = request.getNewLastActiveAt();
 
-        userStatus.updateUserId(request.getUserId());
+        UserStatus userStatus = userStatusRepository.findByUserId(userId);
+        if (userStatus == null) {
+            throw new IllegalArgumentException("user status does not exist");
+        }
+
+        userStatus.updateLastSeenAt(newLastActiveAt);
+
         userStatusRepository.save(userStatus);
 
         return userStatus.getId();

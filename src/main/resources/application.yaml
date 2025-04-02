@@ -5,3 +5,5 @@ spring:
 discodeit:
   repository:
     type: jcf
+
+spring.web.resources.static-locations: classpath:/static/

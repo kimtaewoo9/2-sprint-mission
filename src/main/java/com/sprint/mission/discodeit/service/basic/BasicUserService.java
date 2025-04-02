@@ -11,6 +11,7 @@ import com.sprint.mission.discodeit.repository.BinaryContentRepository;
 import com.sprint.mission.discodeit.repository.UserRepository;
 import com.sprint.mission.discodeit.repository.UserStatusRepository;
 import com.sprint.mission.discodeit.service.UserService;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -41,11 +42,13 @@ public class BasicUserService implements UserService {
 
         User user = new User(username, email, password);
         userRepository.save(user);
+        User createdUser = userRepository.findByUserId(user.getId());
 
-        UserStatus userStatus = new UserStatus(user.getId());
+        Instant now = Instant.now();
+        UserStatus userStatus = new UserStatus(createdUser.getId(), now);
         userStatusRepository.save(userStatus);
 
-        return user.getId();
+        return createdUser.getId();
     }
 
     @Override
@@ -60,7 +63,7 @@ public class BasicUserService implements UserService {
 
         BinaryContent binaryContent = new BinaryContent(fileName, size, contentType, bytes);
         binaryContentRepository.save(binaryContent);
-        
+
         user.updateProfileImageId(binaryContent.getId());
 
         return user.getId();

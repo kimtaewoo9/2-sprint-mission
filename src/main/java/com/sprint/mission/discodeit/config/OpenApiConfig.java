@@ -22,6 +22,6 @@ public class OpenApiConfig {
         return new Info()
             .title("sprint5 API")
             .description("sprint5 미션 API 문서입니다.")
-            .version("1.0,0");
+            .version("1.0.0");
     }
 }
