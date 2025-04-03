@@ -15,13 +15,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -36,21 +34,21 @@ public class UserController {
         return binaryContentRequest;
     }
 
-    @GetMapping
+    @GetMapping("/api/users")
     public ResponseEntity<List<UserResponseDto>> findAll() {
         List<UserResponseDto> userList = userService.findAll();
 
         return ResponseEntity.ok(userList);
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/api/users/{userId}")
     public ResponseEntity<UserResponseDto> getUser(@PathVariable UUID userId) {
         UserResponseDto user = userService.findByUserId(userId);
 
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping
+    @PostMapping("/api/users")
     public ResponseEntity<UserResponseDto> createUser(
         @RequestPart(value = "userCreateRequest") CreateUserRequest request,
         @RequestPart(value = "profile", required = false) MultipartFile file)
@@ -70,7 +68,7 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/{userId}")
+    @PatchMapping("/api/users/{userId}")
     public ResponseEntity<UserResponseDto> updateUser(@PathVariable UUID userId,
         @RequestPart(value = "userUpdateRequest") UpdateUserRequest request,
         @RequestPart(value = "profile", required = false) MultipartFile file)
@@ -90,7 +88,7 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/{userId}")
+    @DeleteMapping("/api/users/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable UUID userId) {
         userService.remove(userId);
 

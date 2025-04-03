@@ -5,13 +5,13 @@ import lombok.Getter;
 @Getter
 public class UpdateUserRequest {
 
-    String username;
-    String email;
-    String password;
+    String newUsername;
+    String newEmail;
+    String newPassword;
 
-    public UpdateUserRequest(String username, String email, String password) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
+    public UpdateUserRequest(String newUsername, String newEmail, String newPassword) {
+        this.newUsername = newUsername;
+        this.newEmail = newEmail;
+        this.newPassword = newPassword;
     }
 }

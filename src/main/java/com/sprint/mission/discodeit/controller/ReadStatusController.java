@@ -14,18 +14,16 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/readStatuses")
 @RequiredArgsConstructor
 public class ReadStatusController {
 
     private final ReadStatusService readStatusService;
 
-    @GetMapping
+    @GetMapping("/api/readStatuses")
     public ResponseEntity<List<ReadStatus>> findAllByUserId(
         @RequestParam UUID userId
     ) {
@@ -34,7 +32,7 @@ public class ReadStatusController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping
+    @PostMapping("/api/readStatuses")
     public ResponseEntity<ReadStatus> create(
         @RequestBody CreateReadStatusRequest request) {
 
@@ -44,7 +42,7 @@ public class ReadStatusController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PatchMapping("/{readStatusId}")
+    @PatchMapping("/api/readStatuses/{readStatusId}")
     public ResponseEntity<ReadStatus> updateReadStatus(
         @PathVariable UUID readStatusId,
         @RequestBody UpdateReadStatusRequest request

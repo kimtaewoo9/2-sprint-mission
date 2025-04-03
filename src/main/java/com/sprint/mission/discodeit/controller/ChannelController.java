@@ -17,18 +17,16 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/channels")
 @RequiredArgsConstructor
 public class ChannelController {
 
     private final ChannelService channelService;
 
-    @PostMapping("/public")
+    @PostMapping("/api/channels/public")
     public ResponseEntity<ChannelResponseDto> createPublicChannel(
         @RequestBody CreatePublicChannelRequest request
     ) {
@@ -39,7 +37,7 @@ public class ChannelController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PostMapping("/private")
+    @PostMapping("/api/channels/private")
     public ResponseEntity<ChannelResponseDto> createPrivateChannel(
         @RequestBody CreatePrivateChannelRequest request
     ) {
@@ -50,7 +48,7 @@ public class ChannelController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping
+    @GetMapping("/api/channels")
     public ResponseEntity<List<ChannelResponseDto>> getChannelByUserId(
         @RequestParam UUID userId
     ) {
@@ -59,7 +57,7 @@ public class ChannelController {
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/{channelId}")
+    @PatchMapping("/api/channels/{channelId}")
     public ResponseEntity<ChannelResponseDto> updateChannel(
         @PathVariable UUID channelId,
         @RequestBody UpdateChannelRequest request) {
@@ -70,7 +68,7 @@ public class ChannelController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/{channelId}")
+    @DeleteMapping("/api/channels/{channelId}")
     public ResponseEntity<Void> deleteChannel(
         @PathVariable UUID channelId
     ) {
@@ -80,7 +78,7 @@ public class ChannelController {
     }
 
     // 채널 멤버 관리
-    @PostMapping("/{channelId}/members")
+    @PostMapping("/api/channels/{channelId}/members")
     public ResponseEntity<Void> addChannelMember(
         @PathVariable UUID channeld,
         @RequestBody AddChannelMemberRequest request) {
@@ -92,7 +90,7 @@ public class ChannelController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{channelId}/members/{userId}")
+    @DeleteMapping("/api/channels/{channelId}/members/{userId}")
     public ResponseEntity<Void> removeChannelMember(
         @PathVariable UUID channelId,
         @PathVariable UUID userId) {

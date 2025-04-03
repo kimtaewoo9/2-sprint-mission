@@ -88,8 +88,8 @@ public class BasicUserService implements UserService {
     public UUID update(UUID userId, UpdateUserRequest request) {
         User user = userRepository.findByUserId(userId);
 
-        String username = request.getUsername();
-        String email = request.getEmail();
+        String username = request.getNewUsername();
+        String email = request.getNewEmail();
         if (userRepository.existsByUsername(username)) {
             throw new IllegalArgumentException("[ERROR] already exist");
         }
@@ -97,7 +97,7 @@ public class BasicUserService implements UserService {
             throw new IllegalArgumentException("[ERROR] already exist");
         }
 
-        String password = request.getPassword();
+        String password = request.getNewPassword();
 
         user.updateName(username);
         user.updateEmail(email);
