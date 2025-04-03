@@ -1,7 +1,6 @@
 package com.sprint.mission.discodeit.service.basic;
 
 import com.sprint.mission.discodeit.dto.readstatus.CreateReadStatusRequest;
-import com.sprint.mission.discodeit.dto.readstatus.ReadStatusResponseDto;
 import com.sprint.mission.discodeit.dto.readstatus.UpdateReadStatusRequest;
 import com.sprint.mission.discodeit.entity.status.ReadStatus;
 import com.sprint.mission.discodeit.repository.ChannelRepository;
@@ -35,9 +34,9 @@ public class BasicReadStatusService implements ReadStatusService {
         if (channelRepository.findByChannelId(channelId) == null) {
             throw new IllegalArgumentException("[ERROR] channel not found");
         }
-        if (readStatusRepository.isExist(request.getChannelId(),
-            request.getUserId()) != null) {
-            throw new IllegalArgumentException("[ERROR] read status is already exist");
+        if (readStatusRepository.findAllByUserId(userId).stream()
+            .anyMatch(readStatus -> readStatus.getChannelId().equals(channelId))) {
+            throw new IllegalArgumentException("[ERROR] read status already exist");
         }
 
         Instant lastReadAt = request.getLastReadAt();
@@ -49,27 +48,19 @@ public class BasicReadStatusService implements ReadStatusService {
     }
 
     @Override
-    public ReadStatusResponseDto find(UUID readStatusId) {
-        ReadStatus readStatus = readStatusRepository.find(readStatusId);
-        return ReadStatusResponseDto.from(readStatus);
+    public ReadStatus find(UUID readStatusId) {
+        return readStatusRepository.find(readStatusId);
     }
 
     @Override
-    public List<ReadStatusResponseDto> findAllByUserId(UUID userId) {
-        List<ReadStatus> readStatuses = readStatusRepository.
-            findAllByUserId(userId);
+    public List<ReadStatus> findAllByUserId(UUID userId) {
+        return readStatusRepository.findAllByUserId(userId);
 
-        return readStatuses.stream()
-            .map(ReadStatusResponseDto::from).toList();
     }
 
     @Override
-    public List<ReadStatusResponseDto> findAllByChannelId(UUID channelId) {
-        List<ReadStatus> readStatuses = readStatusRepository.
-            findAllByChannelId(channelId);
-
-        return readStatuses.stream()
-            .map(ReadStatusResponseDto::from).toList();
+    public List<ReadStatus> findAllByChannelId(UUID channelId) {
+        return readStatusRepository.findAllByChannelId(channelId);
     }
 
     @Override

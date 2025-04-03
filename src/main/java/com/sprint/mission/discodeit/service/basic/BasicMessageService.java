@@ -8,9 +8,7 @@ import com.sprint.mission.discodeit.entity.BinaryContent;
 import com.sprint.mission.discodeit.entity.Message;
 import com.sprint.mission.discodeit.repository.BinaryContentRepository;
 import com.sprint.mission.discodeit.repository.MessageRepository;
-import com.sprint.mission.discodeit.service.ChannelService;
 import com.sprint.mission.discodeit.service.MessageService;
-import com.sprint.mission.discodeit.service.UserService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -24,19 +22,17 @@ import org.springframework.stereotype.Service;
 public class BasicMessageService implements MessageService {
 
     private final MessageRepository messageRepository;
-    private final UserService userService;
-    private final ChannelService channelService;
     private final BinaryContentRepository binaryContentRepository;
 
     @Override
     public UUID create(CreateMessageRequest request) {
-        validateContent(request.getContent());
 
-        String content = request.getContent();
-        UUID senderId = request.getAuthorId();
+        UUID authorId = request.getAuthorId();
         UUID channelId = request.getChannelId();
 
-        Message message = new Message(content, senderId, channelId);
+        String content = request.getContent();
+
+        Message message = new Message(content, authorId, channelId);
         messageRepository.save(message);
 
         return message.getId();
@@ -46,13 +42,11 @@ public class BasicMessageService implements MessageService {
     public UUID create(CreateMessageRequest request,
         List<CreateBinaryContentRequest> binaryContents) {
 
-        validateContent(request.getContent());
-
         String content = request.getContent();
-        UUID senderId = request.getAuthorId();
+        UUID authorId = request.getAuthorId();
         UUID channelId = request.getChannelId();
 
-        Message message = new Message(content, senderId, channelId);
+        Message message = new Message(content, authorId, channelId);
         messageRepository.save(message);
 
         if (binaryContents == null || binaryContents.isEmpty()) {
@@ -61,14 +55,13 @@ public class BasicMessageService implements MessageService {
 
         List<UUID> binaryContentIds = new ArrayList<>();
         for (CreateBinaryContentRequest binaryContentDto : binaryContents) {
-            String name = binaryContentDto.getFileName();
+            String fileName = binaryContentDto.getFileName();
             String contentType = binaryContentDto.getContentType();
             byte[] bytes = binaryContentDto.getBytes();
-            int size = bytes.length;
 
             BinaryContent binaryContent = new BinaryContent(
-                name,
-                size,
+                fileName,
+                bytes.length,
                 contentType,
                 bytes
             );
@@ -77,8 +70,9 @@ public class BasicMessageService implements MessageService {
             binaryContentRepository.save(binaryContent);
         }
 
-        update(message.getId(),
-            new UpdateMessageRequest(message.getContent(), binaryContentIds));
+        for (UUID binaryContentId : binaryContentIds) {
+            message.updateImages(binaryContentId);
+        }
 
         return message.getId();
     }
@@ -137,11 +131,5 @@ public class BasicMessageService implements MessageService {
         }
 
         messageRepository.delete(messageId);
-    }
-
-    private void validateContent(String content) {
-        if (content == null || content.isEmpty()) {
-            throw new IllegalArgumentException("메시지 내용이 없습니다. 메시지를 입력해주세요.");
-        }
     }
 }

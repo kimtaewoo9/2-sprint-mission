@@ -44,18 +44,17 @@ public class BasicChannelService implements ChannelService {
     @Override
     public UUID createPrivateChannel(CreatePrivateChannelRequest request) {
         Channel channel = new Channel(null, null, ChannelType.PRIVATE);
+        channelRepository.save(channel);
 
-        List<UUID> userIds = request.getParticipantIds();
+        UUID channelId = channel.getId();
+        List<UUID> participantIds = request.getParticipantIds();
+        for (UUID userId : participantIds) {
 
-        for (UUID userId : userIds) {
-
-            ReadStatus readStatus = new ReadStatus(channel.getId(), userId, Instant.MIN);
+            ReadStatus readStatus = new ReadStatus(channelId, userId, Instant.MIN);
             readStatusRepository.save(readStatus);
 
             channel.getUserIds().add(userId);
         }
-
-        channelRepository.save(channel);
 
         return channel.getId();
     }

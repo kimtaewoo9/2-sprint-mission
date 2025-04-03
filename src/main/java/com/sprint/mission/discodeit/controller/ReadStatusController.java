@@ -1,8 +1,8 @@
 package com.sprint.mission.discodeit.controller;
 
 import com.sprint.mission.discodeit.dto.readstatus.CreateReadStatusRequest;
-import com.sprint.mission.discodeit.dto.readstatus.ReadStatusResponseDto;
 import com.sprint.mission.discodeit.dto.readstatus.UpdateReadStatusRequest;
+import com.sprint.mission.discodeit.entity.status.ReadStatus;
 import com.sprint.mission.discodeit.service.ReadStatusService;
 import java.util.List;
 import java.util.UUID;
@@ -26,31 +26,31 @@ public class ReadStatusController {
     private final ReadStatusService readStatusService;
 
     @GetMapping
-    public ResponseEntity<List<ReadStatusResponseDto>> findAllByUserId(
+    public ResponseEntity<List<ReadStatus>> findAllByUserId(
         @RequestParam UUID userId
     ) {
-        List<ReadStatusResponseDto> readStatuses = readStatusService.findAllByUserId(userId);
+        List<ReadStatus> response = readStatusService.findAllByUserId(userId);
 
-        return ResponseEntity.ok(readStatuses);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping
-    public ResponseEntity<ReadStatusResponseDto> create(
+    public ResponseEntity<ReadStatus> create(
         @RequestBody CreateReadStatusRequest request) {
 
         UUID readStatusId = readStatusService.create(request);
-        ReadStatusResponseDto response = readStatusService.find(readStatusId);
+        ReadStatus response = readStatusService.find(readStatusId);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PatchMapping("/{readStatusId}")
-    public ResponseEntity<ReadStatusResponseDto> updateReadStatus(
+    public ResponseEntity<ReadStatus> updateReadStatus(
         @PathVariable UUID readStatusId,
         @RequestBody UpdateReadStatusRequest request
     ) {
         readStatusService.update(readStatusId, request);
-        ReadStatusResponseDto response = readStatusService.find(readStatusId);
+        ReadStatus response = readStatusService.find(readStatusId);
 
         return ResponseEntity.ok(response);
     }

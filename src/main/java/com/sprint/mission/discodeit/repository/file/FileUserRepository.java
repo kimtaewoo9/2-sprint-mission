@@ -74,4 +74,10 @@ public class FileUserRepository implements UserRepository {
         return findAll().stream()
             .anyMatch(u -> u.getEmail().equals(email));
     }
+
+    @Override
+    public boolean existById(UUID userId) {
+        return findAll().stream()
+            .anyMatch(user -> user.getId().equals(userId));
+    }
 }

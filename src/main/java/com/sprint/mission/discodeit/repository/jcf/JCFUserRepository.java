@@ -79,4 +79,9 @@ public class JCFUserRepository implements UserRepository {
         return findAll().stream()
             .anyMatch(user -> user.getEmail().equals(email));
     }
+
+    @Override
+    public boolean existById(UUID channelId) {
+        return userDb.containsKey(channelId);
+    }
 }
