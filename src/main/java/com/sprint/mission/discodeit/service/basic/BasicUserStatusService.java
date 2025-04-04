@@ -4,11 +4,13 @@ import com.sprint.mission.discodeit.dto.userstatus.CreateUserStatusRequest;
 import com.sprint.mission.discodeit.dto.userstatus.UpdateUserStatusRequest;
 import com.sprint.mission.discodeit.entity.User;
 import com.sprint.mission.discodeit.entity.status.UserStatus;
+import com.sprint.mission.discodeit.exception.custom.DuplicateResourceException;
 import com.sprint.mission.discodeit.repository.UserRepository;
 import com.sprint.mission.discodeit.repository.UserStatusRepository;
 import com.sprint.mission.discodeit.service.UserStatusService;
 import java.time.Instant;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
@@ -28,12 +30,12 @@ public class BasicUserStatusService implements UserStatusService {
 
         User user = userRepository.findByUserId(userId);
         if (user == null) {
-            throw new IllegalArgumentException("[ERROR] user not exist");
+            throw new NoSuchElementException("[ERROR] user not found");
         }
 
         UserStatus check = userStatusRepository.findByUserId(request.getUserId());
         if (check != null) {
-            throw new IllegalArgumentException("[ERROR] user status is already exist");
+            throw new DuplicateResourceException("[ERROR] user status is already exist");
         }
 
         Instant lastActiveAt = request.getLastActiveAt();
@@ -59,6 +61,9 @@ public class BasicUserStatusService implements UserStatusService {
         Instant newLastActiveAt = request.getNewLastActiveAt();
 
         UserStatus userStatus = userStatusRepository.findByUserStatusId(userStatusId);
+        if (userStatus == null) {
+            throw new NoSuchElementException("[ERROR] user status not found");
+        }
         userStatus.updateLastSeenAt(newLastActiveAt);
 
         userStatusRepository.save(userStatus);
@@ -73,11 +78,10 @@ public class BasicUserStatusService implements UserStatusService {
 
         UserStatus userStatus = userStatusRepository.findByUserId(userId);
         if (userStatus == null) {
-            throw new IllegalArgumentException("user status does not exist");
+            throw new NoSuchElementException("[ERROR] user status not found");
         }
 
         userStatus.updateLastSeenAt(newLastActiveAt);
-
         userStatusRepository.save(userStatus);
 
         return userStatus.getId();
