@@ -7,12 +7,14 @@ import com.sprint.mission.discodeit.dto.user.UserResponseDto;
 import com.sprint.mission.discodeit.entity.BinaryContent;
 import com.sprint.mission.discodeit.entity.User;
 import com.sprint.mission.discodeit.entity.status.UserStatus;
+import com.sprint.mission.discodeit.exception.custom.DuplicateResourceException;
 import com.sprint.mission.discodeit.repository.BinaryContentRepository;
 import com.sprint.mission.discodeit.repository.UserRepository;
 import com.sprint.mission.discodeit.repository.UserStatusRepository;
 import com.sprint.mission.discodeit.service.UserService;
 import java.time.Instant;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
@@ -33,10 +35,10 @@ public class BasicUserService implements UserService {
         String email = request.getEmail();
 
         if (userRepository.existsByUsername(username)) {
-            throw new IllegalArgumentException("[ERROR] user name already exist");
+            throw new DuplicateResourceException("[ERROR] user name already exist");
         }
         if (userRepository.existByEmail(email)) {
-            throw new IllegalArgumentException("[ERROR] email already exist");
+            throw new DuplicateResourceException("[ERROR] email already exist");
         }
         String password = request.getPassword();
 
@@ -72,6 +74,10 @@ public class BasicUserService implements UserService {
     @Override
     public UserResponseDto findByUserId(UUID userId) {
         User user = userRepository.findByUserId(userId);
+        if (user == null) {
+            throw new NoSuchElementException("[ERROR] user not found");
+        }
+
         boolean isOnline = userStatusRepository.findByUserId(userId).isOnline();
 
         return UserResponseDto.from(user, isOnline);
@@ -87,14 +93,17 @@ public class BasicUserService implements UserService {
     @Override
     public UUID update(UUID userId, UpdateUserRequest request) {
         User user = userRepository.findByUserId(userId);
+        if (user == null) {
+            throw new NoSuchElementException("[ERROR] user not found");
+        }
 
         String username = request.getNewUsername();
         String email = request.getNewEmail();
         if (userRepository.existsByUsername(username)) {
-            throw new IllegalArgumentException("[ERROR] already exist");
+            throw new DuplicateResourceException("[ERROR] user name already exist");
         }
         if (userRepository.existByEmail(email)) {
-            throw new IllegalArgumentException("[ERROR] already exist");
+            throw new DuplicateResourceException("[ERROR] email already exist");
         }
 
         String password = request.getNewPassword();
@@ -114,18 +123,23 @@ public class BasicUserService implements UserService {
 
         UUID findUser = update(userId, request);
 
-        User user = userRepository.findByUserId(findUser);
-        binaryContentRepository.delete(user.getProfileImageId());
+        User user = userRepository.findByUserId(findUser); // 계속 findByUserId로 찾아야함.
+        UUID profileImageId = user.getProfileImageId();
+        if (profileImageId != null) {
+            binaryContentRepository.delete(user.getProfileImageId());
+        }
 
         String fileName = binaryContentRequest.getFileName();
         String contentType = binaryContentRequest.getContentType();
         byte[] bytes = binaryContentRequest.getBytes();
-        int length = bytes.length;
+        long length = bytes.length;
 
-        BinaryContent binaryContent = new BinaryContent(fileName,
+        BinaryContent binaryContent = new BinaryContent(
+            fileName,
             length,
             contentType,
-            bytes);
+            bytes
+        );
 
         user.updateProfileImageId(binaryContent.getId());
         userRepository.save(user);
@@ -136,9 +150,14 @@ public class BasicUserService implements UserService {
     @Override
     public void remove(UUID userId) {
         User user = userRepository.findByUserId(userId);
-
+        if (user == null) {
+            throw new NoSuchElementException("[ERROR] user not found");
+        }
         userRepository.delete(userId);
         userStatusRepository.deleteByUserId(userId);
-        binaryContentRepository.delete(user.getProfileImageId());
+        
+        if (user.getProfileImageId() != null) {
+            binaryContentRepository.delete(user.getProfileImageId());
+        }
     }
 }
