@@ -1,6 +1,14 @@
 spring:
   application:
     name=discodeit
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+server:
+  tomcat:
+    max-http-form-post-size: 50MB
 
 discodeit:
   repository:
