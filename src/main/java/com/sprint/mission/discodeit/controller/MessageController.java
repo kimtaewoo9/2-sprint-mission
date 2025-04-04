@@ -68,7 +68,7 @@ public class MessageController {
                 file.getBytes()
             );
         } catch (IOException e) {
-            throw new RuntimeException("[ERROR] 파일 처리 중 오류 발생");
+            throw new RuntimeException("[ERROR] binary content error");
         }
     }
 

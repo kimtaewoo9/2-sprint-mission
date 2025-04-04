@@ -25,15 +25,6 @@ public class UserController {
 
     private final UserService userService;
 
-    private static CreateBinaryContentRequest getCreateBinaryContentRequest(MultipartFile file)
-        throws IOException {
-        CreateBinaryContentRequest binaryContentRequest =
-            new CreateBinaryContentRequest(file.getOriginalFilename(),
-                file.getContentType(),
-                file.getBytes());
-        return binaryContentRequest;
-    }
-
     @GetMapping("/api/users")
     public ResponseEntity<List<UserResponseDto>> findAll() {
         List<UserResponseDto> userList = userService.findAll();
@@ -59,13 +50,22 @@ public class UserController {
             userId = userService.create(request);
         } else {
             CreateBinaryContentRequest binaryContentRequest =
-                getCreateBinaryContentRequest(file);
+                convertFileToRequest(file);
 
             userId = userService.create(request, binaryContentRequest);
         }
         UserResponseDto response = userService.findByUserId(userId);
 
         return ResponseEntity.ok(response);
+    }
+
+    private CreateBinaryContentRequest convertFileToRequest(MultipartFile file)
+        throws IOException {
+        CreateBinaryContentRequest binaryContentRequest =
+            new CreateBinaryContentRequest(file.getOriginalFilename(),
+                file.getContentType(),
+                file.getBytes());
+        return binaryContentRequest;
     }
 
     @PatchMapping("/api/users/{userId}")
@@ -79,7 +79,7 @@ public class UserController {
 
         } else {
             CreateBinaryContentRequest binaryContentRequest =
-                getCreateBinaryContentRequest(file);
+                convertFileToRequest(file);
 
             userService.update(userId, request, binaryContentRequest);
         }

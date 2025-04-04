@@ -108,9 +108,15 @@ public class BasicUserService implements UserService {
 
         String password = request.getNewPassword();
 
-        user.updateName(username);
-        user.updateEmail(email);
-        user.updatePassword(password);
+        if (username != null) {
+            user.updateName(username);
+        }
+        if (email != null) {
+            user.updateEmail(email);
+        }
+        if (password != null) {
+            user.updatePassword(password);
+        }
 
         userRepository.save(user);
 
@@ -123,25 +129,24 @@ public class BasicUserService implements UserService {
 
         UUID findUser = update(userId, request);
 
-        User user = userRepository.findByUserId(findUser); // 계속 findByUserId로 찾아야함.
+        User user = userRepository.findByUserId(findUser);
+
         UUID profileImageId = user.getProfileImageId();
-        if (profileImageId != null) {
-            binaryContentRepository.delete(user.getProfileImageId());
-        }
+        binaryContentRepository.delete(profileImageId);
 
         String fileName = binaryContentRequest.getFileName();
         String contentType = binaryContentRequest.getContentType();
         byte[] bytes = binaryContentRequest.getBytes();
-        long length = bytes.length;
 
         BinaryContent binaryContent = new BinaryContent(
             fileName,
-            length,
+            bytes.length,
             contentType,
             bytes
         );
+        UUID binaryContentId = binaryContentRepository.save(binaryContent);
 
-        user.updateProfileImageId(binaryContent.getId());
+        user.updateProfileImageId(binaryContentId);
         userRepository.save(user);
 
         return user.getId();
@@ -155,7 +160,7 @@ public class BasicUserService implements UserService {
         }
         userRepository.delete(userId);
         userStatusRepository.deleteByUserId(userId);
-        
+
         if (user.getProfileImageId() != null) {
             binaryContentRepository.delete(user.getProfileImageId());
         }
