@@ -50,13 +50,15 @@ class BasicUserServiceTest {
         UUID userId = UUID.randomUUID();
 
         ReflectionTestUtils.setField(createdUser, "id", userId);
+        when(userRepository.findByUserId(any(UUID.class))).thenReturn(createdUser);
 
         // when
+        UUID resultId = userService.create(request);
 
         // then
-        UUID result = userService.create(request);
         verify(userRepository).save(any(User.class));
         verify(userStatusRepository).save(any(UserStatus.class));
+        assertEquals(userId, resultId);
     }
 
     @Test
