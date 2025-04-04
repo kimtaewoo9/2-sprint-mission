@@ -16,6 +16,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
@@ -49,11 +50,11 @@ public class BasicChannelService implements ChannelService {
         UUID channelId = channel.getId();
         List<UUID> participantIds = request.getParticipantIds();
         for (UUID userId : participantIds) {
-
             ReadStatus readStatus = new ReadStatus(channelId, userId, Instant.MIN);
             readStatusRepository.save(readStatus);
 
             channel.getUserIds().add(userId);
+            // channel에 따로 userId를 두지 않고 read status를 통해 channel에 있는 유저 파악할 수 있음.
         }
 
         return channel.getId();
@@ -62,8 +63,11 @@ public class BasicChannelService implements ChannelService {
     @Override
     public ChannelResponseDto findByChannelId(UUID channelId) {
         Channel channel = channelRepository.findByChannelId(channelId);
+        if (channel == null) {
+            throw new NoSuchElementException("[ERROR] channel not found");
+        }
 
-        List<UUID> userIds = channel.getUserIds();
+        List<UUID> userIds = channel.getUserIds(); // read status 활용하기 ..
         Instant lastMessageTimestamp = getLastMessageTimestamp(channelId);
 
         return ChannelResponseDto.from(channel, userIds, lastMessageTimestamp);
@@ -126,10 +130,10 @@ public class BasicChannelService implements ChannelService {
     }
 
     @Override
-    public void update(UUID channelId, UpdateChannelRequest request) {
+    public UUID update(UUID channelId, UpdateChannelRequest request) {
         Channel channel = channelRepository.findByChannelId(channelId);
         if (channel == null) {
-            throw new IllegalArgumentException("[ERROR] channel not found");
+            throw new NoSuchElementException("[ERROR] channel not found");
         }
         if (channel.getType() == ChannelType.PRIVATE) {
             throw new IllegalArgumentException("[ERROR] private channel cannot be modified");
@@ -138,20 +142,19 @@ public class BasicChannelService implements ChannelService {
         String newName = request.getNewName();
         String newDescription = request.getNewDescription();
 
-        System.out.println(newDescription);
-
         channel.updateName(newName);
         channel.updateDescription(newDescription);
 
         channelRepository.save(channel);
+
+        return channel.getId();
     }
 
     @Override
     public void remove(UUID channelId) {
         Channel channel = channelRepository.findByChannelId(channelId);
-
         if (channel == null) {
-            throw new IllegalArgumentException("[ERROR] channel not found");
+            throw new NoSuchElementException("[ERROR] channel not found");
         }
 
         messageRepository.findAllByChannelId(channelId).
@@ -165,6 +168,9 @@ public class BasicChannelService implements ChannelService {
     @Override
     public void addMember(UUID channelId, UUID userId) {
         Channel channel = channelRepository.findByChannelId(channelId);
+        if (channel == null) {
+            throw new NoSuchElementException("[ERROR] channel not found");
+        }
         channel.addMember(userId);
         channelRepository.save(channel);
     }
@@ -172,6 +178,9 @@ public class BasicChannelService implements ChannelService {
     @Override
     public void removeMember(UUID channelId, UUID userId) {
         Channel channel = channelRepository.findByChannelId(channelId);
+        if (channel == null) {
+            throw new NoSuchElementException("[ERROR] channel not found");
+        }
         channel.removeMember(userId);
         channelRepository.save(channel);
     }
