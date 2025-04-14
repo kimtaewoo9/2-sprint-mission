@@ -1,49 +1,44 @@
 package com.sprint.mission.discodeit.entity;
 
 import com.sprint.mission.discodeit.entity.common.BaseUpdatableEntity;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.PostLoad;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.Instant;
 import java.util.UUID;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Persistable;
 
 @Entity
-@Table(name = "messages")
-@NoArgsConstructor
+@Table(name = "read_statuses")
 @Getter
-public class Message extends BaseUpdatableEntity implements Persistable<UUID> {
-
-    private String content;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "channel_id")
-    private Channel channel;
+@NoArgsConstructor
+@AllArgsConstructor
+public class ReadStatus extends BaseUpdatableEntity implements Persistable<UUID> {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User author;
+    private User user;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "message_id")
-    private List<BinaryContent> attachments = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "channel_id")
+    private Channel channel;
+
+    private Instant lastReadAt;
 
     @Transient
     private boolean isNew = true;
-
-    public void update(String newContent) {
-        if (newContent != null && !newContent.equals(this.content)) {
-            this.content = newContent;
+    
+    public void update(Instant newLastReadAt) {
+        if (newLastReadAt != null && this.lastReadAt.isAfter(newLastReadAt)) {
+            this.lastReadAt = newLastReadAt;
         }
     }
 
@@ -54,7 +49,7 @@ public class Message extends BaseUpdatableEntity implements Persistable<UUID> {
 
     @PostLoad
     @PrePersist
-    public void markNotNew() {
+    void markNotNew() {
         this.isNew = false;
     }
 }

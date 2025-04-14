@@ -2,7 +2,7 @@ package com.sprint.mission.discodeit.service.basic;
 
 import com.sprint.mission.discodeit.dto.readstatus.CreateReadStatusRequest;
 import com.sprint.mission.discodeit.dto.readstatus.UpdateReadStatusRequest;
-import com.sprint.mission.discodeit.entity.status.ReadStatus;
+import com.sprint.mission.discodeit.entity.ReadStatus;
 import com.sprint.mission.discodeit.exception.custom.DuplicateResourceException;
 import com.sprint.mission.discodeit.repository.ChannelRepository;
 import com.sprint.mission.discodeit.repository.ReadStatusRepository;

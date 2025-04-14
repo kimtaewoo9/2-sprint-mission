@@ -3,7 +3,7 @@ package com.sprint.mission.discodeit.repository.jcf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import com.sprint.mission.discodeit.entity.status.UserStatus;
+import com.sprint.mission.discodeit.entity.UserStatus;
 import java.time.Instant;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;

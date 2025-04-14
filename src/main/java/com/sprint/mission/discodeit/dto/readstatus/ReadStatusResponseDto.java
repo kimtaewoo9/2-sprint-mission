@@ -1,6 +1,6 @@
 package com.sprint.mission.discodeit.dto.readstatus;
 
-import com.sprint.mission.discodeit.entity.status.ReadStatus;
+import com.sprint.mission.discodeit.entity.ReadStatus;
 import java.time.Instant;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -15,7 +15,7 @@ public class ReadStatusResponseDto {
     private UUID userId;
     private Instant updatedAt;
     private Instant lastReadAt;
-    
+
     public static ReadStatusResponseDto from(ReadStatus readStatus) {
         return new ReadStatusResponseDto(
             readStatus.getId(),

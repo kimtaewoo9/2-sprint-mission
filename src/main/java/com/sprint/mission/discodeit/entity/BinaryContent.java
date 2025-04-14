@@ -1,29 +1,45 @@
 package com.sprint.mission.discodeit.entity;
 
-import java.io.Serializable;
-import java.time.Instant;
+import com.sprint.mission.discodeit.entity.common.BaseEntity;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
+import jakarta.persistence.PostLoad;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import java.util.UUID;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.domain.Persistable;
 
+@Entity
+@Table(name = "binary_contents")
+@NoArgsConstructor
 @Getter
-public class BinaryContent implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-    private final UUID id;
-    private final Instant createdAt;
+@Setter
+public class BinaryContent extends BaseEntity implements Persistable<UUID> {
 
     private String fileName;
+
     private Long size;
-    private String contentType;
+
+    private String ContentType;
+
+    @Lob
     private byte[] bytes;
 
-    public BinaryContent(String fileName, long size, String contentType, byte[] bytes) {
-        this.id = UUID.randomUUID();
-        this.createdAt = Instant.now();
+    @Transient
+    private boolean isNew = true;
 
-        this.fileName = fileName;
-        this.size = size;
-        this.contentType = contentType;
-        this.bytes = bytes;
+    @Override
+    public boolean isNew() {
+        return isNew;
+    }
+
+    @PostLoad
+    @PrePersist
+    public void martNotNew() {
+        this.isNew = false;
     }
 }

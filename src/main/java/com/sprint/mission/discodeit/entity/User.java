@@ -1,63 +1,52 @@
 package com.sprint.mission.discodeit.entity;
 
-import java.io.Serializable;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
+import com.sprint.mission.discodeit.entity.common.BaseUpdatableEntity;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PostLoad;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import java.util.UUID;
 import lombok.Getter;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.domain.Persistable;
 
+@Entity
+@Table(name = "users")
+@NoArgsConstructor
 @Getter
-@ToString
-public class User implements Serializable, Comparable<User> {
+@Setter
+public class User extends BaseUpdatableEntity implements Persistable<UUID> {
 
-    private static final long serialVersionUID = 1L;
+    private String username;
 
-    private UUID id;
-    private Instant createdAt;
-    private List<Message> messageList = new ArrayList<>();
-    private Instant updatedAt;
-    private String name;
     private String email;
+
     private String password;
-    private UUID profileImageId;
-    private Instant lastLoginAt;
 
-    public User(String name, String email, String password) {
-        this.id = UUID.randomUUID();
-        this.createdAt = Instant.now();
-        this.updatedAt = this.createdAt;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.lastLoginAt = createdAt;
-    }
+    @OneToOne
+    @JoinColumn(name = "profile_id")
+    private BinaryContent profile;
 
-    public void updateName(String name) {
-        this.name = name;
-        this.updatedAt = Instant.now();
-    }
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_status_id")
+    private UserStatus status;
 
-    public void updateEmail(String email) {
-        this.email = email;
-        this.updatedAt = Instant.now();
-    }
-
-    public void updateProfileImageId(UUID profileImageId) {
-        this.profileImageId = profileImageId;
-    }
-
-    public void updatePassword(String password) {
-        this.password = password;
-    }
-
-    public void updateLastLoginAt(Instant lastLoginAt) {
-        this.lastLoginAt = lastLoginAt;
-    }
+    @Transient
+    private boolean isNew = true;
 
     @Override
-    public int compareTo(User other) {
-        return this.name.compareTo(other.name);
+    public boolean isNew() {
+        return isNew;
+    }
+
+    @PostLoad
+    @PrePersist
+    void markNotNew() {
+        this.isNew = false;
     }
 }
