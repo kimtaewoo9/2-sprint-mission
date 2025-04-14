@@ -1,8 +1,8 @@
 package com.sprint.mission.discodeit.entity;
 
 import com.sprint.mission.discodeit.entity.common.BaseUpdatableEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PostLoad;
@@ -28,12 +28,11 @@ public class User extends BaseUpdatableEntity implements Persistable<UUID> {
 
     private String password;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "profile_id")
     private BinaryContent profile;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_status_id")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private UserStatus status;
 
     @Transient

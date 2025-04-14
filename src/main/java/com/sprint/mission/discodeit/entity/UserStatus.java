@@ -2,9 +2,11 @@ package com.sprint.mission.discodeit.entity;
 
 import com.sprint.mission.discodeit.entity.common.BaseUpdatableEntity;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
+import java.time.Instant;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,9 +18,12 @@ import org.springframework.data.domain.Persistable;
 @Getter
 public class UserStatus extends BaseUpdatableEntity implements Persistable<UUID> {
 
-    @OneToOne(mappedBy = "userStatus")
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
+    private Instant lasActiveAt;
+    
     @Transient
     private boolean isNew = true;
 
