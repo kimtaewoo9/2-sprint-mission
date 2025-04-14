@@ -23,7 +23,7 @@ public class BasicAuthService implements AuthService {
         String username = form.getUsername();
         String password = form.getPassword();
 
-        User user = userRepository.findByUserName(username);
+        User user = userRepository.findByUsername(username);
         if (user == null) {
             throw new NoSuchElementException("[ERROR] user not found");
         }
