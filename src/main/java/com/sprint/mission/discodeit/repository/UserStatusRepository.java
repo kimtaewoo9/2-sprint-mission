@@ -9,6 +9,4 @@ import org.springframework.stereotype.Repository;
 public interface UserStatusRepository extends JpaRepository<UserStatus, UUID> {
 
     UserStatus findByUserId(UUID userId);
-
-    void deleteByUserId(UUID userId);
 }
