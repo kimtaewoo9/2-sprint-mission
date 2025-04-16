@@ -11,7 +11,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import java.time.Instant;
 import java.util.UUID;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Persistable;
@@ -20,7 +19,6 @@ import org.springframework.data.domain.Persistable;
 @Table(name = "read_statuses")
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class ReadStatus extends BaseUpdatableEntity implements Persistable<UUID> {
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -35,8 +33,18 @@ public class ReadStatus extends BaseUpdatableEntity implements Persistable<UUID>
 
     @Transient
     private boolean isNew = true;
-    
-    public void update(Instant newLastReadAt) {
+
+    protected ReadStatus(User user, Channel channel, Instant lastReadAt) {
+        this.user = user;
+        this.channel = channel;
+        this.lastReadAt = lastReadAt;
+    }
+
+    public static ReadStatus createReadStatus(User user, Channel channel, Instant lastReadAt) {
+        return new ReadStatus(user, channel, lastReadAt);
+    }
+
+    public void updateLastReadAt(Instant newLastReadAt) {
         if (newLastReadAt != null && this.lastReadAt.isAfter(newLastReadAt)) {
             this.lastReadAt = newLastReadAt;
         }

@@ -1,14 +1,16 @@
 package com.sprint.mission.discodeit.service.basic;
 
 import com.sprint.mission.discodeit.dto.login.LoginForm;
+import com.sprint.mission.discodeit.dto.user.UserDto;
 import com.sprint.mission.discodeit.entity.User;
+import com.sprint.mission.discodeit.mapper.UserMapper;
 import com.sprint.mission.discodeit.repository.UserRepository;
 import com.sprint.mission.discodeit.service.AuthService;
-import java.time.Instant;
 import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,11 +19,14 @@ public class BasicAuthService implements AuthService {
 
     private final UserRepository userRepository;
 
-    @Override
-    public User login(LoginForm form) {
+    private final UserMapper userMapper;
 
-        String username = form.getUsername();
-        String password = form.getPassword();
+    @Override
+    @Transactional
+    public UserDto login(LoginForm form) {
+
+        String username = form.username();
+        String password = form.password();
 
         User user = userRepository.findByUsername(username);
         if (user == null) {
@@ -31,8 +36,7 @@ public class BasicAuthService implements AuthService {
         if (!result) {
             throw new IllegalArgumentException("[ERROR] try again");
         }
-        user.updateLastLoginAt(Instant.now());
 
-        return user;
+        return userMapper.toDto(user);
     }
 }

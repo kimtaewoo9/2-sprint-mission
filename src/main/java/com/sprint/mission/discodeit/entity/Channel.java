@@ -10,13 +10,13 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import java.util.UUID;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.domain.Persistable;
 
 @Entity
 @Table(name = "channels")
-@NoArgsConstructor
 @Getter
+@Setter
 public class Channel extends BaseUpdatableEntity implements Persistable<UUID> {
 
     @Enumerated(EnumType.STRING)
@@ -28,6 +28,25 @@ public class Channel extends BaseUpdatableEntity implements Persistable<UUID> {
 
     @Transient
     private boolean isNew = true;
+
+    protected Channel() {
+    }
+
+    public static Channel createPublicChannel(String name, String description) {
+        Channel channel = new Channel();
+        channel.setName(name);
+        channel.setDescription(description);
+        channel.setChannelType(ChannelType.PUBLIC);
+
+        return channel;
+    }
+
+    public static Channel createPrivateChannel() {
+        Channel channel = new Channel();
+        channel.setChannelType(ChannelType.PRIVATE);
+
+        return channel;
+    }
 
     public void update(String newName, String newDescription) {
         if (newName != null && !newName.equals(this.name)) {

@@ -2,7 +2,7 @@ package com.sprint.mission.discodeit.controller;
 
 import com.sprint.mission.discodeit.dto.binarycontent.CreateBinaryContentRequest;
 import com.sprint.mission.discodeit.dto.message.CreateMessageRequest;
-import com.sprint.mission.discodeit.dto.message.MessageResponseDto;
+import com.sprint.mission.discodeit.dto.message.MessageDto;
 import com.sprint.mission.discodeit.dto.message.UpdateMessageRequest;
 import com.sprint.mission.discodeit.service.MessageService;
 import java.io.IOException;
@@ -29,28 +29,25 @@ public class MessageController {
     private final MessageService messageService;
 
     @GetMapping("/api/messages")
-    public ResponseEntity<List<MessageResponseDto>> findAllByChannelId(
+    public ResponseEntity<List<MessageDto>> findAllByChannelId(
         @RequestParam UUID channelId
     ) {
-        List<MessageResponseDto> messageList = messageService.findByChannelId(channelId);
+        List<MessageDto> response = messageService.findByChannelId(channelId);
 
-        return ResponseEntity.ok(messageList);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/api/messages")
-    public ResponseEntity<MessageResponseDto> create(
+    public ResponseEntity<MessageDto> create(
         @RequestPart("messageCreateRequest") CreateMessageRequest request,
         @RequestPart(value = "attachments", required = false) List<MultipartFile> files) {
-
-        UUID messageId;
+        MessageDto response = null;
         if (files == null || files.isEmpty()) {
-            messageId = messageService.create(request);
+            response = messageService.create(request);
         } else {
             List<CreateBinaryContentRequest> binaryContentRequests = convertFiles(files);
-            messageId = messageService.create(request, binaryContentRequests);
+            response = messageService.create(request, binaryContentRequests);
         }
-
-        MessageResponseDto response = messageService.findById(messageId);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -73,12 +70,12 @@ public class MessageController {
     }
 
     @PatchMapping("/api/messages/{messageId}")
-    public ResponseEntity<MessageResponseDto> updateMessage(
+    public ResponseEntity<MessageDto> updateMessage(
         @PathVariable UUID messageId,
         @RequestBody UpdateMessageRequest request) {
 
         messageService.update(messageId, request);
-        MessageResponseDto response = messageService.findById(messageId);
+        MessageDto response = messageService.findById(messageId);
 
         return ResponseEntity.ok(response);
     }

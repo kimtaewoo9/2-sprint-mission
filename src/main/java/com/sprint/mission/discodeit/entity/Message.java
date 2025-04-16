@@ -5,6 +5,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PostLoad;
@@ -15,13 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.domain.Persistable;
 
 @Entity
 @Table(name = "messages")
-@NoArgsConstructor
 @Getter
+@Setter
 public class Message extends BaseUpdatableEntity implements Persistable<UUID> {
 
     private String content;
@@ -34,17 +35,35 @@ public class Message extends BaseUpdatableEntity implements Persistable<UUID> {
     @JoinColumn(name = "user_id")
     private User author;
 
+    // TODO 일대다 단방향 말고 다대일 양방향 활용
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "message_id")
+    @JoinTable(name = "message_attatchments")
     private List<BinaryContent> attachments = new ArrayList<>();
 
     @Transient
     private boolean isNew = true;
 
+    protected Message() {
+    }
+
+    public static Message createMessage(Channel channel, User author, String content) {
+
+        Message message = new Message();
+        message.setChannel(channel);
+        message.setAuthor(author);
+        message.setContent(content);
+
+        return message;
+    }
+
     public void update(String newContent) {
         if (newContent != null && !newContent.equals(this.content)) {
             this.content = newContent;
         }
+    }
+
+    public void addBinaryContent(BinaryContent attachment) {
+        this.attachments.add((attachment));
     }
 
     @Override

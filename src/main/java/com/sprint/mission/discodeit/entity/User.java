@@ -11,13 +11,11 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import java.util.UUID;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.domain.Persistable;
 
 @Entity
 @Table(name = "users")
-@NoArgsConstructor
 @Getter
 @Setter
 public class User extends BaseUpdatableEntity implements Persistable<UUID> {
@@ -37,6 +35,37 @@ public class User extends BaseUpdatableEntity implements Persistable<UUID> {
 
     @Transient
     private boolean isNew = true;
+
+    protected User() {
+    }
+
+    public static User createUser(String username, String email, String password) {
+        User user = new User();
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setPassword(password); // TODO 암호화 처리
+
+        return user;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
+        status.setUser(this);
+    }
+
+    public BinaryContent updateProfile(BinaryContent newProfile) {
+
+        BinaryContent oldProfile = this.profile;
+        this.profile = newProfile;
+
+        return oldProfile;
+    }
+
+    public void update(String newName, String newEmail, String newPassword) {
+        this.username = newName;
+        this.email = newEmail;
+        this.password = newPassword;
+    }
 
     @Override
     public boolean isNew() {

@@ -1,7 +1,7 @@
 package com.sprint.mission.discodeit.controller;
 
 import com.sprint.mission.discodeit.dto.userstatus.UpdateUserStatusRequest;
-import com.sprint.mission.discodeit.entity.UserStatus;
+import com.sprint.mission.discodeit.dto.userstatus.UserStatusDto;
 import com.sprint.mission.discodeit.service.UserStatusService;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -25,10 +25,9 @@ public class UserStatusController {
     ) {
 
         try {
-            UUID userStatusId = userStatusService.updateByUserId(userId, request);
-            UserStatus userStatus = userStatusService.findByUserStatusId(userStatusId);
+            UserStatusDto response = userStatusService.updateByUserId(userId, request);
 
-            return ResponseEntity.ok(userStatus);
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body("UserStatus with userId " + userId + " not found");

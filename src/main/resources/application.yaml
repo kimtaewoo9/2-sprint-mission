@@ -33,7 +33,9 @@ logging:
             sql: trace  # SQL 파라미터 값 로깅
 
 discodeit:
-  repository:
-    type: jcf
+  storage:
+    type: local
+    local:
+      root-path: /path/to/storage
 
 spring.web.resources.static-locations: classpath:/static/
