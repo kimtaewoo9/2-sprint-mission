@@ -13,7 +13,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
   properties:
     hibernate:
       format_sql: true  # SQL 쿼리 포맷팅
@@ -21,7 +21,7 @@ spring:
 
 server:
   tomcat:
-    max-http-form-post-size: 50MB
+    max-http-form-post-size: 10MB
 
 logging:
   level:

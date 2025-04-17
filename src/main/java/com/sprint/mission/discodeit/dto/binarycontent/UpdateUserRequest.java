@@ -1,7 +1,7 @@
 package com.sprint.mission.discodeit.dto.binarycontent;
 
 public record UpdateUserRequest(
-    String newName,
+    String newUsername,
     String newEmail,
     String newPassword
 ) {

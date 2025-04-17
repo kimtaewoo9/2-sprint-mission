@@ -37,7 +37,7 @@ public class Message extends BaseUpdatableEntity implements Persistable<UUID> {
 
     // TODO 일대다 단방향 말고 다대일 양방향 활용
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinTable(name = "message_attatchments")
+    @JoinTable(name = "message_attachments")
     private List<BinaryContent> attachments = new ArrayList<>();
 
     @Transient

@@ -4,8 +4,10 @@ import com.sprint.mission.discodeit.dto.binarycontent.CreateBinaryContentRequest
 import com.sprint.mission.discodeit.dto.message.CreateMessageRequest;
 import com.sprint.mission.discodeit.dto.message.MessageDto;
 import com.sprint.mission.discodeit.dto.message.UpdateMessageRequest;
+import com.sprint.mission.discodeit.dto.response.PageResponse;
 import com.sprint.mission.discodeit.service.MessageService;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -29,10 +31,13 @@ public class MessageController {
     private final MessageService messageService;
 
     @GetMapping("/api/messages")
-    public ResponseEntity<List<MessageDto>> findAllByChannelId(
-        @RequestParam UUID channelId
+    public ResponseEntity<PageResponse<MessageDto>> findAllByChannelId(
+        @RequestParam("channelId") UUID channelId,
+        @RequestParam(value = "cursor", required = false) Instant cursor,
+        @RequestParam(value = "size", defaultValue = "50") int size
     ) {
-        List<MessageDto> response = messageService.findByChannelId(channelId);
+        PageResponse<MessageDto> response = messageService.findAllByChannelId(channelId,
+            cursor, size);
 
         return ResponseEntity.ok(response);
     }

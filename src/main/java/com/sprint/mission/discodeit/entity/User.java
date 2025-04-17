@@ -61,10 +61,16 @@ public class User extends BaseUpdatableEntity implements Persistable<UUID> {
         return oldProfile;
     }
 
-    public void update(String newName, String newEmail, String newPassword) {
-        this.username = newName;
-        this.email = newEmail;
-        this.password = newPassword;
+    public void update(String newUsername, String newEmail, String newPassword) {
+        if (newUsername != null && !newUsername.equals(this.username)) {
+            this.username = newUsername;
+        }
+        if (newEmail != null && !newEmail.equals(this.email)) {
+            this.email = newEmail;
+        }
+        if (newPassword != null && !newPassword.equals(this.password)) {
+            this.password = newPassword;
+        }
     }
 
     @Override

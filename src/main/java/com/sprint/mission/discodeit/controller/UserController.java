@@ -60,11 +60,9 @@ public class UserController {
 
     private CreateBinaryContentRequest convertFileToRequest(MultipartFile file)
         throws IOException {
-        CreateBinaryContentRequest binaryContentRequest =
-            new CreateBinaryContentRequest(file.getOriginalFilename(),
-                file.getContentType(),
-                file.getBytes());
-        return binaryContentRequest;
+        return new CreateBinaryContentRequest(file.getOriginalFilename(),
+            file.getContentType(),
+            file.getBytes());
     }
 
     @PatchMapping("/api/users/{userId}")
@@ -80,7 +78,6 @@ public class UserController {
         } else {
             CreateBinaryContentRequest binaryContentRequest =
                 convertFileToRequest(file);
-
             response = userService.update(userId, request, binaryContentRequest);
         }
 

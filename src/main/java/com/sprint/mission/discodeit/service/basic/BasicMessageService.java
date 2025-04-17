@@ -4,10 +4,10 @@ import com.sprint.mission.discodeit.dto.binarycontent.CreateBinaryContentRequest
 import com.sprint.mission.discodeit.dto.message.CreateMessageRequest;
 import com.sprint.mission.discodeit.dto.message.MessageDto;
 import com.sprint.mission.discodeit.dto.message.UpdateMessageRequest;
+import com.sprint.mission.discodeit.dto.response.PageResponse;
 import com.sprint.mission.discodeit.entity.BinaryContent;
 import com.sprint.mission.discodeit.entity.Channel;
 import com.sprint.mission.discodeit.entity.Message;
-import com.sprint.mission.discodeit.entity.ReadStatus;
 import com.sprint.mission.discodeit.entity.User;
 import com.sprint.mission.discodeit.mapper.MessageMapper;
 import com.sprint.mission.discodeit.repository.BinaryContentRepository;
@@ -17,10 +17,15 @@ import com.sprint.mission.discodeit.repository.ReadStatusRepository;
 import com.sprint.mission.discodeit.repository.UserRepository;
 import com.sprint.mission.discodeit.service.MessageService;
 import com.sprint.mission.discodeit.storage.BinaryContentStorage;
+import java.time.Instant;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,7 +56,7 @@ public class BasicMessageService implements MessageService {
         Channel channel = channelRepository.findById(channelId).orElseThrow(
             () -> new NoSuchElementException("[ERROR] channel not found")
         );
-        
+
         String content = request.content();
         Message message = Message.createMessage(channel, user, content);
 
@@ -75,11 +80,6 @@ public class BasicMessageService implements MessageService {
         Channel channel = channelRepository.findById(channelId).orElseThrow(
             () -> new NoSuchElementException("[ERROR] channel not found")
         );
-
-        ReadStatus readStatus = readStatusRepository.findByChannelIdAndUserId(channelId, authorId);
-        if (readStatus == null) {
-            throw new IllegalArgumentException("[ERROR] user has no access to this channel");
-        }
 
         String content = request.content();
         Message message = Message.createMessage(channel, user, content);
@@ -119,16 +119,24 @@ public class BasicMessageService implements MessageService {
 
     @Override
     @Transactional
-    public List<MessageDto> findAll() {
-        return messageRepository.findAll().stream()
-            .map(messageMapper::toDto).toList();
-    }
+    public PageResponse<MessageDto> findAllByChannelId(UUID channelId, Instant cursor, int size) {
+        Pageable pageable = PageRequest.of(0, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<Message> messages;
 
-    @Override
-    @Transactional
-    public List<MessageDto> findByChannelId(UUID channelId) {
-        return messageRepository.findAllByChannelId(channelId)
-            .stream().map(messageMapper::toDto).toList();
+        if (cursor == null) {
+            messages = messageRepository.findFirstMessages(channelId, pageable);
+        } else {
+            messages = messageRepository.findNextMessages(channelId, cursor, pageable);
+        }
+
+        boolean hasNext = messages.getContent().size() == size;
+        Instant nextCursor =
+            hasNext ? messages.getContent().get(messages.getContent().size() - 1).getCreatedAt()
+                : null;
+
+        return new PageResponse<>(messages.stream()
+            .map(messageMapper::toDto)
+            .toList(), nextCursor, size, hasNext, null);
     }
 
     @Override

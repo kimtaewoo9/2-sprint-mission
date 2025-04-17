@@ -47,7 +47,7 @@ CREATE TABLE messages
     CONSTRAINT fk_messages_author
         FOREIGN KEY (author_id)
             REFERENCES users (id)
-            ON DELETE SET NULL
+            ON DELETE CASCADE
 );
 
 CREATE TABLE message_attachments

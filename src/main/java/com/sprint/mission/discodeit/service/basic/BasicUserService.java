@@ -115,8 +115,11 @@ public class BasicUserService implements UserService {
     @Override
     @Transactional
     public UserDto update(UUID userId, UpdateUserRequest request) {
-        User user = userRepository.findById(userId).orElseThrow();
-        user.update(request.newName(), request.newEmail(), request.newPassword());
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null) {
+            throw new NoSuchElementException("[ERROR] user not found");
+        }
+        user.update(request.newUsername(), request.newEmail(), request.newPassword());
 
         return userMapper.toDto(user);
     }
@@ -127,7 +130,7 @@ public class BasicUserService implements UserService {
         CreateBinaryContentRequest binaryContentRequest) {
 
         User user = userRepository.findById(userId).orElseThrow();
-        user.update(request.newName(), request.newEmail(), request.newPassword());
+        user.update(request.newUsername(), request.newEmail(), request.newPassword());
 
         String fileName = binaryContentRequest.fileName();
         String contentType = binaryContentRequest.contentType();
