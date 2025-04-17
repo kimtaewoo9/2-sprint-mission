@@ -51,13 +51,7 @@ public class BasicMessageService implements MessageService {
         Channel channel = channelRepository.findById(channelId).orElseThrow(
             () -> new NoSuchElementException("[ERROR] channel not found")
         );
-
-        // read status 활용해서 권한 체크 .
-        ReadStatus readStatus = readStatusRepository.findByChannelIdAndUserId(channelId, authorId);
-        if (readStatus == null) {
-            throw new IllegalArgumentException("[ERROR] user has no access to this channel");
-        }
-
+        
         String content = request.content();
         Message message = Message.createMessage(channel, user, content);
 
