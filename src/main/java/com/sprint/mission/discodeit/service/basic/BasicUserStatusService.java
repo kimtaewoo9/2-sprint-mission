@@ -15,13 +15,11 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Primary
 public class BasicUserStatusService implements UserStatusService {
 
     private final UserStatusRepository userStatusRepository;
@@ -39,8 +37,7 @@ public class BasicUserStatusService implements UserStatusService {
             throw new NoSuchElementException("[ERROR] user not found");
         }
 
-        UserStatus check = userStatusRepository.findByUserId(request.userId());
-        if (check != null) {
+        if (userStatusRepository.existsByUserId(request.userId())) {
             throw new DuplicateResourceException("[ERROR] user status is already exist");
         }
 
