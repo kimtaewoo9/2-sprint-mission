@@ -14,6 +14,7 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: create-drop
+    open-in-view: false
   properties:
     hibernate:
       format_sql: true  # SQL 쿼리 포맷팅

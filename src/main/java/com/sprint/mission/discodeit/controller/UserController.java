@@ -78,6 +78,7 @@ public class UserController {
         } else {
             CreateBinaryContentRequest binaryContentRequest =
                 convertFileToRequest(file);
+
             response = userService.update(userId, request, binaryContentRequest);
         }
 
