@@ -36,8 +36,9 @@ public class MessageController {
         @RequestParam(value = "cursor", required = false) Instant cursor,
         @RequestParam(value = "size", defaultValue = "50") int size
     ) {
+        // TODO size 일단 10으로 하고 test
         PageResponse<MessageDto> response = messageService.findAllByChannelId(channelId,
-            cursor, size);
+            cursor, 10);
 
         return ResponseEntity.ok(response);
     }

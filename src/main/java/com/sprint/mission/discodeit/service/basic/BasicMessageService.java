@@ -26,6 +26,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -120,7 +121,7 @@ public class BasicMessageService implements MessageService {
     @Override
     @Transactional
     public PageResponse<MessageDto> findAllByChannelId(UUID channelId, Instant cursor, int size) {
-        Pageable pageable = PageRequest.of(0, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Pageable pageable = PageRequest.of(0, size, Sort.by(Direction.DESC, "createdAt"));
         Page<Message> messages;
 
         if (cursor == null) {
