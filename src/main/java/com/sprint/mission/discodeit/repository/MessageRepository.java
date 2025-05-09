@@ -38,4 +38,6 @@ public interface MessageRepository extends JpaRepository<Message, UUID> {
     @Modifying
     @Query("DELETE FROM Message as m WHERE m.channel.id = :channelId")
     void deleteByChannelId(UUID channelId);
+
+    int countByChannelId(UUID channelId);
 }

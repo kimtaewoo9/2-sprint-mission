@@ -24,12 +24,16 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class BasicChannelService implements ChannelService {
+
+    private static final Logger logger = LoggerFactory.getLogger(BasicChannelService.class);
 
     private final ChannelRepository channelRepository;
     private final ReadStatusRepository readStatusRepository;
@@ -42,82 +46,134 @@ public class BasicChannelService implements ChannelService {
     @Override
     @Transactional
     public ChannelDto createPublicChannel(CreatePublicChannelRequest request) {
-        String name = request.name();
-        String description = request.description();
+        logger.info("Creating new public channel with name: {}", request.name());
+        logger.debug("Public channel description: {}", request.description());
 
-        Channel channel =
-            Channel.createPublicChannel(name, description);
+        try {
+            String name = request.name();
+            String description = request.description();
 
-        channelRepository.save(channel);
+            Channel channel = Channel.createPublicChannel(name, description);
+            Channel savedChannel = channelRepository.save(channel);
 
-        return channelMapper.toDto(channel, Collections.emptyList(), null);
+            logger.info("Public channel created successfully with ID: {}", savedChannel.getId());
+            return channelMapper.toDto(channel, Collections.emptyList(), null);
+        } catch (Exception e) {
+            logger.error("Failed to create public channel: {}", e.getMessage(), e);
+            throw e;
+        }
     }
 
     @Override
     @Transactional
     public ChannelDto createPrivateChannel(CreatePrivateChannelRequest request) {
+        logger.info("Creating new private channel with {} participants",
+            request.participantIds().size());
+        logger.debug("Private channel participant IDs: {}", request.participantIds());
 
-        Channel channel = Channel.createPrivateChannel();
-        Channel savedChannel = channelRepository.save(channel);
+        try {
+            Channel channel = Channel.createPrivateChannel();
+            Channel savedChannel = channelRepository.save(channel);
+            logger.debug("Private channel created with ID: {}", savedChannel.getId());
 
-        List<UserDto> participants = new ArrayList<>();
+            List<UserDto> participants = new ArrayList<>();
 
-        List<UUID> participantIds = request.participantIds();
-        for (UUID participantId : participantIds) {
-            User user = userRepository.findById(participantId).orElseThrow();
+            List<UUID> participantIds = request.participantIds();
+            for (UUID participantId : participantIds) {
+                User user = userRepository.findById(participantId).orElseThrow(() -> {
+                    logger.warn("Participant not found with ID: {}", participantId);
+                    return new NoSuchElementException("[ERROR] participant not found");
+                });
 
-            participants.add(userMapper.toDto(user));
+                participants.add(userMapper.toDto(user));
 
-            ReadStatus readStatus = ReadStatus.createReadStatus(user, channel, Instant.now());
-            readStatusRepository.save(readStatus);
+                ReadStatus readStatus = ReadStatus.createReadStatus(user, channel, Instant.now());
+                readStatusRepository.save(readStatus);
+                logger.debug("Added participant {} to channel {}", user.getUsername(),
+                    savedChannel.getId());
+            }
+
+            logger.info("Private channel created successfully with ID: {} and {} participants",
+                savedChannel.getId(), participants.size());
+            return channelMapper.toDto(savedChannel, participants, null);
+        } catch (NoSuchElementException e) {
+            logger.warn("Failed to create private channel: {}", e.getMessage());
+            throw e;
+        } catch (Exception e) {
+            logger.error("Unexpected error during private channel creation: {}", e.getMessage(), e);
+            throw e;
         }
-
-        return channelMapper.toDto(savedChannel, participants, null);
     }
 
     @Override
     @Transactional
     public ChannelDto findByChannelId(UUID channelId) {
-        Channel channel = channelRepository.findById(channelId).orElse(null);
-        if (channel == null) {
-            throw new NoSuchElementException("[ERROR] channel not found");
-        }
+        logger.info("Finding channel by ID: {}", channelId);
 
-        List<UserDto> participants = new ArrayList<>();
-        if (channel.getChannelType() == ChannelType.PRIVATE) {
-            List<ReadStatus> readStatuses = readStatusRepository
-                .findAllByChannelId(channel.getId());
-
-            for (ReadStatus readStatus : readStatuses) {
-                User user = readStatus.getUser();
-                UserDto userDto = userMapper.toDto(user);
-
-                participants.add(userDto);
+        try {
+            Channel channel = channelRepository.findById(channelId).orElse(null);
+            if (channel == null) {
+                logger.warn("Channel not found with ID: {}", channelId);
+                throw new NoSuchElementException("[ERROR] channel not found");
             }
+
+            List<UserDto> participants = new ArrayList<>();
+            if (channel.getChannelType() == ChannelType.PRIVATE) {
+                List<ReadStatus> readStatuses = readStatusRepository
+                    .findAllByChannelId(channel.getId());
+
+                for (ReadStatus readStatus : readStatuses) {
+                    User user = readStatus.getUser();
+                    UserDto userDto = userMapper.toDto(user);
+                    participants.add(userDto);
+                }
+                logger.debug("Found {} participants in private channel {}", participants.size(),
+                    channelId);
+            }
+
+            Instant lastMessageTimestamp = getLastMessageTimestamp(channelId);
+            logger.debug("Channel found: {} (type: {})",
+                channel.getName(), channel.getChannelType());
+
+            return channelMapper.toDto(channel, participants, lastMessageTimestamp);
+        } catch (NoSuchElementException e) {
+            logger.warn("Channel lookup failed: {}", e.getMessage());
+            throw e;
+        } catch (Exception e) {
+            logger.error("Unexpected error during channel lookup: {}", e.getMessage(), e);
+            throw e;
         }
-
-        Instant lastMessageTimestamp = getLastMessageTimestamp(channelId);
-
-        return channelMapper.toDto(channel, participants, lastMessageTimestamp);
     }
 
     @Override
     @Transactional
     public List<ChannelDto> findAllByUserId(UUID userId) {
+        logger.info("Finding all channels for user ID: {}", userId);
 
-        List<UUID> subscribedChannelIds = readStatusRepository.findAllByUserId(userId).stream()
-            .map(ReadStatus::getChannel)
-            .map(Channel::getId)
-            .toList();
+        try {
+            List<UUID> subscribedChannelIds = readStatusRepository.findAllByUserId(userId).stream()
+                .map(ReadStatus::getChannel)
+                .map(Channel::getId)
+                .toList();
 
-        return channelRepository.findAll().stream()
-            .filter(channel ->
-                // PUBLIC 채널이거나 사용자가 구독한 채널만 포함
-                channel.getChannelType() == ChannelType.PUBLIC ||
-                    subscribedChannelIds.contains(channel.getId())
-            )
-            .map(this::toDto)
-            .toList();
+            logger.debug("User {} is subscribed to {} private channels", userId,
+                subscribedChannelIds.size());
+
+            List<ChannelDto> channels = channelRepository.findAll().stream()
+                .filter(channel ->
+                    // PUBLIC 채널이거나 사용자가 구독한 채널만 포함
+                    channel.getChannelType() == ChannelType.PUBLIC ||
+                        subscribedChannelIds.contains(channel.getId())
+                )
+                .map(this::toDto)
+                .toList();
+
+            logger.info("Found {} channels for user {}", channels.size(), userId);
+            return channels;
+        } catch (Exception e) {
+            logger.error("Failed to find channels for user {}: {}", userId, e.getMessage(), e);
+            throw e;
+        }
     }
 
     private ChannelDto toDto(Channel channel) {
@@ -143,34 +199,72 @@ public class BasicChannelService implements ChannelService {
     @Override
     @Transactional
     public ChannelDto update(UUID channelId, UpdateChannelRequest request) {
-        Channel channel = channelRepository.findById(channelId).orElse(null);
-        if (channel == null) {
-            throw new NoSuchElementException("[ERROR] channel not found");
+        logger.info("Updating channel with ID: {}", channelId);
+        logger.debug("Update details - new name: {}, new description: {}",
+            request.newName(), request.newDescription());
+
+        try {
+            Channel channel = channelRepository.findById(channelId).orElse(null);
+            if (channel == null) {
+                logger.warn("Channel not found with ID: {}", channelId);
+                throw new NoSuchElementException("[ERROR] channel not found");
+            }
+            if (channel.getChannelType() == ChannelType.PRIVATE) {
+                logger.warn("Attempt to modify private channel: {}", channelId);
+                throw new IllegalArgumentException("[ERROR] private channel cannot be modified");
+            }
+
+            String oldName = channel.getName();
+            String newName = request.newName();
+            String newDescription = request.newDescription();
+
+            channel.update(newName, newDescription);
+
+            logger.info("Channel updated successfully: {} -> {}", oldName, channel.getName());
+            return channelMapper.toDto(channel, Collections.emptyList(),
+                getLastMessageTimestamp(channelId));
+        } catch (NoSuchElementException | IllegalArgumentException e) {
+            logger.warn("Channel update failed: {}", e.getMessage());
+            throw e;
+        } catch (Exception e) {
+            logger.error("Unexpected error during channel update: {}", e.getMessage(), e);
+            throw e;
         }
-        if (channel.getChannelType() == ChannelType.PRIVATE) {
-            throw new IllegalArgumentException("[ERROR] private channel cannot be modified");
-        }
-
-        String newName = request.newName();
-        String newDescription = request.newDescription();
-
-        channel.update(newName, newDescription);
-
-        return channelMapper.toDto(channel, Collections.emptyList(),
-            getLastMessageTimestamp(channelId));
     }
 
     @Override
     @Transactional
     public void remove(UUID channelId) {
-        if (!channelRepository.existsById(channelId)) {
-            throw new NoSuchElementException("[ERROR] channel not found");
+        logger.info("Removing channel with ID: {}", channelId);
+
+        try {
+            if (!channelRepository.existsById(channelId)) {
+                logger.warn("Channel not found with ID: {}", channelId);
+                throw new NoSuchElementException("[ERROR] channel not found");
+            }
+
+            // 채널 정보 로깅을 위해 삭제 전에 조회
+            Channel channel = channelRepository.findById(channelId).orElseThrow();
+            logger.debug("Removing channel: {} (type: {})",
+                channel.getName(), channel.getChannelType());
+
+            int messageCount = messageRepository.countByChannelId(channelId);
+            logger.debug("Deleting {} messages from channel {}", messageCount, channelId);
+            messageRepository.deleteByChannelId(channelId);
+
+            int readStatusCount = readStatusRepository.countByChannelId(channelId);
+            logger.debug("Deleting {} read statuses from channel {}", readStatusCount, channelId);
+            readStatusRepository.deleteByChannelId(channelId);
+
+            channelRepository.deleteById(channelId);
+            logger.info("Channel removed successfully: {}", channelId);
+        } catch (NoSuchElementException e) {
+            logger.warn("Channel removal failed: {}", e.getMessage());
+            throw e;
+        } catch (Exception e) {
+            logger.error("Unexpected error during channel removal: {}", e.getMessage(), e);
+            throw e;
         }
-
-        messageRepository.deleteByChannelId(channelId);
-        readStatusRepository.deleteByChannelId(channelId);
-
-        channelRepository.deleteById(channelId);
     }
 
     private Instant getLastMessageTimestamp(UUID channelId) {
