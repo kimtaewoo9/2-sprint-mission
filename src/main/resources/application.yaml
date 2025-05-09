@@ -6,19 +6,22 @@ spring:
       max-file-size: 5MB
       max-request-size: 5MB
   datasource:
-    url: jdbc:postgresql://localhost:5432/discodeit
-    username: discodeit_user
-    password: discodeit1234
+    url: jdbc:postgresql://${DATABASE_URL}:${PGPORT}/${PGDATABASE}
+    username: ${PGUSER}
+    password: ${PGPASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: create-drop
     open-in-view: false
-  properties:
-    hibernate:
-      format_sql: true  # SQL 쿼리 포맷팅
-      use_sql_comments: true  # SQL 쿼리에 주석 추가
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+        highlight_sql: true
+  profiles:
+    active: dev  # 기본 활성 프로파일
 
 server:
   tomcat:
@@ -26,12 +29,8 @@ server:
 
 logging:
   level:
-    org:
-      hibernate:
-        SQL: debug  # SQL 쿼리 로깅
-        type:
-          descriptor:
-            sql: trace  # SQL 파라미터 값 로깅
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql: trace
 
 discodeit:
   storage:

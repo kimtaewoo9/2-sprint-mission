@@ -1,0 +1,11 @@
+logging:
+  level:
+    root: "info"
+    com.sprint.mission.discodeit: debug  # 프로젝트 패키지명으로 변경하세요
+    org.springframework.web: debug
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/${PGDATABASE}
+    username: ${PGUSER}
+    password: ${PGPASSWORD}
