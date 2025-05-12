@@ -57,7 +57,7 @@ public class BasicChannelService implements ChannelService {
             Channel savedChannel = channelRepository.save(channel);
 
             logger.info("Public channel created successfully with ID: {}", savedChannel.getId());
-            return channelMapper.toDto(channel, Collections.emptyList(), null);
+            return channelMapper.toDto(savedChannel, Collections.emptyList(), null);
         } catch (Exception e) {
             logger.error("Failed to create public channel: {}", e.getMessage(), e);
             throw e;
@@ -87,7 +87,8 @@ public class BasicChannelService implements ChannelService {
 
                 participants.add(userMapper.toDto(user));
 
-                ReadStatus readStatus = ReadStatus.createReadStatus(user, channel, Instant.now());
+                ReadStatus readStatus = ReadStatus.createReadStatus(user, savedChannel,
+                    Instant.now());
                 readStatusRepository.save(readStatus);
                 logger.debug("Added participant {} to channel {}", user.getUsername(),
                     savedChannel.getId());

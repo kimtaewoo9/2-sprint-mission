@@ -1,0 +1,468 @@
+25-05-12 17:40:44.450 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.2.Final
+25-05-12 17:40:44.596 [main] INFO  c.s.m.discodeit.DiscodeitApplication - Starting DiscodeitApplication using Java 17.0.13 with PID 69919 (/Users/kimtaewoo/2-sprint-mission/build/classes/java/main started by kimtaewoo in /Users/kimtaewoo/2-sprint-mission)
+25-05-12 17:40:44.601 [main] DEBUG c.s.m.discodeit.DiscodeitApplication - Running with Spring Boot v3.4.3, Spring v6.2.3
+25-05-12 17:40:44.603 [main] INFO  c.s.m.discodeit.DiscodeitApplication - The following 1 profile is active: "dev"
+25-05-12 17:40:46.441 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+25-05-12 17:40:46.494 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 41 ms. Found 6 JPA repository interfaces.
+25-05-12 17:40:47.110 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+25-05-12 17:40:47.121 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+25-05-12 17:40:47.122 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+25-05-12 17:40:47.122 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.36]
+25-05-12 17:40:47.163 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+25-05-12 17:40:47.164 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2472 ms
+25-05-12 17:40:47.571 [main] DEBUG o.s.w.f.ServerHttpObservationFilter - Filter 'webMvcObservationFilter' configured for use
+25-05-12 17:40:47.684 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+25-05-12 17:40:49.074 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+25-05-12 17:40:49.180 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.8.Final
+25-05-12 17:40:49.265 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+25-05-12 17:40:49.572 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+25-05-12 17:40:49.605 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+25-05-12 17:40:50.615 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 0, SQLState: 08001
+25-05-12 17:40:50.623 [main] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - Connection to localhost:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+25-05-12 17:40:50.628 [main] WARN  o.h.e.j.e.i.JdbcEnvironmentInitiator - HHH000342: Could not obtain connection to query metadata
+org.hibernate.exception.JDBCConnectionException: unable to obtain isolated JDBC connection [Connection to localhost:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.] [n/a]
+	at org.hibernate.exception.internal.SQLStateConversionDelegate.convert(SQLStateConversionDelegate.java:100)
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:58)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:108)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:94)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcIsolationDelegate.delegateWork(JdbcIsolationDelegate.java:116)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.getJdbcEnvironmentUsingJdbcMetadata(JdbcEnvironmentInitiator.java:320)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:129)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:81)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:130)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:238)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:215)
+	at org.hibernate.boot.model.relational.Database.<init>(Database.java:45)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.getDatabase(InFlightMetadataCollectorImpl.java:226)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:194)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:171)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:1442)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1513)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:66)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:419)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:400)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1859)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1808)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:601)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:346)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:970)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350)
+	at com.sprint.mission.discodeit.DiscodeitApplication.main(DiscodeitApplication.java:14)
+Caused by: org.postgresql.util.PSQLException: Connection to localhost:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:352)
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:54)
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:273)
+	at org.postgresql.Driver.makeConnection(Driver.java:446)
+	at org.postgresql.Driver.connect(Driver.java:298)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:137)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:360)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:202)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:461)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:550)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:98)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:111)
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:126)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:467)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcIsolationDelegate.delegateWork(JdbcIsolationDelegate.java:61)
+	... 35 common frames omitted
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672)
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:554)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:602)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+	at java.base/java.net.Socket.connect(Socket.java:633)
+	at org.postgresql.core.PGStream.createSocket(PGStream.java:260)
+	at org.postgresql.core.PGStream.<init>(PGStream.java:121)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:140)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:268)
+	... 49 common frames omitted
+25-05-12 17:40:50.735 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+25-05-12 17:40:50.761 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (null)']
+	Database driver: undefined/unknown
+	Database version: 12.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+25-05-12 17:40:50.781 [main] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2003, org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@5d98364c) replaced previous registration(org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@23d23d98)
+25-05-12 17:40:50.781 [main] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(6, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@1fd35a92) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@40db6136)
+25-05-12 17:40:52.293 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+25-05-12 17:40:52.303 [main] DEBUG org.hibernate.SQL - 
+    [34mset[0m client_min_messages = WARNING
+25-05-12 17:40:52.303 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+25-05-12 17:40:53.311 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 0, SQLState: 08001
+25-05-12 17:40:53.312 [main] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - Connection to localhost:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+25-05-12 17:40:53.333 [main] ERROR o.s.o.j.LocalContainerEntityManagerFactoryBean - Failed to initialize JPA EntityManagerFactory: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution [Connection to localhost:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.] [n/a]
+25-05-12 17:40:53.334 [main] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution [Connection to localhost:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.] [n/a]
+25-05-12 17:40:53.338 [main] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+25-05-12 17:40:53.356 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+25-05-12 17:40:53.368 [main] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution [Connection to localhost:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.] [n/a]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1812)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:601)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:346)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:970)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350)
+	at com.sprint.mission.discodeit.DiscodeitApplication.main(DiscodeitApplication.java:14)
+Caused by: jakarta.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution [Connection to localhost:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.] [n/a]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:431)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:400)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1859)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1808)
+	... 15 common frames omitted
+Caused by: org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution [Connection to localhost:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.] [n/a]
+	at org.hibernate.exception.internal.SQLStateConversionDelegate.convert(SQLStateConversionDelegate.java:100)
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:58)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:108)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:94)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection(DdlTransactionIsolatorNonJtaImpl.java:74)
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.getIsolatedConnection(GenerationTargetToDatabase.java:60)
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.jdbcStatement(GenerationTargetToDatabase.java:112)
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:79)
+	at org.hibernate.tool.schema.internal.Helper.applySqlString(Helper.java:233)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.dropFromMetadata(SchemaDropperImpl.java:213)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.performDrop(SchemaDropperImpl.java:186)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.doDrop(SchemaDropperImpl.java:156)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.doDrop(SchemaDropperImpl.java:116)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:238)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.lambda$process$5(SchemaManagementToolCoordinator.java:144)
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:141)
+	at org.hibernate.boot.internal.SessionFactoryObserverForSchemaExport.sessionFactoryCreated(SessionFactoryObserverForSchemaExport.java:37)
+	at org.hibernate.internal.SessionFactoryObserverChain.sessionFactoryCreated(SessionFactoryObserverChain.java:35)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:324)
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:463)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1517)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:66)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:419)
+	... 19 common frames omitted
+Caused by: org.postgresql.util.PSQLException: Connection to localhost:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:352)
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:54)
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:273)
+	at org.postgresql.Driver.makeConnection(Driver.java:446)
+	at org.postgresql.Driver.connect(Driver.java:298)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:137)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:360)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:202)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:461)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:550)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:98)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:111)
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:126)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:467)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection(DdlTransactionIsolatorNonJtaImpl.java:46)
+	... 39 common frames omitted
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672)
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:554)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:602)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+	at java.base/java.net.Socket.connect(Socket.java:633)
+	at org.postgresql.core.PGStream.createSocket(PGStream.java:260)
+	at org.postgresql.core.PGStream.<init>(PGStream.java:121)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:140)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:268)
+	... 53 common frames omitted
+25-05-12 18:06:40.185 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.2.Final
+25-05-12 18:06:40.218 [main] INFO  c.s.m.discodeit.DiscodeitApplication - Starting DiscodeitApplication using Java 17.0.13 with PID 82242 (/Users/kimtaewoo/2-sprint-mission/build/classes/java/main started by kimtaewoo in /Users/kimtaewoo/2-sprint-mission)
+25-05-12 18:06:40.218 [main] DEBUG c.s.m.discodeit.DiscodeitApplication - Running with Spring Boot v3.4.3, Spring v6.2.3
+25-05-12 18:06:40.219 [main] INFO  c.s.m.discodeit.DiscodeitApplication - The following 1 profile is active: "dev"
+25-05-12 18:06:40.754 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+25-05-12 18:06:40.795 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 37 ms. Found 6 JPA repository interfaces.
+25-05-12 18:06:41.136 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+25-05-12 18:06:41.142 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+25-05-12 18:06:41.143 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+25-05-12 18:06:41.143 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.36]
+25-05-12 18:06:41.168 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+25-05-12 18:06:41.168 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 929 ms
+25-05-12 18:06:41.246 [main] DEBUG o.s.w.f.ServerHttpObservationFilter - Filter 'webMvcObservationFilter' configured for use
+25-05-12 18:06:41.272 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+25-05-12 18:06:41.394 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6ea3a513
+25-05-12 18:06:41.395 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+25-05-12 18:06:41.448 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+25-05-12 18:06:41.488 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.8.Final
+25-05-12 18:06:41.506 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+25-05-12 18:06:41.648 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+25-05-12 18:06:41.682 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+25-05-12 18:06:41.689 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 17.4
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+25-05-12 18:06:41.691 [main] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2003, org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@60b4c754) replaced previous registration(org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@2c846d55)
+25-05-12 18:06:41.691 [main] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(6, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@735167e1) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@67689c81)
+25-05-12 18:06:42.157 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+25-05-12 18:06:42.162 [main] DEBUG org.hibernate.SQL - 
+    [34mset[0m client_min_messages = WARNING
+25-05-12 18:06:42.164 [main] DEBUG org.hibernate.SQL - 
+    [34malter[0m [34mtable[0m [34mif[0m [34mexists[0m message_attachments 
+       [34mdrop[0m [34mconstraint[0m [34mif[0m [34mexists[0m FKrodngy1gmksoxo65eursdfx4u
+25-05-12 18:06:42.166 [main] DEBUG org.hibernate.SQL - 
+    [34malter[0m [34mtable[0m [34mif[0m [34mexists[0m message_attachments 
+       [34mdrop[0m [34mconstraint[0m [34mif[0m [34mexists[0m FKj7twd218e2gqw9cmlhwvo1rth
+25-05-12 18:06:42.167 [main] DEBUG org.hibernate.SQL - 
+    [34malter[0m [34mtable[0m [34mif[0m [34mexists[0m messages 
+       [34mdrop[0m [34mconstraint[0m [34mif[0m [34mexists[0m FKpsmh6clh3csorw43eaodlqvkn
+25-05-12 18:06:42.167 [main] DEBUG org.hibernate.SQL - 
+    [34malter[0m [34mtable[0m [34mif[0m [34mexists[0m messages 
+       [34mdrop[0m [34mconstraint[0m [34mif[0m [34mexists[0m FK3u3ckbhwq9se1cmopk2pq05b2
+25-05-12 18:06:42.168 [main] DEBUG org.hibernate.SQL - 
+    [34malter[0m [34mtable[0m [34mif[0m [34mexists[0m read_statuses 
+       [34mdrop[0m [34mconstraint[0m [34mif[0m [34mexists[0m FKa38ri44ml4gfdpklx4ahqr8gd
+25-05-12 18:06:42.168 [main] DEBUG org.hibernate.SQL - 
+    [34malter[0m [34mtable[0m [34mif[0m [34mexists[0m read_statuses 
+       [34mdrop[0m [34mconstraint[0m [34mif[0m [34mexists[0m FKml3k4wr9sj5yxrmj6d0aoib2e
+25-05-12 18:06:42.169 [main] DEBUG org.hibernate.SQL - 
+    [34malter[0m [34mtable[0m [34mif[0m [34mexists[0m user_statuses 
+       [34mdrop[0m [34mconstraint[0m [34mif[0m [34mexists[0m FK4lfl3ei2ubchgcxrrpo3pw4mm
+25-05-12 18:06:42.169 [main] DEBUG org.hibernate.SQL - 
+    [34malter[0m [34mtable[0m [34mif[0m [34mexists[0m users 
+       [34mdrop[0m [34mconstraint[0m [34mif[0m [34mexists[0m FKtbudycgrip49xdptogmhfqnso
+25-05-12 18:06:42.169 [main] DEBUG org.hibernate.SQL - 
+    [34mdrop[0m [34mtable[0m [34mif[0m [34mexists[0m binary_contents [34mcascade[0m
+25-05-12 18:06:42.170 [main] DEBUG org.hibernate.SQL - 
+    [34mdrop[0m [34mtable[0m [34mif[0m [34mexists[0m channels [34mcascade[0m
+25-05-12 18:06:42.171 [main] DEBUG org.hibernate.SQL - 
+    [34mdrop[0m [34mtable[0m [34mif[0m [34mexists[0m message_attachments [34mcascade[0m
+25-05-12 18:06:42.171 [main] DEBUG org.hibernate.SQL - 
+    [34mdrop[0m [34mtable[0m [34mif[0m [34mexists[0m messages [34mcascade[0m
+25-05-12 18:06:42.171 [main] DEBUG org.hibernate.SQL - 
+    [34mdrop[0m [34mtable[0m [34mif[0m [34mexists[0m read_statuses [34mcascade[0m
+25-05-12 18:06:42.172 [main] DEBUG org.hibernate.SQL - 
+    [34mdrop[0m [34mtable[0m [34mif[0m [34mexists[0m user_statuses [34mcascade[0m
+25-05-12 18:06:42.172 [main] DEBUG org.hibernate.SQL - 
+    [34mdrop[0m [34mtable[0m [34mif[0m [34mexists[0m users [34mcascade[0m
+25-05-12 18:06:42.174 [main] DEBUG org.hibernate.SQL - 
+    [34mcreate[0m [34mtable[0m binary_contents (
+        created_at [34mtimestamp[0m(6) [34mwith[0m [34mtime[0m zone,
+        size [34mbigint[0m,
+        id uuid [34mnot[0m [34mnull[0m,
+        content_type [34mvarchar[0m(255),
+        file_name [34mvarchar[0m(255),
+        [34mprimary[0m [34mkey[0m (id)
+    )
+25-05-12 18:06:42.186 [main] DEBUG org.hibernate.SQL - 
+    [34mcreate[0m [34mtable[0m channels (
+        created_at [34mtimestamp[0m(6) [34mwith[0m [34mtime[0m zone,
+        updated_at [34mtimestamp[0m(6) [34mwith[0m [34mtime[0m zone,
+        id uuid [34mnot[0m [34mnull[0m,
+        channel_type [34mvarchar[0m(255) [34mcheck[0m (channel_type [34min[0m ([36m'PUBLIC'[0m,[36m'PRIVATE'[0m)),
+        description [34mvarchar[0m(255),
+        name [34mvarchar[0m(255),
+        [34mprimary[0m [34mkey[0m (id)
+    )
+25-05-12 18:06:42.188 [main] DEBUG org.hibernate.SQL - 
+    [34mcreate[0m [34mtable[0m message_attachments (
+        attachments_id uuid [34mnot[0m [34mnull[0m [34munique[0m,
+        message_id uuid [34mnot[0m [34mnull[0m
+    )
+25-05-12 18:06:42.190 [main] DEBUG org.hibernate.SQL - 
+    [34mcreate[0m [34mtable[0m messages (
+        created_at [34mtimestamp[0m(6) [34mwith[0m [34mtime[0m zone,
+        updated_at [34mtimestamp[0m(6) [34mwith[0m [34mtime[0m zone,
+        channel_id uuid,
+        id uuid [34mnot[0m [34mnull[0m,
+        user_id uuid,
+        content [34mvarchar[0m(255),
+        [34mprimary[0m [34mkey[0m (id)
+    )
+25-05-12 18:06:42.191 [main] DEBUG org.hibernate.SQL - 
+    [34mcreate[0m [34mtable[0m read_statuses (
+        created_at [34mtimestamp[0m(6) [34mwith[0m [34mtime[0m zone,
+        last_read_at [34mtimestamp[0m(6) [34mwith[0m [34mtime[0m zone,
+        updated_at [34mtimestamp[0m(6) [34mwith[0m [34mtime[0m zone,
+        channel_id uuid,
+        id uuid [34mnot[0m [34mnull[0m,
+        user_id uuid,
+        [34mprimary[0m [34mkey[0m (id)
+    )
+25-05-12 18:06:42.192 [main] DEBUG org.hibernate.SQL - 
+    [34mcreate[0m [34mtable[0m user_statuses (
+        created_at [34mtimestamp[0m(6) [34mwith[0m [34mtime[0m zone,
+        last_active_at [34mtimestamp[0m(6) [34mwith[0m [34mtime[0m zone,
+        updated_at [34mtimestamp[0m(6) [34mwith[0m [34mtime[0m zone,
+        id uuid [34mnot[0m [34mnull[0m,
+        user_id uuid [34munique[0m,
+        [34mprimary[0m [34mkey[0m (id)
+    )
+25-05-12 18:06:42.192 [main] DEBUG org.hibernate.SQL - 
+    [34mcreate[0m [34mtable[0m users (
+        created_at [34mtimestamp[0m(6) [34mwith[0m [34mtime[0m zone,
+        updated_at [34mtimestamp[0m(6) [34mwith[0m [34mtime[0m zone,
+        id uuid [34mnot[0m [34mnull[0m,
+        profile_id uuid [34munique[0m,
+        email [34mvarchar[0m(255),
+        password [34mvarchar[0m(255),
+        username [34mvarchar[0m(255),
+        [34mprimary[0m [34mkey[0m (id)
+    )
+25-05-12 18:06:42.194 [main] DEBUG org.hibernate.SQL - 
+    [34malter[0m [34mtable[0m [34mif[0m [34mexists[0m message_attachments 
+       [34madd[0m [34mconstraint[0m FKrodngy1gmksoxo65eursdfx4u 
+       [34mforeign[0m [34mkey[0m (attachments_id) 
+       [34mreferences[0m binary_contents
+25-05-12 18:06:42.196 [main] DEBUG org.hibernate.SQL - 
+    [34malter[0m [34mtable[0m [34mif[0m [34mexists[0m message_attachments 
+       [34madd[0m [34mconstraint[0m FKj7twd218e2gqw9cmlhwvo1rth 
+       [34mforeign[0m [34mkey[0m (message_id) 
+       [34mreferences[0m messages
+25-05-12 18:06:42.197 [main] DEBUG org.hibernate.SQL - 
+    [34malter[0m [34mtable[0m [34mif[0m [34mexists[0m messages 
+       [34madd[0m [34mconstraint[0m FKpsmh6clh3csorw43eaodlqvkn 
+       [34mforeign[0m [34mkey[0m (user_id) 
+       [34mreferences[0m users
+25-05-12 18:06:42.198 [main] DEBUG org.hibernate.SQL - 
+    [34malter[0m [34mtable[0m [34mif[0m [34mexists[0m messages 
+       [34madd[0m [34mconstraint[0m FK3u3ckbhwq9se1cmopk2pq05b2 
+       [34mforeign[0m [34mkey[0m (channel_id) 
+       [34mreferences[0m channels
+25-05-12 18:06:42.200 [main] DEBUG org.hibernate.SQL - 
+    [34malter[0m [34mtable[0m [34mif[0m [34mexists[0m read_statuses 
+       [34madd[0m [34mconstraint[0m FKa38ri44ml4gfdpklx4ahqr8gd 
+       [34mforeign[0m [34mkey[0m (channel_id) 
+       [34mreferences[0m channels
+25-05-12 18:06:42.200 [main] DEBUG org.hibernate.SQL - 
+    [34malter[0m [34mtable[0m [34mif[0m [34mexists[0m read_statuses 
+       [34madd[0m [34mconstraint[0m FKml3k4wr9sj5yxrmj6d0aoib2e 
+       [34mforeign[0m [34mkey[0m (user_id) 
+       [34mreferences[0m users
+25-05-12 18:06:42.201 [main] DEBUG org.hibernate.SQL - 
+    [34malter[0m [34mtable[0m [34mif[0m [34mexists[0m user_statuses 
+       [34madd[0m [34mconstraint[0m FK4lfl3ei2ubchgcxrrpo3pw4mm 
+       [34mforeign[0m [34mkey[0m (user_id) 
+       [34mreferences[0m users
+25-05-12 18:06:42.201 [main] DEBUG org.hibernate.SQL - 
+    [34malter[0m [34mtable[0m [34mif[0m [34mexists[0m users 
+       [34madd[0m [34mconstraint[0m FKtbudycgrip49xdptogmhfqnso 
+       [34mforeign[0m [34mkey[0m (profile_id) 
+       [34mreferences[0m binary_contents
+25-05-12 18:06:42.204 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+25-05-12 18:06:42.417 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+25-05-12 18:06:42.782 [main] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+25-05-12 18:06:42.822 [main] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - 28 mappings in 'requestMappingHandlerMapping'
+25-05-12 18:06:42.884 [main] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Patterns [/webjars/**, /**, /swagger-ui*/*swagger-initializer.js, /swagger-ui*/**] in 'resourceHandlerMapping'
+25-05-12 18:06:42.905 [main] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter - ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+25-05-12 18:06:42.926 [main] DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - ControllerAdvice beans: 2 @ExceptionHandler, 1 ResponseBodyAdvice
+25-05-12 18:06:43.143 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 4 endpoints beneath base path '/actuator'
+25-05-12 18:06:43.185 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+25-05-12 18:06:43.194 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+25-05-12 18:06:43.206 [main] INFO  c.s.m.discodeit.DiscodeitApplication - Started DiscodeitApplication in 3.281 seconds (process running for 3.828)
+25-05-12 18:06:44.044 [RMI TCP Connection(1)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+25-05-12 18:06:44.045 [RMI TCP Connection(1)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+25-05-12 18:06:44.045 [RMI TCP Connection(1)-127.0.0.1] DEBUG o.s.web.servlet.DispatcherServlet - Detected StandardServletMultipartResolver
+25-05-12 18:06:44.045 [RMI TCP Connection(1)-127.0.0.1] DEBUG o.s.web.servlet.DispatcherServlet - Detected AcceptHeaderLocaleResolver
+25-05-12 18:06:44.045 [RMI TCP Connection(1)-127.0.0.1] DEBUG o.s.web.servlet.DispatcherServlet - Detected FixedThemeResolver
+25-05-12 18:06:44.046 [RMI TCP Connection(1)-127.0.0.1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@502f9271
+25-05-12 18:06:44.046 [RMI TCP Connection(1)-127.0.0.1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.support.SessionFlashMapManager@3e3b5ff5
+25-05-12 18:06:44.046 [RMI TCP Connection(1)-127.0.0.1] DEBUG o.s.web.servlet.DispatcherServlet - enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+25-05-12 18:06:44.046 [RMI TCP Connection(1)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+25-05-12 18:08:01.544 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - GET "/", parameters={}
+25-05-12 18:08:01.563 [http-nio-8080-exec-1] DEBUG o.s.w.s.view.InternalResourceView - View name [forward:], model {}
+25-05-12 18:08:01.564 [http-nio-8080-exec-1] DEBUG o.s.w.s.view.InternalResourceView - Forwarding to [index.html]
+25-05-12 18:08:01.567 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - "FORWARD" dispatch for GET "/index.html", parameters={}
+25-05-12 18:08:01.569 [http-nio-8080-exec-1] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler [classpath [static/], classpath [public/], classpath [resources/], classpath [META-INF/resources/]]
+25-05-12 18:08:01.575 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Exiting from "FORWARD" dispatch, status 200
+25-05-12 18:08:01.576 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+25-05-12 18:08:01.581 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - GET "/assets/index-RjBhS5vI.js", parameters={}
+25-05-12 18:08:01.582 [http-nio-8080-exec-2] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler [classpath [static/], classpath [public/], classpath [resources/], classpath [META-INF/resources/]]
+25-05-12 18:08:01.582 [http-nio-8080-exec-3] DEBUG o.s.web.servlet.DispatcherServlet - GET "/assets/index-kQJbKSsj.css", parameters={}
+25-05-12 18:08:01.583 [http-nio-8080-exec-3] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler [classpath [static/], classpath [public/], classpath [resources/], classpath [META-INF/resources/]]
+25-05-12 18:08:01.588 [http-nio-8080-exec-3] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+25-05-12 18:08:01.589 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+25-05-12 18:08:03.673 [http-nio-8080-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - GET "/favicon.ico", parameters={}
+25-05-12 18:08:03.674 [http-nio-8080-exec-4] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler [classpath [static/], classpath [public/], classpath [resources/], classpath [META-INF/resources/]]
+25-05-12 18:08:03.679 [http-nio-8080-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+25-05-12 18:08:08.454 [http-nio-8080-exec-7] DEBUG o.s.web.servlet.DispatcherServlet - GET "/actuator/info", parameters={}
+25-05-12 18:08:08.489 [http-nio-8080-exec-7] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Read "application/octet-stream" to []
+25-05-12 18:08:08.500 [http-nio-8080-exec-7] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/vnd.spring-boot.actuator.v3+json;q=0.8', given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8, application/signed-exchange;v=b3;q=0.7] and supported [application/vnd.spring-boot.actuator.v3+json, application/vnd.spring-boot.actuator.v2+json, application/json]
+25-05-12 18:08:08.506 [http-nio-8080-exec-7] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [{application={name=Discodeit, version=1.7.0}, java=org.springframework.boot.info.JavaInfo@f914588, s (truncated)...]
+25-05-12 18:08:08.516 [http-nio-8080-exec-7] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+25-05-12 18:08:28.370 [http-nio-8080-exec-10] DEBUG o.s.web.servlet.DispatcherServlet - GET "/actuator/metrics", parameters={}
+25-05-12 18:08:28.378 [http-nio-8080-exec-10] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Read "application/octet-stream" to []
+25-05-12 18:08:28.384 [http-nio-8080-exec-10] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/vnd.spring-boot.actuator.v3+json;q=0.8', given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8, application/signed-exchange;v=b3;q=0.7] and supported [application/vnd.spring-boot.actuator.v3+json, application/vnd.spring-boot.actuator.v2+json, application/json]
+25-05-12 18:08:28.387 [http-nio-8080-exec-10] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [org.springframework.boot.actuate.metrics.MetricsEndpoint$MetricNamesDescriptor@5a7377d6]
+25-05-12 18:08:28.389 [http-nio-8080-exec-10] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+25-05-12 18:09:20.474 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - GET "/actuator/metrics/jvm.memory.used", parameters={}
+25-05-12 18:09:20.481 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Read "application/octet-stream" to []
+25-05-12 18:09:20.505 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/vnd.spring-boot.actuator.v3+json;q=0.8', given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8, application/signed-exchange;v=b3;q=0.7] and supported [application/vnd.spring-boot.actuator.v3+json, application/vnd.spring-boot.actuator.v2+json, application/json]
+25-05-12 18:09:20.507 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [org.springframework.boot.actuate.metrics.MetricsEndpoint$MetricDescriptor@6b9a65b4]
+25-05-12 18:09:20.523 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+25-05-12 18:20:58.285 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+25-05-12 18:20:58.352 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+25-05-12 18:20:58.383 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+25-05-12 18:20:58.396 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+    [34mset[0m client_min_messages = WARNING
+25-05-12 18:20:58.419 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+    [34malter[0m [34mtable[0m [34mif[0m [34mexists[0m message_attachments 
+       [34mdrop[0m [34mconstraint[0m [34mif[0m [34mexists[0m FKrodngy1gmksoxo65eursdfx4u
+25-05-12 18:20:58.442 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+    [34malter[0m [34mtable[0m [34mif[0m [34mexists[0m message_attachments 
+       [34mdrop[0m [34mconstraint[0m [34mif[0m [34mexists[0m FKj7twd218e2gqw9cmlhwvo1rth
+25-05-12 18:20:58.443 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+    [34malter[0m [34mtable[0m [34mif[0m [34mexists[0m messages 
+       [34mdrop[0m [34mconstraint[0m [34mif[0m [34mexists[0m FKpsmh6clh3csorw43eaodlqvkn
+25-05-12 18:20:58.445 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+    [34malter[0m [34mtable[0m [34mif[0m [34mexists[0m messages 
+       [34mdrop[0m [34mconstraint[0m [34mif[0m [34mexists[0m FK3u3ckbhwq9se1cmopk2pq05b2
+25-05-12 18:20:58.446 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+    [34malter[0m [34mtable[0m [34mif[0m [34mexists[0m read_statuses 
+       [34mdrop[0m [34mconstraint[0m [34mif[0m [34mexists[0m FKa38ri44ml4gfdpklx4ahqr8gd
+25-05-12 18:20:58.447 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+    [34malter[0m [34mtable[0m [34mif[0m [34mexists[0m read_statuses 
+       [34mdrop[0m [34mconstraint[0m [34mif[0m [34mexists[0m FKml3k4wr9sj5yxrmj6d0aoib2e
+25-05-12 18:20:58.448 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+    [34malter[0m [34mtable[0m [34mif[0m [34mexists[0m user_statuses 
+       [34mdrop[0m [34mconstraint[0m [34mif[0m [34mexists[0m FK4lfl3ei2ubchgcxrrpo3pw4mm
+25-05-12 18:20:58.449 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+    [34malter[0m [34mtable[0m [34mif[0m [34mexists[0m users 
+       [34mdrop[0m [34mconstraint[0m [34mif[0m [34mexists[0m FKtbudycgrip49xdptogmhfqnso
+25-05-12 18:20:58.450 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+    [34mdrop[0m [34mtable[0m [34mif[0m [34mexists[0m binary_contents [34mcascade[0m
+25-05-12 18:20:58.466 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+    [34mdrop[0m [34mtable[0m [34mif[0m [34mexists[0m channels [34mcascade[0m
+25-05-12 18:20:58.470 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+    [34mdrop[0m [34mtable[0m [34mif[0m [34mexists[0m message_attachments [34mcascade[0m
+25-05-12 18:20:58.474 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+    [34mdrop[0m [34mtable[0m [34mif[0m [34mexists[0m messages [34mcascade[0m
+25-05-12 18:20:58.476 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+    [34mdrop[0m [34mtable[0m [34mif[0m [34mexists[0m read_statuses [34mcascade[0m
+25-05-12 18:20:58.479 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+    [34mdrop[0m [34mtable[0m [34mif[0m [34mexists[0m user_statuses [34mcascade[0m
+25-05-12 18:20:58.481 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+    [34mdrop[0m [34mtable[0m [34mif[0m [34mexists[0m users [34mcascade[0m
+25-05-12 18:20:58.504 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+25-05-12 18:20:58.511 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

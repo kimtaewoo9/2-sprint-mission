@@ -36,7 +36,7 @@ public class User extends BaseUpdatableEntity implements Persistable<UUID> {
     @Transient
     private boolean isNew = true;
 
-    protected User() {
+    public User() {
     }
 
     public static User createUser(String username, String email, String password) {
