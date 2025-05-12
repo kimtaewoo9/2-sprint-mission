@@ -32,7 +32,7 @@ public class UserStatus extends BaseUpdatableEntity implements Persistable<UUID>
     @Transient
     private boolean isNew = true;
 
-    protected UserStatus() {
+    public UserStatus() {
     }
 
     public static UserStatus createUserStatus(User user, Instant lastActiveAt) {

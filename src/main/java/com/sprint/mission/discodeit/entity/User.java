@@ -80,7 +80,7 @@ public class User extends BaseUpdatableEntity implements Persistable<UUID> {
 
     @PostLoad
     @PrePersist
-    void markNotNew() {
+    public void markNotNew() {
         this.isNew = false;
     }
 }

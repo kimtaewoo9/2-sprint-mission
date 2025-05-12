@@ -1,8 +1,8 @@
 package com.sprint.mission.discodeit.service.basic;
 
 import com.sprint.mission.discodeit.dto.binarycontent.CreateBinaryContentRequest;
-import com.sprint.mission.discodeit.dto.binarycontent.UpdateUserRequest;
 import com.sprint.mission.discodeit.dto.user.CreateUserRequest;
+import com.sprint.mission.discodeit.dto.user.UpdateUserRequest;
 import com.sprint.mission.discodeit.dto.user.UserDto;
 import com.sprint.mission.discodeit.entity.BinaryContent;
 import com.sprint.mission.discodeit.entity.User;
@@ -56,7 +56,7 @@ public class BasicUserService implements UserService {
             userStatusRepository.save(userStatus);
 
             logger.info("User created successfully with ID: {}", savedUser.getId());
-            return userMapper.toDto(user);
+            return userMapper.toDto(savedUser);
         } catch (DuplicateResourceException e) {
             logger.warn("Failed to create user: {}", e.getMessage());
             throw e;
@@ -107,7 +107,7 @@ public class BasicUserService implements UserService {
 
             logger.info("User created successfully with ID: {} and profile image",
                 savedUser.getId());
-            return userMapper.toDto(user);
+            return userMapper.toDto(savedUser);
         } catch (DuplicateResourceException e) {
             logger.warn("Failed to create user: {}", e.getMessage());
             throw e;
