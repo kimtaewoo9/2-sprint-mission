@@ -1,0 +1,35 @@
+spring:
+  # H2 데이터베이스 설정
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL;NON_KEYWORDS=USER # PostgreSQL 호환 모드, USER 키워드 문제 방지
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  # JPA 및 Hibernate 설정
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true # SQL 로그 예쁘게 포맷팅
+  # SQL 스크립트 초기화 비활성화
+  sql:
+    init:
+      mode: never # ★★★ 이 설정을 추가하세요! ★★★
+
+  # H2 콘솔 활성화 (선택 사항, 테스트 중 DB 상태 확인에 유용)
+  h2:
+    console:
+      enabled: true
+      path: /h2-console # 접속 경로: http://localhost:<port>/h2-console
+      settings:
+        web-allow-others: true # 외부 접속 허용 (필요시)
+
+# 로그 레벨 설정 (디버깅용)
+logging:
+  level:
+    org.springframework.orm.jpa: DEBUG     # JPA 관련 상세 로그
+    org.hibernate.SQL: DEBUG             # Hibernate가 실행하는 SQL문 로그
+    org.hibernate.type.descriptor.sql: TRACE # SQL 파라미터 바인딩 값 로그
