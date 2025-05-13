@@ -78,7 +78,7 @@ public class BasicMessageService implements MessageService {
             Message savedMessage = messageRepository.save(message);
             logger.info("Message created successfully with ID: {}", savedMessage.getId());
 
-            return messageMapper.toDto(message);
+            return messageMapper.toDto(savedMessage);
         } catch (NoSuchElementException e) {
             logger.warn("Failed to create message: {}", e.getMessage());
             throw e;
