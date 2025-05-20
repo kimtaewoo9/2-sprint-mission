@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.sprint.mission'
-version = '1.2-M8'
+version = '1.2-M8' // project version
 
 java {
     toolchain {
@@ -56,4 +56,9 @@ jacocoTestReport {
         xml.required = true
         html.required = true
     }
+}
+
+bootJar {
+    archiveBaseName.set("discodeit")
+    archiveVersion.set("1.2-M8")
 }
