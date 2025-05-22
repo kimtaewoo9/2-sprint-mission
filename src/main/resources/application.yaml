@@ -9,6 +9,7 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
       ddl-auto: create
     open-in-view: false
   profiles:
@@ -46,9 +47,15 @@ info:
 
 discodeit:
   storage:
-    type: ${STORAGE_TYPE:local} # amazon s3 등으로 변경 가능
+    type: ${STORAGE_TYPE:local} # local | s3
     local:
-      root-path: ${STORAGE_LOCAL_ROOT_PATH:/app/storage} # /app/storage -> 컨테이너 내부 경로
+      root-path: ${STORAGE_LOCAL_ROOT_PATH:.discodeit/storage}
+    s3:
+      access-key: ${AWS_S3_ACCESS_KEY}
+      secret-key: ${AWS_S3_SECRET_KEY}
+      region: ${AWS_S3_REGION}
+      bucket: ${AWS_S3_BUCKET}
+      presigned-url-expiration: ${AWS_S3_PRESIGNED_URL_EXPIRATION:600}
 
 logging:
   level:

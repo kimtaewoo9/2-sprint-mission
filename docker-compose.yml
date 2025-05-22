@@ -2,13 +2,13 @@ services:
   db:
     image: postgres:15
     container_name: discodeit-db-dev
-    restart: always
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      TZ: Asia/Seoul
     ports:
-      - "${DB_PORT}:${DB_PORT}"
+      - "${DB_PORT}:5432" # HOST_PORT : CONTAINER_PORT
     volumes:
       - db_data:/var/lib/postgresql/data # postgres 컨테이너가 실제로 데이터베이스 파일을 저장하는 내부 경로
       - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql # 서비스 실행 후 schema.sql이 자동으로 실행 되도록 구성
@@ -21,12 +21,11 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: discodeit-app-dev
-    restart: always
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:${DB_PORT}/${POSTGRES_DB}
-      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
-      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
       STORAGE_TYPE: ${STORAGE_TYPE}
     ports:
       - "${APP_PORT}:${APP_PORT}" # 호스트와 컨테이너 포트 매핑 (예: 8080:8080)
