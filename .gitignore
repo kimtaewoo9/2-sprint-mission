@@ -45,6 +45,8 @@ bin/
 ### 숨김 파일 ###
 .*
 !.gitignore
+!.github/
+!.github/workflows/
 
 # Local env files (if any, should be managed via runtime env vars)
 .env
