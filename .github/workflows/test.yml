@@ -36,10 +36,8 @@ jobs:
         run: | 
           chmod +x ./gradlew
           ./gradlew clean test
-
-      - name: Show detailed logs on failure
-        if: failure()
-        run: ./gradlew test --info --stacktrace
+        env:
+          GRADLE_OPTS: "-Xmx2g -XX:MaxMetaspaceSize=512m"
 
       - name: upload coverage report to Codecov
         uses: codecov/codecov-action@v4
