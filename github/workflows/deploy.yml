@@ -1,9 +1,12 @@
 name: deploy to ecs on release push
 
 on:
-  push:
-    branches:
-      - release
+  workflow_dispatch:
+
+#on:
+#  push:
+#    branches:
+#      - release
 
 jobs:
   build-and-deploy:
