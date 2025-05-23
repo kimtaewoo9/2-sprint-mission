@@ -35,7 +35,11 @@ jobs:
       - name: build with gradle
         run: | 
           chmod +x ./gradlew
-          ./gradlew test
+          ./gradlew clean test
+
+      - name: Show detailed logs on failure
+        if: failure()
+        run: ./gradlew test --info --stacktrace
 
       - name: upload coverage report to Codecov
         uses: codecov/codecov-action@v4
