@@ -2,10 +2,8 @@ name: CI with Gradle and CodeCov
 
 on:
   workflow_dispatch:
-
-#on:
-#  pull_request:
-#    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   test-and-coverage:
