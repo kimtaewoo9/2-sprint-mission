@@ -79,12 +79,12 @@ public class SecurityConfig {
   }
 
   @Bean
-  public String debugFilterChain(SecurityFilterChain chain) {
+  public String debugFilterChain(SecurityFilterChain filterChain) {
     log.debug("Debug Filter Chain...");
-    int filterSize = chain.getFilters().size();
+    int filterSize = filterChain.getFilters().size();
     IntStream.range(0, filterSize)
         .forEach(idx -> {
-          log.debug("[{}/{}] {}", idx + 1, filterSize, chain.getFilters().get(idx));
+          log.debug("[{}/{}] {}", idx + 1, filterSize, filterChain.getFilters().get(idx));
         });
     return "debugFilterChain";
   }
