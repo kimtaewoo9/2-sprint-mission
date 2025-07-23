@@ -23,8 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles("test") // 이거 떄문에 오류남 ..
-// application-test.yaml 파일에서 ddl-auto랑 schema.sql 파일과 충돌
+@ActiveProfiles("test")
 @Transactional
 class AuthApiIntegrationTest {
 
@@ -131,4 +130,4 @@ class AuthApiIntegrationTest {
                 .content(requestBody))
             .andExpect(status().isBadRequest());
     }
-}
+} 
